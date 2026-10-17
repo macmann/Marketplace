@@ -5,7 +5,7 @@ import { query } from "./db";
 export type User = {
   id: string;
   name: string;
-  email: string;
+  email: string | null;
   phone: string | null;
   phone_verified: boolean;
   role: string;
@@ -19,7 +19,7 @@ export async function currentUser(): Promise<User | null> {
   return (
     (
       await query<User>(
-        "SELECT u.* FROM users u JOIN sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now() AND NOT u.suspended",
+        "SELECT u.* FROM users u JOIN sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now() AND NOT u.suspended AND u.deleted_at IS NULL",
         [digest(token)],
       )
     )[0] ?? null
@@ -38,7 +38,7 @@ export async function requireAdmin() {
 export async function createSession(id: string) {
   const token = randomBytes(32).toString("hex");
   await query(
-    "INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",
+    "INSERT INTO sessions(token_hash,user_id,expires_at,authenticated_at) VALUES($1,$2,now()+interval '30 days',now())",
     [digest(token), id],
   );
   (await cookies()).set("market_session", token, {

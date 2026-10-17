@@ -32,6 +32,8 @@ jobs:
       - run: npm run format:check
       - run: npm test
       - run: npm run db:migrate && npm run db:seed
+      - run: npm run db:migrate # Verify migration repeatability
+      - run: npm run test:integration
       - run: npm run build
       - run: npm run typecheck
       - run: npx playwright install --with-deps chromium

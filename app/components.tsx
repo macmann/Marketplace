@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { accountCopy } from "@/lib/account-i18n";
 import { Listing, options } from "@/lib/marketplace";
 import { money, locale, translations, conditionLabels } from "@/lib/i18n";
 export async function ListingCard({ listing: l }: { listing: Listing }) {
@@ -184,12 +185,14 @@ export function Notice({
 }
 export async function AccountNav() {
   const t = await translations();
+  const a = await accountCopy();
   return (
     <nav className="account-nav">
       <Link href="/account">{t.profile}</Link>
       <Link href="/account/listings">{t.myListings}</Link>
       <Link href="/account/favorites">{t.favorites}</Link>
       <Link href="/account/messages">{t.messages}</Link>
+      <Link href="/account/settings">{a.settings}</Link>
     </nav>
   );
 }

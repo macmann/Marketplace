@@ -16,7 +16,7 @@ export default async function Admin() {
     "SELECT id,title,status FROM listings ORDER BY created_at DESC LIMIT 50",
   );
   const users = await query(
-    "SELECT id,name,email,suspended FROM users WHERE role<>'ADMIN' ORDER BY created_at DESC LIMIT 50",
+    "SELECT id,name,email,suspended FROM users WHERE role<>'ADMIN' AND deleted_at IS NULL ORDER BY created_at DESC LIMIT 50",
   );
   const logs = await query(
     "SELECT a.*,u.name FROM audit_logs a LEFT JOIN users u ON u.id=a.actor_id ORDER BY created_at DESC LIMIT 30",

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { accountCopy } from "@/lib/account-i18n";
 import { register } from "../actions";
 import { translations } from "@/lib/i18n";
 import { Notice } from "../components";
@@ -8,6 +9,7 @@ export default async function Register({
   searchParams: Promise<{ error?: string }>;
 }) {
   const [t, p] = await Promise.all([translations(), searchParams]);
+  const a = await accountCopy();
   return (
     <section className="auth-shell">
       <div className="auth-aside">
@@ -18,6 +20,9 @@ export default async function Register({
       </div>
       <div className="auth-form">
         <h1>{t.registerTitle}</h1>
+        <p>
+          <Link href="/login">{a.phoneLogin} →</Link>
+        </p>
         <Notice error={p.error} />
         <form action={register} className="stack">
           <label>

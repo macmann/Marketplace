@@ -1,60 +1,68 @@
+import { cookies } from "next/headers";
+import { challengeCookie } from "@/lib/account-validation";
 import { requireUser } from "@/lib/auth";
+import { accountCopy } from "@/lib/account-i18n";
 import { translations } from "@/lib/i18n";
-import { confirmOtp, requestOtp } from "../actions";
+import { smsConfigured } from "@/lib/sms";
+import { requestVerification, confirmVerification } from "../account/actions";
 import { Notice } from "../components";
 export default async function Verify({
   searchParams,
 }: {
   searchParams: Promise<{ error?: string; sent?: string }>;
 }) {
-  const [u, t, p] = await Promise.all([
+  const [u, a, t, p] = await Promise.all([
     requireUser(),
+    accountCopy(),
     translations(),
     searchParams,
   ]);
-  const configured = !!(
-    process.env.TWILIO_ACCOUNT_SID &&
-    process.env.TWILIO_AUTH_TOKEN &&
-    process.env.TWILIO_VERIFY_SERVICE_SID
-  );
+  const enabled = smsConfigured();
+  const pending = (await cookies()).has(challengeCookie.VERIFY);
   return (
     <section className="wrap page narrow">
-      <h1>{t.verify}</h1>
-      <p>{t.needsPhone}</p>
+      <h1>{a.verifyTitle}</h1>
+      <p>{a.verifyHelp}</p>
       <Notice error={p.error} />
-      {!configured && <Notice message={t.phoneUnavailable} />}
-      <form action={requestOtp} className="stack panel">
+      {!enabled && <Notice message={a.smsUnavailable} />}
+      <form action={requestVerification} className="stack panel">
         <label>
-          {t.phone}
+          {a.phone}
           <input
             name="phone"
             type="tel"
-            placeholder="+959…"
+            aria-label={a.phone}
+            placeholder="09…"
             autoComplete="tel"
             required
-            pattern="\+959[0-9]{7,10}"
+            maxLength={30}
           />
+          <small>{a.phoneHint}</small>
         </label>
-        <button disabled={!configured} className="button primary">
-          {t.sendCode}
+        <button disabled={!enabled} className="button primary">
+          {a.sendCode}
         </button>
       </form>
-      {p.sent && (
-        <form action={confirmOtp} className="stack panel">
-          <label>
-            {t.code}
-            <input
-              name="code"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              pattern="[0-9]{4,10}"
-              required
-            />
-          </label>
-          <button className="button primary">{t.confirm}</button>
-        </form>
+      {pending && (
+        <>
+          <Notice message={a.verifySent} />
+          <form action={confirmVerification} className="stack panel">
+            <label>
+              {a.code}
+              <input
+                name="code"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                pattern="[0-9]{4,10}"
+                required
+              />
+            </label>
+            <button className="button primary">{a.confirmVerify}</button>
+          </form>
+        </>
       )}
       {u.phone_verified && <p>✓ {t.verified}</p>}
+      <p className="muted">{a.privacy}</p>
     </section>
   );
 }

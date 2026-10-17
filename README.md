@@ -24,6 +24,7 @@ The development Compose file binds PostgreSQL and Redis only to loopback. It use
 
 ```sh
 npm test
+npm run test:integration # dedicated test database, after migrations and seeding
 npm run typecheck
 npm run build
 npm run test:e2e # with web, PostgreSQL, and Redis running; use a dedicated test database
@@ -42,4 +43,6 @@ See [Coolify deployment](docs/coolify.md). The production Compose file includes 
 - `scripts/`: idempotent initial schema, reference-data seed, background maintenance.
 - `tests/`: domain tests and Playwright journeys.
 
-Authentication uses hashed passwords and opaque, hashed-at-rest sessions. Publishing requires phone verification through Twilio Verify; there is no production bypass. Conversation membership, listing ownership, and administrator permissions are checked on the server. Image uploads are decoded, bounded, resized, stripped of metadata and converted to WebP. Private bucket objects are served through the application.
+Authentication supports phone OTP sign-in and email/password with opaque, hashed-at-rest sessions. Recovery requires an already verified phone and revokes all sessions. Account settings support exporting data, revoking other sessions, and confirmed deletion. Publishing requires phone verification through Twilio Verify; there is no production bypass. Conversation membership, listing ownership, and administrator permissions are checked on the server. Image uploads are decoded, bounded, resized, stripped of metadata and converted to WebP. Private bucket objects are served through the application.
+
+Account service tests inject a verification provider into the service constructor and test actual PostgreSQL transactions; there is no production test-provider flag or fixed-code bypass. Adapter tests validate Twilio request/response handling without sending SMS. Live delivery must still be tested with your configured provider.
