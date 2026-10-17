@@ -218,11 +218,18 @@ export class AccountService {
         if (!rowCount) throw new AccountError("lastAdmin");
       }
       await client.query(
-        "INSERT INTO image_deletions(storage_key) SELECT i.storage_key FROM listing_images i JOIN listings l ON l.id=i.listing_id WHERE l.seller_id=$1 ON CONFLICT DO NOTHING",
+        "INSERT INTO image_deletions(storage_key) SELECT i.storage_key FROM listing_images i LEFT JOIN listings l ON l.id=i.listing_id LEFT JOIN listing_drafts d ON d.id=i.draft_id WHERE l.seller_id=$1 OR d.seller_id=$1 ON CONFLICT DO NOTHING",
         [userId],
       );
       await client.query(
-        "DELETE FROM listing_images WHERE listing_id IN (SELECT id FROM listings WHERE seller_id=$1)",
+        "DELETE FROM listing_images WHERE listing_id IN (SELECT id FROM listings WHERE seller_id=$1) OR draft_id IN (SELECT id FROM listing_drafts WHERE seller_id=$1)",
+        [userId],
+      );
+      await client.query("DELETE FROM listing_drafts WHERE seller_id=$1", [
+        userId,
+      ]);
+      await client.query(
+        "DELETE FROM listing_attribute_values WHERE listing_id IN (SELECT id FROM listings WHERE seller_id=$1)",
         [userId],
       );
       await client.query(

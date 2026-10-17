@@ -104,7 +104,11 @@ test("core marketplace journey and access control", async ({ browser }) => {
   await b.getByRole("button", { name: "Log in" }).click();
   await expect(b).toHaveURL(/\/account$/);
   await b.goto("/sell");
-  await expect(b).toHaveURL(/\/verify$/);
+  await expect(b).toHaveURL(/\/sell$/);
+  await expect(
+    b.getByRole("button", { name: "Save draft", exact: true }),
+  ).toBeVisible();
+  await b.goto("/verify");
   await expect(
     b.getByRole("button", { name: "Send verification code" }),
   ).toBeDisabled();

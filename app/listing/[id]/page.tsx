@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { listingCopy } from "@/lib/listing-i18n";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { query } from "@/lib/db";
@@ -60,6 +61,11 @@ export default async function Detail({
     ),
     searchParams,
   ]);
+  const a = await listingCopy();
+  const attributes = await query(
+    "SELECT a.name_en,a.name_my,a.type,v.value FROM listing_attribute_values v JOIN category_attributes a ON a.id=v.attribute_id WHERE v.listing_id=$1 ORDER BY a.position,a.name_en",
+    [id],
+  );
   const saved = u
     ? (
         await query(
@@ -107,6 +113,25 @@ export default async function Detail({
           <section className="panel">
             <h2>{t.description}</h2>
             <p className="prose">{l.description}</p>
+            {attributes.length > 0 && (
+              <section>
+                <h2>{a.details}</h2>
+                <dl className="attribute-list">
+                  {attributes.map((v, i) => (
+                    <div key={i}>
+                      <dt>{lang === "my" ? v.name_my : v.name_en}</dt>
+                      <dd>
+                        {typeof v.value === "boolean"
+                          ? v.value
+                            ? a.yes
+                            : a.no
+                          : String(v.value)}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            )}
           </section>
         </div>
         <aside>

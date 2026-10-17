@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { listingCopy } from "@/lib/listing-i18n";
 import { requireAdmin } from "@/lib/auth";
 import { query } from "@/lib/db";
 import { translations } from "@/lib/i18n";
@@ -6,6 +7,7 @@ import { moderate } from "../actions";
 export default async function Admin() {
   await requireAdmin();
   const t = await translations();
+  const a = await listingCopy();
   const [counts] = await query(
     "SELECT (SELECT count(*) FROM users) users,(SELECT count(*) FROM listings WHERE status='ACTIVE') listings,(SELECT count(*) FROM conversations) conversations,(SELECT count(*) FROM reports WHERE status='OPEN') reports",
   );
@@ -27,6 +29,7 @@ export default async function Admin() {
       <nav className="account-nav">
         <Link href="/admin/categories">Categories</Link>
         <Link href="/admin/locations">Locations</Link>
+        <Link href="/admin/attributes">{a.attributes}</Link>
       </nav>
       <div className="stats">
         {Object.entries(counts).map(([k, v]) => (

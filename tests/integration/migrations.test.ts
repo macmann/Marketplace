@@ -51,12 +51,12 @@ test("versioned migrations adopt original data, repeat safely, and reject change
     assert.equal(upgraded.deleted_at, null);
     assert.equal(
       (await scoped.query("SELECT * FROM schema_migrations")).rowCount,
-      2,
+      3,
     );
     assert.equal((await migrate()).code, 0);
     assert.equal(
       (await scoped.query("SELECT * FROM schema_migrations")).rowCount,
-      2,
+      3,
     );
     await scoped.query(
       "UPDATE schema_migrations SET checksum='altered' WHERE name='001_account_lifecycle.sql'",

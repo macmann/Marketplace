@@ -30,6 +30,10 @@ test.beforeAll(async () => {
     )
   ).rows[0].id;
   await db.query(
+    "INSERT INTO listing_attribute_values(listing_id,attribute_id,value) SELECT $1,id,'\"Export fixture material\"'::jsonb FROM category_attributes WHERE category_id='home' AND key='material'",
+    [listingId],
+  );
+  await db.query(
     "INSERT INTO listing_images(listing_id,storage_key,position) VALUES($1,$2,0)",
     [listingId, key],
   );
@@ -68,6 +72,11 @@ test("account export, session revocation, and confirmed account deletion", async
     const data = await response.json();
     expect(data.profile.email).toBe(email);
     expect(data.profile.password_hash).toBeUndefined();
+    expect(
+      data.listingAttributes.find(
+        (v: { listing_id: string }) => v.listing_id === listingId,
+      )?.value,
+    ).toBe("Export fixture material");
     expect(data.sessions).toBeUndefined();
     expect(data.listings.some((l: { id: string }) => l.id === listingId)).toBe(
       true,
@@ -126,6 +135,14 @@ test("account export, session revocation, and confirmed account deletion", async
     expect(row.email).toBeNull();
     expect(row.phone).toBeNull();
     expect(row.deleted_at).toBeTruthy();
+    expect(
+      (
+        await db.query(
+          "SELECT * FROM listing_attribute_values WHERE listing_id=$1",
+          [listingId],
+        )
+      ).rowCount,
+    ).toBe(0);
     await p.goto("/account");
     await expect(p).toHaveURL(/\/login$/);
   } finally {
