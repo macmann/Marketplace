@@ -13,13 +13,8 @@ import {
   rateLimit,
   digest,
 } from "@/lib/auth";
-import {
-  accountSchema,
-  listingSchema,
-  uuid,
-  canTransition,
-} from "@/lib/validation";
-import { saveImage, deleteImage } from "@/lib/storage";
+import { accountSchema, uuid, canTransition } from "@/lib/validation";
+import { listingService } from "@/lib/listing-service";
 const value = (f: FormData, k: string) => String(f.get(k) ?? "");
 function fail(path: string, error: string): never {
   return redirect(path + "?error=" + encodeURIComponent(error));
@@ -87,69 +82,6 @@ export async function logout() {
   c.delete("market_session");
   redirect("/");
 }
-export async function publish(f: FormData) {
-  const u = await requireUser();
-  if (!u.phone_verified) redirect("/verify");
-  const parsed = listingSchema.safeParse(Object.fromEntries(f));
-  if (!parsed.success) fail("/sell", parsed.error.issues[0].message);
-  const a = parsed.data;
-  const files = f
-    .getAll("photos")
-    .filter((x): x is File => x instanceof File && x.size > 0);
-  if (files.length < 1 || files.length > 10)
-    fail("/sell", "Add between 1 and 10 photos.");
-  const keys: string[] = [];
-  let id: string;
-  try {
-    await rateLimit("publish:" + u.id, 10, 86400);
-    for (const file of files) keys.push(await saveImage(file));
-    const client = await pool.connect();
-    try {
-      await client.query("BEGIN");
-      const valid = await client.query(
-        "SELECT 1 FROM categories c,locations l WHERE c.id=$1 AND c.enabled AND l.id=$2 AND l.kind IN ('CITY','TOWNSHIP')",
-        [a.category, a.location],
-      );
-      if (!valid.rowCount)
-        throw new Error("Choose a valid category and location.");
-      const r = await client.query(
-        "INSERT INTO listings(seller_id,category_id,location_id,title,description,listing_type,price,condition) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id",
-        [
-          u.id,
-          a.category,
-          a.location,
-          a.title,
-          a.description,
-          a.type,
-          a.type === "FREE" ? 0 : a.price,
-          a.condition,
-        ],
-      );
-      id = r.rows[0].id;
-      for (const [i, key] of keys.entries())
-        await client.query(
-          "INSERT INTO listing_images(listing_id,storage_key,position) VALUES($1,$2,$3)",
-          [id, key, i],
-        );
-      await client.query("COMMIT");
-    } catch (e) {
-      await client.query("ROLLBACK");
-      throw e;
-    } finally {
-      client.release();
-    }
-  } catch (e) {
-    await Promise.allSettled(keys.map(deleteImage));
-    fail(
-      "/sell",
-      (e as Error).message.includes("image")
-        ? (e as Error).message
-        : "Could not publish. Check your photos and try again.",
-    );
-  }
-  revalidatePath("/");
-  redirect("/listing/" + id!);
-}
 export async function favorite(f: FormData) {
   const u = await requireUser();
   const id = uuid.parse(value(f, "id"));
@@ -179,8 +111,20 @@ export async function listingStatus(f: FormData) {
     [id, u.id],
   );
   if (l && canTransition(l.status, next)) {
+    if (next === "ACTIVE") {
+      try {
+        await listingService.activate(u.id, id);
+      } catch {
+        const a = await import("@/lib/listing-i18n").then((m) =>
+          m.listingCopy(),
+        );
+        fail("/account/listings", a.invalid);
+      }
+      revalidatePath("/", "layout");
+      return;
+    }
     await query(
-      "UPDATE listings SET status=$1,updated_at=now(),expires_at=CASE WHEN $1='ACTIVE' THEN now()+interval '60 days' ELSE expires_at END WHERE id=$2 AND status=$3",
+      "UPDATE listings SET status=$1,revision=revision+1,updated_at=now(),expires_at=CASE WHEN $1='ACTIVE' THEN now()+interval '60 days' ELSE expires_at END WHERE id=$2 AND status=$3",
       [next, id, l.status],
     );
     revalidatePath("/", "layout");
@@ -306,30 +250,6 @@ export async function moderate(f: FormData) {
     client.release();
   }
   revalidatePath("/", "layout");
-}
-export async function editListing(f: FormData) {
-  const u = await requireUser();
-  const id = uuid.parse(value(f, "id"));
-  const parsed = listingSchema.safeParse(Object.fromEntries(f));
-  if (!parsed.success) fail("/sell/" + id, parsed.error.issues[0].message);
-  const a = parsed.data;
-  const result = await query(
-    `UPDATE listings SET title=$1,description=$2,category_id=$3,location_id=$4,listing_type=$5,price=$6,condition=$7,updated_at=now() WHERE id=$8 AND seller_id=$9 AND status IN ('ACTIVE','RESERVED','DRAFT','EXPIRED') AND EXISTS(SELECT 1 FROM categories WHERE id=$3 AND enabled) AND EXISTS(SELECT 1 FROM locations WHERE id=$4 AND kind IN ('CITY','TOWNSHIP')) RETURNING id`,
-    [
-      a.title,
-      a.description,
-      a.category,
-      a.location,
-      a.type,
-      a.type === "FREE" ? 0 : a.price,
-      a.condition,
-      id,
-      u.id,
-    ],
-  );
-  if (!result.length) fail("/sell/" + id, "This listing cannot be edited.");
-  revalidatePath("/", "layout");
-  redirect("/account/listings");
 }
 export async function manageCategory(f: FormData) {
   const u = await requireAdmin();

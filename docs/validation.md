@@ -28,3 +28,11 @@ The production smoke test used isolated database/Redis/uploads volumes and local
 - Twilio service tests use an injected provider/HTTP transport in tests only. There is no production bypass or fixed verification code. Live Myanmar SMS delivery remains unverified because no credentials were configured.
 
 The account code adds no new third-party dependency or new secret requirement. Deploy web and worker with the migration job using the existing Coolify Compose configuration; back up the database first. Temporary production smoke-test resources are separate from development services.
+
+## Listing workflow phase
+
+- Fourteen unit tests passed, including incomplete drafts, FREE price canonicalization, typed attributes (including false/zero and leap dates), foreign/duplicate photo IDs and photo limits.
+- Twenty PostgreSQL integration tests passed. New cases cover draft ownership, unverified draft saving, verified publication, inherited required fields, atomic photo transfer/order/replacement, stale revision rejection, failed-upload compensation, durable cleanup retries, discard ownership, and validated renewal. Account deletion tests now include private drafts and their photos. Migration tests include all three migrations on an isolated original schema.
+- All seven browser journeys passed against the production Docker container (37.9 seconds). They cover the previous account/marketplace/admin journeys and new draft resume/discard, actual private-photo authorization (including non-owner admins), two-tab conflicts, typed fields, phone gating, publication, photo cover/order/replacement, and category-field administration.
+- Build, TypeScript and formatting checks passed; production dependency audit reported zero vulnerabilities. Final web/tools images built with TLS verification enabled, and a fresh Compose database applied migrations 000/001/002 before successful reference-data seeding and healthy web/worker startup.
+- The temporary production test stack was removed afterward. Development services and repository data were preserved. No live SMS, optional S3 or public Coolify deployment was tested.

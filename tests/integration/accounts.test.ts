@@ -246,6 +246,17 @@ test("deletion requires recent auth or password and anonymizes data atomically",
     "INSERT INTO listing_images(listing_id,storage_key,position) VALUES($1,$2,0)",
     [listing.id, key],
   );
+  const draftKey = randomUUID() + ".webp";
+  const {
+    rows: [draft],
+  } = await db.query(
+    'INSERT INTO listing_drafts(seller_id,payload) VALUES($1,\'{"title":"Private draft"}\') RETURNING id',
+    [u.id],
+  );
+  await db.query(
+    "INSERT INTO listing_images(draft_id,storage_key,position) VALUES($1,$2,0)",
+    [draft.id, draftKey],
+  );
   const session = randomUUID();
   await db.query(
     "INSERT INTO sessions(token_hash,user_id,expires_at,authenticated_at) VALUES($1,$2,now()+interval '1 day',now()-interval '1 hour')",
@@ -261,6 +272,24 @@ test("deletion requires recent auth or password and anonymizes data atomically",
     u.email,
   );
   await service.deleteAccount(u.id, session, "old-test-password");
+  assert.equal(
+    (await db.query("SELECT id FROM listing_drafts WHERE id=$1", [draft.id]))
+      .rowCount,
+    0,
+  );
+  assert.equal(
+    (
+      await db.query(
+        "SELECT storage_key FROM image_deletions WHERE storage_key=$1",
+        [draftKey],
+      )
+    ).rowCount,
+    1,
+  );
+  await db.query("DELETE FROM image_deletions WHERE storage_key=$1", [
+    draftKey,
+  ]);
+
   const {
     rows: [deleted],
   } = await db.query("SELECT * FROM users WHERE id=$1", [u.id]);

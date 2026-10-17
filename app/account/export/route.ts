@@ -15,6 +15,10 @@ export async function GET() {
   const listings = await query("SELECT * FROM listings WHERE seller_id=$1", [
     u.id,
   ]);
+  const drafts = await query(
+    "SELECT * FROM listing_drafts WHERE seller_id=$1",
+    [u.id],
+  );
   const favorites = await query(
     "SELECT listing_id FROM favorites WHERE user_id=$1",
     [u.id],
@@ -32,6 +36,7 @@ export async function GET() {
       exportedAt: new Date().toISOString(),
       profile,
       listings,
+      drafts,
       favorites,
       conversations,
       messages,

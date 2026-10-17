@@ -45,6 +45,17 @@ try {
       "INSERT INTO locations(id,name_en,name_my,parent_id,kind) VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING",
       c,
     );
+  await query(`INSERT INTO category_attributes(category_id,key,name_en,name_my,type,choices,position) VALUES
+ ('electronics','brand','Brand','အမှတ်တံဆိပ်','TEXT','[]',0),
+ ('electronics','model','Model','မော်ဒယ်','TEXT','[]',1),
+ ('electronics','storage','Storage','သိုလှောင်မှုပမာဏ','ENUM','["32 GB","64 GB","128 GB","256 GB","512 GB","1 TB","Other"]',2),
+ ('home','material','Material','ပစ္စည်းအမျိုးအစား','TEXT','[]',0),
+ ('home','dimensions','Dimensions','အတိုင်းအတာ','TEXT','[]',1),
+ ('home','assembly_required','Assembly required','တပ်ဆင်ရန်လိုအပ်သည်','BOOLEAN','[]',2),
+ ('fashion','size','Size','အရွယ်အစား','TEXT','[]',0),
+ ('bicycles','wheel_size','Wheel size (inches)','ဘီးအရွယ်အစား (လက်မ)','NUMBER','[]',0)
+ON CONFLICT(category_id,key) DO NOTHING;
+`);
   if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
     if (process.env.ADMIN_PASSWORD.length < 14)
       throw new Error("ADMIN_PASSWORD must contain at least 14 characters");
