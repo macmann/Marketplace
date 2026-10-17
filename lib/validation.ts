@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { passwordSchema } from "./account-validation";
 export const listingSchema = z
   .object({
     title: z.string().trim().min(3).max(120),
@@ -25,7 +26,7 @@ export const accountSchema = z.object({
     .email()
     .max(254)
     .transform((x) => x.toLowerCase()),
-  password: z.string().min(12).max(72),
+  password: passwordSchema,
   name: z.string().trim().min(2).max(80),
 });
 export const uuid = z.uuid();

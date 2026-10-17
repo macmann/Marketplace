@@ -1533,3 +1533,25 @@ details summary {
   gap: 12px;
   margin-top: 22px;
 }
+.auth-divider {
+  font-size: 15px;
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.otp-form {
+  padding: 20px;
+  background: #f1f4e8;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.danger-zone {
+  border-color: #e6b8aa;
+}
+.danger {
+  background: #8d3528;
+  color: white;
+}
+.danger:hover {
+  background: #6e281f;
+}

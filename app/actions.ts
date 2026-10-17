@@ -87,78 +87,6 @@ export async function logout() {
   c.delete("market_session");
   redirect("/");
 }
-async function twilio(path: string, data: Record<string, string>) {
-  const {
-    TWILIO_ACCOUNT_SID: a,
-    TWILIO_AUTH_TOKEN: t,
-    TWILIO_VERIFY_SERVICE_SID: s,
-  } = process.env;
-  if (!a || !t || !s) throw new Error("SMS verification is not configured.");
-  const res = await fetch(
-    `https://verify.twilio.com/v2/Services/${s}/${path}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: "Basic " + Buffer.from(a + ":" + t).toString("base64"),
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams(data),
-      signal: AbortSignal.timeout(15000),
-    },
-  );
-  if (!res.ok)
-    throw new Error(
-      "Verification provider unavailable. Check your number or try later.",
-    );
-  return res.json();
-}
-export async function requestOtp(f: FormData) {
-  const u = await requireUser();
-  const phone = value(f, "phone").replace(/\s/g, "");
-  if (!/^\+959\d{7,10}$/.test(phone))
-    fail("/verify", "Enter a Myanmar mobile number beginning +959.");
-  try {
-    await rateLimit("otp:" + u.id, 3, 600);
-    const existing = await query(
-      "SELECT id FROM users WHERE phone=$1 AND id<>$2",
-      [phone, u.id],
-    );
-    if (existing.length)
-      throw new Error("This phone number is already in use.");
-    await twilio("Verifications", { To: phone, Channel: "sms" });
-    (await cookies()).set("pending_phone", phone, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.COOKIE_SECURE !== "false",
-      path: "/",
-      maxAge: 600,
-    });
-  } catch (e) {
-    fail("/verify", (e as Error).message);
-  }
-  redirect("/verify?sent=1");
-}
-export async function confirmOtp(f: FormData) {
-  const u = await requireUser();
-  const phone = (await cookies()).get("pending_phone")?.value;
-  if (!phone) fail("/verify", "Request a new verification code.");
-  const code = value(f, "code");
-  if (!/^\d{4,10}$/.test(code)) fail("/verify", "Enter the verification code.");
-  try {
-    await rateLimit("otp-check:" + u.id, 8, 600);
-    const result = await twilio("VerificationCheck", { To: phone, Code: code });
-    if (result.status !== "approved")
-      throw new Error("Incorrect or expired code.");
-    await query("UPDATE users SET phone=$1,phone_verified=true WHERE id=$2", [
-      phone,
-      u.id,
-    ]);
-    (await cookies()).delete("pending_phone");
-  } catch (e) {
-    fail("/verify", (e as Error).message);
-  }
-  redirect("/sell");
-}
 export async function publish(f: FormData) {
   const u = await requireUser();
   if (!u.phone_verified) redirect("/verify");
@@ -355,7 +283,7 @@ export async function moderate(f: FormData) {
       );
     else if (action === "SUSPEND" || action === "UNSUSPEND")
       await client.query(
-        "UPDATE users SET suspended=$1 WHERE id=$2 AND role<>'ADMIN'",
+        "UPDATE users SET suspended=$1 WHERE id=$2 AND role<>'ADMIN' AND deleted_at IS NULL",
         [action === "SUSPEND", id],
       );
     else if (action === "RESOLVE")

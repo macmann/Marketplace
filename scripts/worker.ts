@@ -1,5 +1,6 @@
 import { Queue, Worker } from "bullmq";
-import { query, pool } from "../lib/db";
+import { pool } from "../lib/db";
+import { maintenance } from "../lib/maintenance";
 const u = new URL(process.env.REDIS_URL || "redis://localhost:6379");
 const connection = {
   host: u.hostname,
@@ -14,13 +15,7 @@ await queue.upsertJobScheduler(
   { every: 3600000 },
   { name: "cleanup", opts: { removeOnComplete: 24, removeOnFail: 50 } },
 );
-const cleanup = async () => {
-  await query(
-    "UPDATE listings SET status='EXPIRED',updated_at=now() WHERE status='ACTIVE' AND expires_at<now()",
-  );
-  await query("DELETE FROM sessions WHERE expires_at<now()");
-  await query("DELETE FROM rate_limits WHERE reset_at<now()-interval '1 day'");
-};
+const cleanup = maintenance;
 const worker = new Worker("maintenance", cleanup, {
   connection,
   concurrency: 1,

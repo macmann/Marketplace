@@ -67,12 +67,16 @@ export async function getImage(key: string) {
   );
 }
 export async function deleteImage(key: string) {
+  if (!/^[a-f0-9-]{36}\.webp$/.test(key))
+    throw new Error("Invalid storage key");
   if (process.env.S3_BUCKET)
     await s3().send(
       new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET, Key: key }),
     );
   else
     await unlink(path.join(/* turbopackIgnore: true */ dir(), key)).catch(
-      () => {},
+      (error: NodeJS.ErrnoException) => {
+        if (error.code !== "ENOENT") throw error;
+      },
     );
 }
