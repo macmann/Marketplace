@@ -30,8 +30,7 @@ export default function LiveNotifications({
             "Notification" in window &&
             Notification.permission === "granted"
           )
-            new Notification(newMessage, {
-              body: label,
+            new Notification(label, {
               tag: "neighbour-inbox",
             });
           if (
