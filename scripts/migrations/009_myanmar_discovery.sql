@@ -1,0 +1,12 @@
+ALTER TABLE locations DROP CONSTRAINT locations_kind_check;
+ALTER TABLE locations ADD CONSTRAINT locations_kind_check CHECK(kind IN ('COUNTRY','REGION','DISTRICT','CITY','TOWNSHIP'));
+ALTER TABLE locations ADD COLUMN canonical_id text REFERENCES locations;
+ALTER TABLE locations ADD COLUMN latitude double precision CHECK(latitude BETWEEN -90 AND 90);
+ALTER TABLE locations ADD COLUMN longitude double precision CHECK(longitude BETWEEN -180 AND 180);
+ALTER TABLE locations ADD COLUMN aliases jsonb NOT NULL DEFAULT '[]';
+ALTER TABLE locations ADD COLUMN source_version text;
+ALTER TABLE locations ADD CONSTRAINT canonical_not_self CHECK(canonical_id IS NULL OR canonical_id<>id);
+ALTER TABLE listings ADD COLUMN search_title text;
+ALTER TABLE listings ADD COLUMN search_text text;
+CREATE INDEX listings_unicode_title ON listings USING gin(search_title gin_trgm_ops);
+CREATE INDEX listings_unicode_text ON listings USING gin(search_text gin_trgm_ops);

@@ -187,6 +187,35 @@ export const my: typeof en = {
   registerTitle: "အနီးအနားမှ စတင်မယ်",
   loginTitle: "ပြန်လည်ကြိုဆိုပါသည်",
   language: "English",
+  admin: "စီမံခန့်ခွဲမှု",
+  adminTitle: "ဈေးကွက် စီမံခန့်ခွဲမှု",
+  phoneUnavailable:
+    "SMS ဝန်ဆောင်မှုကို မချိတ်ဆက်ရသေးပါ။ စီမံခန့်ခွဲသူက Twilio Verify ကို ချိတ်ဆက်ရန် လိုအပ်သည်။",
+  listingType: "ကြော်ငြာ အမျိုးအစား",
+  status: "အခြေအနေ",
+  update: "ပြင်ဆင်ရန်",
+  reason: "အကြောင်းရင်း",
+  details: "အသေးစိတ်",
+  submitReport: "တိုင်ကြားရန်",
+  block: "ဆက်သွယ်မှု ပိတ်ရန်",
+  unblock: "ပြန်ဖွင့်ရန်",
+  editProfile: "အမည် ပြင်ဆင်ရန်",
+  profile: "ကိုယ်ရေးအချက်အလက်",
+  noSaved: "နှစ်သက်သော ပစ္စည်းကို သိမ်းထားပြီး ဤနေရာတွင် ပြန်ကြည့်ပါ။",
+  noListings: "ပစ္စည်း မတင်ရသေးပါ။",
+  passwordHint: "စကားဝှက် အနည်းဆုံး ၁၂ လုံး သုံးပါ။",
+  more: "ကြော်ငြာ ကြည့်ရန်",
+  results: "ခု တွေ့ရှိ",
+  reportThanks: "ကျေးဇူးတင်ပါသည်။ တိုင်ကြားချက်ကို စစ်ဆေးရန် ပို့ပြီးပါပြီ။",
+  notFound: "ကြော်ငြာ မတွေ့ပါ။",
+  pending: "စစ်ဆေးဆဲ",
+  removed: "ဖယ်ရှားပြီး",
+  expired: "သက်တမ်းကုန်",
+  archived: "သိမ်းဆည်းထားသည်",
+  draft: "မူကြမ်း",
+  rejected: "ပယ်ချပြီး",
+  about:
+    "မြန်မာနိုင်ငံအတွက် ဒေသတွင်း ဈေးကွက်။ မြို့နယ်အလိုက် ပစ္စည်းများ ရှာဖွေပြီး အသုံးဝင်တာများကို လက်ဆင့်ကမ်းပါ။",
 };
 export async function locale() {
   return (await cookies()).get("locale")?.value === "my" ? "my" : "en";
@@ -194,8 +223,12 @@ export async function locale() {
 export async function translations() {
   return (await locale()) === "my" ? my : en;
 }
-export function money(value: string | number) {
-  return new Intl.NumberFormat("en-US").format(Number(value)) + " MMK";
+export function money(value: string | number, lang = "en") {
+  return (
+    new Intl.NumberFormat(lang === "my" ? "my-MM" : "en-US").format(
+      Number(value),
+    ) + (lang === "my" ? " ကျပ်" : " MMK")
+  );
 }
 export const conditionLabels = {
   NEW: ["New", "အသစ်"],

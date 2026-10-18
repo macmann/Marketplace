@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { accountCopy } from "@/lib/account-i18n";
 import { register } from "../actions";
@@ -8,12 +9,14 @@ export default async function Register({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
+  const ui = await uiCopy();
+
   const [t, p] = await Promise.all([translations(), searchParams]);
   const a = await accountCopy();
   return (
     <section className="auth-shell">
       <div className="auth-aside">
-        <span className="eyebrow">NEIGHBOUR · MYANMAR</span>
+        <span className="eyebrow">{ui("NEIGHBOUR · MYANMAR")}</span>
         <h1>{t.tagline}</h1>
         <p>{t.about}</p>
         <span className="auth-art">♧</span>

@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { query } from "@/lib/db";
@@ -11,6 +12,8 @@ export default async function Notifications({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const ui = await uiCopy();
+
   const [u, t, f] = await Promise.all([
     requireUser(),
     releaseCopy(),
@@ -45,7 +48,7 @@ export default async function Notifications({
                 ? t.reportUpdate
                 : t.listingUpdate}
           </strong>
-          <p>{n.state ?? (n.kind === "LISTING" ? n.status : "")}</p>
+          <p>{ui(n.state ?? (n.kind === "LISTING" ? n.status : ""))}</p>
           <small>{new Date(n.created_at).toLocaleString()}</small>{" "}
           <Link
             href={

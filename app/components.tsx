@@ -1,3 +1,5 @@
+import LocationPicker from "./location-picker";
+import { uiCopy } from "@/lib/ui-i18n";
 import { attributeDefinitions } from "@/lib/listing-service";
 import { pool } from "@/lib/db";
 import { releaseCopy } from "@/lib/release-i18n";
@@ -6,14 +8,22 @@ import { listingCopy } from "@/lib/listing-i18n";
 import { accountCopy } from "@/lib/account-i18n";
 import { Listing, options } from "@/lib/marketplace";
 import { money, locale, translations, conditionLabels } from "@/lib/i18n";
-export async function ListingCard({ listing: l }: { listing: Listing }) {
+export async function ListingCard({
+  listing: l,
+  href,
+}: {
+  listing: Listing;
+  href?: string;
+}) {
+  const ui = await uiCopy();
+
   const [t, lang] = await Promise.all([translations(), locale()]);
   return (
-    <Link className="listing-card" href={"/listing/" + l.id}>
+    <Link className="listing-card" href={href ?? "/listing/" + l.id}>
       <div className="card-image">
         {l.image ? (
           <img
-            src={"/media/" + l.image}
+            src={"/media/" + l.image + "?variant=card"}
             alt={l.title}
             loading="lazy"
             width="500"
@@ -30,7 +40,7 @@ export async function ListingCard({ listing: l }: { listing: Listing }) {
               ]}
         </span>
         {l.status !== "ACTIVE" && (
-          <span className="status-badge">{l.status}</span>
+          <span className="status-badge">{ui(l.status)}</span>
         )}
       </div>
       <div className="card-content">
@@ -39,7 +49,7 @@ export async function ListingCard({ listing: l }: { listing: Listing }) {
         </p>
         <h3>{l.title}</h3>
         <strong className="card-price">
-          {l.listing_type === "FREE" ? t.freeLabel : money(l.price)}
+          {l.listing_type === "FREE" ? t.freeLabel : money(l.price, lang)}
         </strong>
         <p className="card-meta">
           {lang === "my" ? l.category_my : l.category_en}
@@ -56,6 +66,8 @@ export async function Filters({
   filters: Record<string, string | undefined>;
   free?: boolean;
 }) {
+  const ui = await uiCopy();
+
   const [{ categories, locations }, t, lang] = await Promise.all([
     options(),
     translations(),
@@ -86,22 +98,32 @@ export async function Filters({
           </option>
         ))}
       </select>
-      <select
-        name="location"
-        aria-label={t.location}
-        defaultValue={filters.location}
-      >
-        <option value="">{t.allLocations}</option>
-        {locations.map((l) => (
-          <option key={l.id} value={l.id}>
-            {lang === "my" ? l.name_my : l.name_en}
-          </option>
-        ))}
-      </select>
+      <LocationPicker
+        locations={locations.map((l) => ({
+          id: l.id,
+          label: lang === "my" ? l.display_my : l.display_en,
+          parent_id: l.display_parent,
+          kind: l.kind,
+          canonical_id: l.canonical_id,
+          aliases: l.aliases,
+        }))}
+        value={filters.location}
+        lang={lang}
+        label={t.location}
+        allLabel={t.allLocations}
+      />
       <button className="button primary">{t.find} ↗</button>
+      {filters.sort === "near" && (
+        <p className="muted">
+          {(await uiCopy())(
+            "Distances use approximate township centers, not seller addresses.",
+          )}
+        </p>
+      )}
       <details className="extra-filters">
         <summary>
-          {t.sort} &amp; {t.price} ＋
+          {t.sort} {"&"}
+          {t.price} ＋
         </summary>
         <div className="filter-row">
           <input
@@ -120,7 +142,14 @@ export async function Filters({
             aria-label={t.max}
             defaultValue={filters.max}
           />
-          <select name="sort" defaultValue={filters.sort} aria-label={t.sort}>
+          <select
+            name="sort"
+            defaultValue={filters.sort ?? "relevance"}
+            aria-label={t.sort}
+          >
+            <option value="near">
+              {(await uiCopy())("Nearest to selected area")}
+            </option>
             <option value="relevance">{r.relevance}</option>
             <option value="newest">{t.newest}</option>
             <option value="low">{t.low}</option>
@@ -218,16 +247,17 @@ export async function Empty({
     </div>
   );
 }
-export function Notice({
+export async function Notice({
   error,
   message,
 }: {
   error?: string;
   message?: string;
 }) {
+  const ui = await uiCopy();
   return error ? (
     <p role="alert" className="notice error">
-      {error.slice(0, 250)}
+      {ui(error.slice(0, 250))}
     </p>
   ) : message ? (
     <p role="status" className="notice">

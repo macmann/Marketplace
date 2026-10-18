@@ -360,7 +360,8 @@ test("renewal validates current photos and required fields before reactivating a
   );
   await service.activate(owner, p.id);
   const active = await current(p.id, "listing");
-  assert.equal(active.status, "ACTIVE");
+  assert.equal(active.status, "PENDING_REVIEW");
+  assert.equal(active.automation_state, "PENDING");
   assert.ok(new Date(active.expires_at).getTime() > Date.now());
   await db.query(
     "DELETE FROM listing_attribute_values WHERE listing_id=$1 AND attribute_id=$2",

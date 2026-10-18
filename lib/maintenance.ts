@@ -1,6 +1,8 @@
+import { sweepOrphanedMedia } from "./media-worker";
 import { pool, query } from "./db";
 import { deleteImage } from "./storage";
 export async function maintenance() {
+  await sweepOrphanedMedia();
   await query(
     "UPDATE listings SET status='EXPIRED',updated_at=now() WHERE status='ACTIVE' AND expires_at<now()",
   );

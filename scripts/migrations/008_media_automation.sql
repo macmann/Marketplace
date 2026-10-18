@@ -1,0 +1,15 @@
+ALTER TABLE listing_images ADD COLUMN processing_state text NOT NULL DEFAULT 'READY' CHECK(processing_state IN ('PENDING','READY','FAILED'));
+ALTER TABLE listing_images ADD COLUMN variants_ready boolean NOT NULL DEFAULT false;
+ALTER TABLE listing_images ADD COLUMN sha256 text;
+ALTER TABLE listing_images ADD COLUMN perceptual_hash text;
+ALTER TABLE listing_images ADD COLUMN width integer;
+ALTER TABLE listing_images ADD COLUMN height integer;
+CREATE INDEX image_content_hash ON listing_images(sha256) WHERE sha256 IS NOT NULL;
+CREATE TABLE image_jobs(image_id uuid PRIMARY KEY REFERENCES listing_images ON DELETE CASCADE,attempts integer NOT NULL DEFAULT 0,next_attempt timestamptz NOT NULL DEFAULT now(),lease_id uuid,lease_until timestamptz,last_error text);
+INSERT INTO image_jobs(image_id) SELECT id FROM listing_images;
+ALTER TABLE listings ADD COLUMN automation_state text NOT NULL DEFAULT 'LEGACY' CHECK(automation_state IN ('LEGACY','PENDING','PASSED','REVIEW','OVERRIDDEN'));
+CREATE TABLE moderation_jobs(listing_id uuid PRIMARY KEY REFERENCES listings ON DELETE CASCADE,revision integer NOT NULL,attempts integer NOT NULL DEFAULT 0,next_attempt timestamptz NOT NULL DEFAULT now(),lease_id uuid,lease_until timestamptz,last_error text);
+CREATE TABLE automated_reviews(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),listing_id uuid NOT NULL REFERENCES listings ON DELETE CASCADE,revision integer NOT NULL,outcome text NOT NULL CHECK(outcome IN ('ALLOW','REVIEW')),reasons jsonb NOT NULL,provider text NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
+ALTER TABLE marketplace_settings ADD COLUMN moderation_mode text NOT NULL DEFAULT 'MANUAL' CHECK(moderation_mode IN ('LOCAL','OPENAI','MANUAL'));
+CREATE TABLE storage_scan_state(id boolean PRIMARY KEY DEFAULT true CHECK(id),cursor text NOT NULL DEFAULT '');
+INSERT INTO storage_scan_state DEFAULT VALUES;

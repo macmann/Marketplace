@@ -9,7 +9,7 @@ export async function GET(
   if (!/^[a-f0-9-]{36}\.webp$/.test(key))
     return new Response(null, { status: 404 });
   const [im] = await query(
-    "SELECT category_visible(c.id) enabled,l.expires_at,l.status,COALESCE(l.seller_id,d.seller_id) seller_id,u.suspended,i.draft_id FROM listing_images i LEFT JOIN listings l ON l.id=i.listing_id LEFT JOIN categories c ON c.id=l.category_id LEFT JOIN listing_drafts d ON d.id=i.draft_id JOIN users u ON u.id=COALESCE(l.seller_id,d.seller_id) WHERE i.storage_key=$1",
+    "SELECT category_visible(c.id) enabled,l.expires_at,l.status,COALESCE(l.seller_id,d.seller_id) seller_id,u.suspended,i.draft_id,i.processing_state FROM listing_images i LEFT JOIN listings l ON l.id=i.listing_id LEFT JOIN categories c ON c.id=l.category_id LEFT JOIN listing_drafts d ON d.id=i.draft_id JOIN users u ON u.id=COALESCE(l.seller_id,d.seller_id) WHERE i.storage_key=$1",
     [key],
   );
   if (!im) return new Response(null, { status: 404 });
@@ -29,16 +29,33 @@ export async function GET(
     )
       return new Response(null, { status: 404 });
   }
+  const requested =
+    new URL(_request.url).searchParams.get("variant") ?? "original";
+  if (!["original", "thumb", "card"].includes(requested))
+    return new Response(null, { status: 400 });
+  if (im.processing_state !== "READY" && !restricted)
+    return new Response(null, { status: 404 });
   try {
-    return new Response(new Uint8Array(await getImage(key)), {
-      headers: {
-        "Content-Type": "image/webp",
-        "Cache-Control": restricted
-          ? "no-store, private"
-          : "private, max-age=60",
-        "X-Content-Type-Options": "nosniff",
+    return new Response(
+      new Uint8Array(
+        await getImage(
+          key,
+          im.processing_state === "READY"
+            ? (requested as "original" | "thumb" | "card")
+            : "preview",
+        ),
+      ),
+      {
+        headers: {
+          "Content-Type": "image/webp",
+          "Cache-Control":
+            restricted || im.processing_state !== "READY"
+              ? "no-store, private"
+              : "private, max-age=60",
+          "X-Content-Type-Options": "nosniff",
+        },
       },
-    });
+    );
   } catch {
     return new Response(null, { status: 404 });
   }

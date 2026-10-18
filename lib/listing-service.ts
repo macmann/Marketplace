@@ -1,3 +1,4 @@
+import { normalizeIndex } from "./myanmar-text";
 import { reviewReasons } from "./moderation";
 import { randomUUID } from "node:crypto";
 import type { Pool } from "pg";
@@ -173,7 +174,7 @@ export class ListingService {
       for (const [position, token] of order.entries()) {
         if (token.startsWith("new:"))
           await client.query(
-            `INSERT INTO listing_images(${targetKind === "draft" ? "draft_id" : "listing_id"},storage_key,position) VALUES($1,$2,$3)`,
+            `INSERT INTO listing_images(${targetKind === "draft" ? "draft_id" : "listing_id"},storage_key,position,processing_state) VALUES($1,$2,$3,'PENDING') RETURNING id`,
             [targetId, images.get(token), position],
           );
         else
@@ -182,6 +183,10 @@ export class ListingService {
             [position, token],
           );
       }
+      await client.query(
+        `INSERT INTO image_jobs(image_id) SELECT id FROM listing_images WHERE ${targetKind === "draft" ? "draft_id" : "listing_id"}=$1 AND processing_state='PENDING' ON CONFLICT DO NOTHING`,
+        [targetId],
+      );
       if (targetKind === "listing") {
         await client.query(
           "DELETE FROM listing_attribute_values WHERE listing_id=$1",
@@ -194,6 +199,14 @@ export class ListingService {
           );
       }
       if (targetKind === "listing") {
+        await client.query(
+          "UPDATE listings SET search_title=$1,search_text=$2 WHERE id=$3",
+          [
+            normalizeIndex(payload.title),
+            normalizeIndex(payload.title + " " + payload.description),
+            targetId,
+          ],
+        );
         const reasons = await reviewReasons(
           client,
           owner,
@@ -201,18 +214,21 @@ export class ListingService {
           payload.title,
           payload.description,
         );
-        if (row && ["REJECTED", "PENDING_REVIEW"].includes(row.status))
-          reasons.push("Seller resubmission");
-        if (reasons.length)
-          await client.query(
-            "UPDATE listings SET status='PENDING_REVIEW',moderation_reasons=$2::jsonb WHERE id=$1",
-            [targetId, JSON.stringify(reasons)],
-          );
-        else
-          await client.query(
-            "UPDATE listings SET moderation_reasons='[]' WHERE id=$1",
-            [targetId],
-          );
+        if (
+          row &&
+          (row.status === "REJECTED" ||
+            (row.status === "PENDING_REVIEW" &&
+              row.automation_state !== "PENDING"))
+        )
+          reasons.push("policy:resubmission");
+        await client.query(
+          "UPDATE listings SET status='PENDING_REVIEW',automation_state='PENDING',moderation_reasons=$2::jsonb WHERE id=$1",
+          [targetId, JSON.stringify(reasons)],
+        );
+        await client.query(
+          "INSERT INTO moderation_jobs(listing_id,revision) SELECT id,revision FROM listings WHERE id=$1 ON CONFLICT(listing_id) DO UPDATE SET revision=excluded.revision,attempts=0,next_attempt=now(),lease_id=NULL,lease_until=NULL,last_error=NULL",
+          [targetId],
+        );
       }
       if (cmd.kind === "draft" && cmd.mode === "publish")
         await client.query("DELETE FROM listing_drafts WHERE id=$1", [id]);

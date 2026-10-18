@@ -46,6 +46,7 @@ export async function GET(request: Request) {
             `SELECT
       (SELECT count(*) FROM notifications n WHERE n.user_id=u.id AND n.read_at IS NULL) unread,
       (SELECT max(n.created_at) FROM notifications n WHERE n.user_id=u.id) latest,
+      (SELECT max(l.updated_at) FROM listings l WHERE l.seller_id=u.id) listings_updated,
       (SELECT max(m.read_at) FROM messages m JOIN conversations c ON c.id=m.conversation_id WHERE c.buyer_id=u.id OR c.seller_id=u.id) receipts
       FROM users u JOIN sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now() AND NOT u.suspended AND u.deleted_at IS NULL`,
             [session],

@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import { recordMetric } from "@/lib/metrics";
 import Link from "next/link";
 import { catalog, options } from "@/lib/marketplace";
@@ -9,6 +10,8 @@ export default async function Home({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const ui = await uiCopy();
+
   const f = await searchParams;
   if (f.q) await recordMetric("SEARCH");
   const [t, lang, listings, { categories }] = await Promise.all([
@@ -42,7 +45,7 @@ export default async function Home({
               <span className="live-dot" />{" "}
               {lang === "my"
                 ? "သင့်အနီးအနားမှ ဈေးကွက်"
-                : "YOUR NEIGHBOURHOOD MARKETPLACE"}
+                : ui("YOUR NEIGHBOURHOOD MARKETPLACE")}
             </span>
             <h1>
               {lang === "my" ? (
@@ -53,9 +56,9 @@ export default async function Home({
                 </>
               ) : (
                 <>
-                  Good things.
+                  {ui("Good things.")}
                   <br />
-                  <em>Closer to home.</em>
+                  <em>{ui("Closer to home.")}</em>
                 </>
               )}
             </h1>
@@ -75,9 +78,9 @@ export default async function Home({
           <div className="hero-art" aria-hidden="true">
             <div className="art-circle" />
             <div className="art-caption">
-              A SECOND LIFE
+              {ui("A SECOND LIFE")}
               <br />
-              <strong>A new favourite.</strong>
+              <strong>{ui("A new favourite.")}</strong>
             </div>
             <div className="chair">
               <div className="chair-back" />
@@ -93,7 +96,7 @@ export default async function Home({
             </div>
             <div className="art-tag">
               <span>♡</span>{" "}
-              {lang === "my" ? "လက်ဆင့်ကမ်းမယ်" : "Pass something good on."}
+              {lang === "my" ? "လက်ဆင့်ကမ်းမယ်" : ui("Pass something good on.")}
             </div>
             <span className="sparkle">✳</span>
           </div>
@@ -122,7 +125,7 @@ export default async function Home({
             <span className="eyebrow">
               {lang === "my"
                 ? "ရှာဖွေကြည့်ပါ"
-                : "A LITTLE DISCOVERY GOES A LONG WAY"}
+                : ui("A LITTLE DISCOVERY GOES A LONG WAY")}
             </span>
             <h2>{f.q ? "“" + f.q + "”" : t.latest}</h2>
           </div>
@@ -143,12 +146,16 @@ export default async function Home({
         <Link className="free-banner" href="/free">
           <span className="free-art">↻</span>
           <div>
-            <span className="eyebrow">GOOD FOR YOU. GOOD FOR THE PLANET.</span>
+            <span className="eyebrow">
+              {ui("GOOD FOR YOU. GOOD FOR THE PLANET.")}
+            </span>
             <h2>{t.free}</h2>
             <p>
               {lang === "my"
                 ? "အသုံးဝင်တာလေးတွေ အခမဲ့ရှာမယ်"
-                : "Some things are too good to throw away. Find them a new home."}
+                : ui(
+                    "Some things are too good to throw away. Find them a new home.",
+                  )}
             </p>
           </div>
           <span className="circle-arrow">↗</span>
@@ -156,7 +163,7 @@ export default async function Home({
         <div className="trust-row">
           <span>
             ⌖ <strong>{t.location}</strong>
-            <p>Discover by city &amp; township</p>
+            <p>{ui("Discover by city & township")}</p>
           </span>
           <span>
             ♡ <strong>{t.safetyTitle}</strong>
@@ -164,7 +171,7 @@ export default async function Home({
           </span>
           <span>
             ↻ <strong>{t.giving}</strong>
-            <p>A little less waste. A little more community.</p>
+            <p>{ui("A little less waste. A little more community.")}</p>
           </span>
         </div>
       </section>

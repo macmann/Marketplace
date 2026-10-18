@@ -243,6 +243,10 @@ test("deletion requires recent auth or password and anonymizes data atomically",
     [u.id],
   );
   await db.query(
+    "UPDATE listings SET search_title=title,search_text=description WHERE id=$1",
+    [listing.id],
+  );
+  await db.query(
     "INSERT INTO listing_images(listing_id,storage_key,position) VALUES($1,$2,0)",
     [listing.id, key],
   );
@@ -311,6 +315,14 @@ test("deletion requires recent auth or password and anonymizes data atomically",
     ).rows[0].status,
     "ARCHIVED",
   );
+  const scrubbed = (
+    await db.query(
+      "SELECT search_title,search_text FROM listings WHERE id=$1",
+      [listing.id],
+    )
+  ).rows[0];
+  assert.equal(scrubbed.search_title, "");
+  assert.equal(scrubbed.search_text, "");
   assert.equal(
     (
       await db.query("SELECT * FROM listing_images WHERE listing_id=$1", [

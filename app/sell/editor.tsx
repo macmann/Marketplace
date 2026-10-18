@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { query } from "@/lib/db";
 import { options } from "@/lib/marketplace";
@@ -37,10 +38,21 @@ export default async function Editor({
         "SELECT * FROM category_attributes WHERE enabled ORDER BY position,name_en",
       ),
     ]);
+  const ui = await uiCopy();
   return (
     <section className="wrap page narrow">
       <h1>{id ? a.edit : t.newListing}</h1>
       {kind === "draft" && <p>{a.draftHelp}</p>}
+      <p className="muted">
+        {ui(
+          "Small previews are ready first. Larger photos and safety checks run in the background.",
+        )}
+      </p>
+      <p className="muted">
+        {ui(
+          "Automated checks may send listing text and processed photos to the moderation provider configured by the operator. Private drafts are not sent.",
+        )}
+      </p>
       {!verified && (
         <div className="notice">
           <p>{a.phoneRequired}</p>
@@ -60,7 +72,11 @@ export default async function Editor({
         }))}
         locations={locations.map((l) => ({
           id: l.id,
-          label: lang === "my" ? l.name_my : l.name_en,
+          label: lang === "my" ? l.display_my : l.display_en,
+          parent_id: l.display_parent,
+          kind: l.kind,
+          canonical_id: l.canonical_id,
+          aliases: l.aliases,
         }))}
         conditions={Object.entries(conditionLabels).map(([id, v]) => ({
           id,

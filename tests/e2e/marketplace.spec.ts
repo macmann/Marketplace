@@ -1,3 +1,4 @@
+import { waitForPublication } from "../helpers/publication";
 import { test, expect } from "@playwright/test";
 import { Pool } from "pg";
 import { hash } from "bcryptjs";
@@ -76,8 +77,12 @@ test("core marketplace journey and access control", async ({ browser }) => {
     buffer: image,
   });
   await s.getByRole("button", { name: "Publish listing" }).click();
-  await expect(s).toHaveURL(/\/listing\//);
-  listingId = s.url().split("/").pop()!;
+  listingId = await waitForPublication(
+    s,
+    pool,
+    sellerId,
+    "Test teak chair " + suffix,
+  );
   await expect(
     s.getByRole("heading", { name: "Test teak chair " + suffix }),
   ).toBeVisible();
@@ -96,6 +101,7 @@ test("core marketplace journey and access control", async ({ browser }) => {
     (await pool.query("SELECT price FROM listings WHERE id=$1", [listingId]))
       .rows[0].price,
   ).toBe("42000");
+  await waitForPublication(s, pool, sellerId, "Test teak chair " + suffix);
   const buyer = await browser.newContext();
   const b = await buyer.newPage();
   await b.goto("/login");
@@ -184,7 +190,27 @@ test("core marketplace journey and access control", async ({ browser }) => {
   await expect(b.getByRole("status")).toContainText("moderation queue");
   await s.goto("/account/listings");
   await s.getByRole("combobox", { name: "Status" }).selectOption("RESERVED");
+  let release!: () => void;
+  const responseGate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await s.route("**/account/listings", async (route) => {
+    if (route.request().method() !== "POST") return route.continue();
+    const response = await route.fetch();
+    await responseGate;
+    await route.fulfill({ response });
+  });
   await s.getByRole("button", { name: "Update", exact: true }).click();
+  try {
+    await expect(s.getByRole("combobox", { name: "Status" })).toBeDisabled();
+    await expect(
+      s.getByRole("button", { name: "Update", exact: true }),
+    ).toBeDisabled();
+  } finally {
+    release();
+    await s.unrouteAll({ behavior: "wait" });
+  }
+  await expect(s.locator(".status-form > span")).toHaveText("Reserved");
   await expect
     .poll(
       async () =>
