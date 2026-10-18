@@ -1,6 +1,66 @@
 import { test, expect } from "@playwright/test";
 
 for (const locale of ["en", "my"]) {
+  test(`desktop search rows align in ${locale}`, async ({ page, context }) => {
+    await context.addCookies([
+      { name: "locale", value: locale, url: test.info().project.use.baseURL! },
+    ]);
+    for (const width of [800, 1280, 1600]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto("/");
+      const top = await Promise.all([
+        page.locator(".search-field").boundingBox(),
+        page.locator('select[name="category"]').boundingBox(),
+        page.locator(".filters > .button").boundingBox(),
+      ]);
+      const location = await page
+        .locator(
+          ".filters .location-picker input, .filters .location-picker select",
+        )
+        .all();
+      const second = await Promise.all(
+        location.map((field) => field.boundingBox()),
+      );
+      for (const row of [top, second]) {
+        const boxes = row.map((box) => box!);
+        expect(
+          Math.max(...boxes.map((b) => b.y)) -
+            Math.min(...boxes.map((b) => b.y)),
+        ).toBeLessThanOrEqual(1);
+        expect(
+          Math.max(...boxes.map((b) => b.height)) -
+            Math.min(...boxes.map((b) => b.height)),
+        ).toBeLessThanOrEqual(1);
+        for (let i = 1; i < boxes.length; i++) {
+          expect(boxes[i].x).toBeGreaterThan(
+            boxes[i - 1].x + boxes[i - 1].width,
+          );
+        }
+      }
+      expect(second[0]!.y).toBeGreaterThan(top[0]!.y + top[0]!.height);
+      await page.locator(".extra-filters > summary").first().click();
+      const extras = await page
+        .locator(
+          ".extra-filters .filter-row > input, .extra-filters .filter-row > select",
+        )
+        .all();
+      const boxes = (
+        await Promise.all(extras.map((field) => field.boundingBox()))
+      ).map((box) => box!);
+      for (const box of boxes) expect(box.height).toBe(52);
+      if (width >= 1280) {
+        expect(
+          Math.max(...boxes.map((b) => b.y)) -
+            Math.min(...boxes.map((b) => b.y)),
+        ).toBeLessThanOrEqual(1);
+      }
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+    }
+  });
   test(`mobile discovery controls remain readable in ${locale}`, async ({
     page,
     context,

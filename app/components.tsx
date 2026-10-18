@@ -77,27 +77,33 @@ export async function Filters({
   const r = await releaseCopy();
   return (
     <form className="filters" action={free ? "/free" : "/"}>
-      <div className="search-field">
-        <span>⌕</span>
-        <input
-          name="q"
-          aria-label={t.search}
-          defaultValue={filters.q}
-          placeholder={t.search}
-        />
-      </div>
-      <select
-        name="category"
-        aria-label={t.category}
-        defaultValue={filters.category}
-      >
-        <option value="">{t.allCategories}</option>
-        {categories.map((c) => (
-          <option key={c.id} value={c.id}>
-            {lang === "my" ? c.name_my : c.name_en}
-          </option>
-        ))}
-      </select>
+      <label className="filter-field">
+        <span>{lang === "my" ? "ရှာဖွေရန်" : "Search"}</span>
+        <span className="search-field">
+          <span aria-hidden="true">⌕</span>
+          <input
+            name="q"
+            aria-label={t.search}
+            defaultValue={filters.q}
+            placeholder={t.search}
+          />
+        </span>
+      </label>
+      <label className="filter-field">
+        <span>{t.category}</span>
+        <select
+          name="category"
+          aria-label={t.category}
+          defaultValue={filters.category}
+        >
+          <option value="">{t.allCategories}</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {lang === "my" ? c.name_my : c.name_en}
+            </option>
+          ))}
+        </select>
+      </label>
       <LocationPicker
         locations={locations.map((l) => ({
           id: l.id,
