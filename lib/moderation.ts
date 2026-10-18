@@ -91,7 +91,7 @@ export class ModerationService {
         const {
           rows: [l],
         } = await c.query(
-          "SELECT l.*,u.suspended,u.deleted_at,u.phone_verified,category_visible(c.id) enabled FROM listings l JOIN users u ON u.id=l.seller_id JOIN categories c ON c.id=l.category_id WHERE l.id=$1 FOR UPDATE OF l",
+          "SELECT l.*,u.suspended,u.deleted_at,u.phone_verified,u.email_verified,category_visible(c.id) enabled FROM listings l JOIN users u ON u.id=l.seller_id JOIN categories c ON c.id=l.category_id WHERE l.id=$1 FOR UPDATE OF l",
           [id],
         );
         if (!l) throw Error("Listing not found");
@@ -118,7 +118,7 @@ export class ModerationService {
           if (
             l.suspended ||
             l.deleted_at ||
-            !l.phone_verified ||
+            (!l.phone_verified && !l.email_verified) ||
             !l.enabled ||
             new Date(l.expires_at) <= new Date()
           )

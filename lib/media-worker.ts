@@ -268,7 +268,7 @@ export class MediaWorker {
         const {
           rows: [user],
         } = await c.query(
-          "SELECT suspended,deleted_at,phone_verified FROM users WHERE id=$1",
+          "SELECT suspended,deleted_at,phone_verified,email_verified FROM users WHERE id=$1",
           [l.seller_id],
         );
         const {
@@ -282,7 +282,7 @@ export class MediaWorker {
         if (
           user.suspended ||
           user.deleted_at ||
-          !user.phone_verified ||
+          (!user.phone_verified && !user.email_verified) ||
           !category.visible ||
           new Date(current.expires_at) <= new Date()
         )

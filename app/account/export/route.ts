@@ -9,7 +9,7 @@ export async function GET() {
       { status: 401, headers: { "Cache-Control": "no-store" } },
     );
   const [profile] = await query(
-    "SELECT id,name,email,phone,phone_verified,created_at FROM users WHERE id=$1",
+    "SELECT id,name,email,phone,phone_verified,email_verified,created_at FROM users WHERE id=$1",
     [u.id],
   );
   const listings = await query("SELECT * FROM listings WHERE seller_id=$1", [

@@ -15,6 +15,9 @@ export async function maintenance() {
   await query(
     "DELETE FROM auth_challenges WHERE expires_at<now() OR consumed_at IS NOT NULL",
   );
+  await query(
+    "DELETE FROM email_challenges WHERE expires_at<now() OR consumed_at IS NOT NULL",
+  );
   const client = await pool.connect();
   try {
     await client.query("BEGIN");

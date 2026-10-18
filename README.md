@@ -7,8 +7,13 @@ A Next.js/TypeScript modular monolith for a Myanmar local marketplace, prepared 
 Requires Node 24, Docker with Compose, and Chromium for browser tests.
 
 ```sh
-npm ci --cache /workspace/.npm-cache
+npm ci
 cp .env.example .env # only for a new checkout; preserve existing configuration
+# Replace the shared-service examples for local development:
+# DATABASE_URL=postgresql://marketplace:marketplace@localhost:5432/marketplace
+# REDIS_URL=redis://localhost:6379/0
+# APP_URL=http://localhost:3000
+# COOKIE_SECURE=false
 # Set UPLOAD_DIR to an absolute writable directory on your machine.
 docker compose -f compose.dev.yaml up -d --wait
 npm run db:migrate
@@ -34,7 +39,7 @@ Playwright uses `/usr/bin/chromium` by default. Set `CHROMIUM_PATH` to a differe
 
 ## Deployment
 
-See [Coolify deployment](docs/coolify.md). The production Compose file includes web, worker, migration/seed job, PostgreSQL, Redis, and persistent local image storage. Configure S3 if preferred. Only the web service needs a public domain.
+See [Coolify deployment](docs/coolify.md). Production Compose runs only prebuilt web, worker and migration/seed containers, with persistent uploads. Supply DATABASE_URL and REDIS_URL for existing shared Coolify services; no PostgreSQL/Redis container is started. Images build in GitHub Actions, away from the small VPS. Configure registry access and pin matching image tags before deploying. Only web needs a public domain; S3 remains optional.
 
 ## Project structure
 
@@ -43,7 +48,7 @@ See [Coolify deployment](docs/coolify.md). The production Compose file includes 
 - `scripts/`: idempotent initial schema, reference-data seed, background maintenance.
 - `tests/`: domain tests and Playwright journeys.
 
-Authentication supports phone OTP sign-in and email/password with opaque, hashed-at-rest sessions. Recovery requires an already verified phone and revokes all sessions. Account settings support exporting data, revoking other sessions, and confirmed deletion. Publishing requires phone verification through Twilio Verify; there is no production bypass. Conversation membership, listing ownership, and administrator permissions are checked on the server. Image uploads are decoded, bounded, resized, stripped of metadata and converted to WebP. Private bucket objects are served through the application.
+Authentication supports phone OTP sign-in and email/password with opaque, hashed-at-rest sessions. Recovery uses an already verified phone or email and revokes all sessions. Account settings support exporting data, revoking other sessions, and confirmed deletion. Publishing requires verified phone or email; there is no production bypass. Conversation membership, listing ownership, and administrator permissions are checked on the server. Image uploads are decoded, bounded, resized, stripped of metadata and converted to WebP. Private bucket objects are served through the application.
 
 Account service tests inject a verification provider into the service constructor and test actual PostgreSQL transactions; there is no production test-provider flag or fixed-code bypass. Adapter tests validate Twilio request/response handling without sending SMS. Live delivery must still be tested with your configured provider.
 
@@ -52,3 +57,5 @@ The listing editor supports private manual drafts, ordered/replaceable photos an
 ## Marketplace operations
 
 The current release includes inherited category filters, normalized bilingual query expansion and English typo matching, live in-app notifications, optional Web Push, scoped support/moderator roles, a private moderation queue and reporting outcomes. See [implementation status](docs/status.md) for remaining specification gaps and the [operations runbook](docs/operations.md) for push, monitoring, backup and restore setup. `npm run benchmark -- https://your-staging-host` runs a small explicit HTTP smoke test; use representative staging data before setting production budgets.
+
+Email verification and recovery can use SMTP independently of Twilio. See [Coolify email configuration](docs/coolify.md#email-verification-and-sms-independent-access). A verified email or phone is required to publish.

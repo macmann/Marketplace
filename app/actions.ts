@@ -162,7 +162,11 @@ export async function sendMessage(f: FormData) {
   const body = value(f, "body").trim();
   if (!body || body.length > 2000) return;
   try {
-    await rateLimit("message:" + u.id, u.phone_verified ? 30 : 5, 60);
+    await rateLimit(
+      "message:" + u.id,
+      u.phone_verified || u.email_verified ? 30 : 5,
+      60,
+    );
   } catch {
     redirect("/account/messages/" + id + "?error=Too+many+messages");
   }

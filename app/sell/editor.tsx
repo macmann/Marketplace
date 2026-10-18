@@ -1,3 +1,4 @@
+import { emailCopy } from "@/lib/email-i18n";
 import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { query } from "@/lib/db";
@@ -39,6 +40,7 @@ export default async function Editor({
       ),
     ]);
   const ui = await uiCopy();
+  const e = await emailCopy();
   return (
     <section className="wrap page narrow">
       <h1>{id ? a.edit : t.newListing}</h1>
@@ -56,7 +58,7 @@ export default async function Editor({
       {!verified && (
         <div className="notice">
           <p>{a.phoneRequired}</p>
-          <Link href="/verify">{t.verify} →</Link>
+          <Link href="/verify">{e.contactTitle} →</Link>
         </div>
       )}
       <Notice message={saved ? a.saved : undefined} />

@@ -1,3 +1,4 @@
+import { emailCopy } from "@/lib/email-i18n";
 import ReportForm from "@/app/report-form";
 import { currentUser } from "@/lib/auth";
 import { notFound } from "next/navigation";
@@ -16,7 +17,7 @@ export default async function Seller({
   const { id } = await params;
   if (!uuid.safeParse(id).success) notFound();
   const [u] = await query(
-    "SELECT id,name,phone_verified,created_at FROM users WHERE id=$1 AND NOT suspended",
+    "SELECT id,name,phone_verified,email_verified,created_at FROM users WHERE id=$1 AND NOT suspended",
     [id],
   );
   if (!u) notFound();
@@ -24,6 +25,7 @@ export default async function Seller({
   const viewer = await currentUser();
   const f = await searchParams;
   const ls = await catalog(f, id, undefined, true);
+  const e = await emailCopy();
   return (
     <section className="wrap page">
       <div className="seller">
@@ -34,6 +36,7 @@ export default async function Seller({
         {t.member} {new Date(u.created_at).getFullYear()}
       </p>
       {u.phone_verified && <p>✓ {t.verified}</p>}
+      {u.email_verified && <p>✓ {e.verified}</p>}
       {viewer && viewer.id !== id && <ReportForm kind="user" id={id} />}
       <div className="listing-grid">
         {ls.slice(0, 24).map((l) => (

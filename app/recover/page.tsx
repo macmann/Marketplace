@@ -1,3 +1,6 @@
+import { emailConfigured } from "@/lib/email";
+import { emailCookies } from "@/lib/email-service";
+import { emailCopy } from "@/lib/email-i18n";
 import { cookies } from "next/headers";
 import { challengeCookie } from "@/lib/account-validation";
 import Link from "next/link";
@@ -8,18 +11,39 @@ import { Notice } from "../components";
 export default async function Recover({
   searchParams,
 }: {
-  searchParams: Promise<{ sent?: string; error?: string }>;
+  searchParams: Promise<{ sent?: string; error?: string; channel?: string }>;
 }) {
   const [a, p] = await Promise.all([accountCopy(), searchParams]);
-  const enabled = smsConfigured();
-  const pending = (await cookies()).has(challengeCookie.RECOVER);
+  const e = await emailCopy();
+  const smsEnabled = smsConfigured(),
+    emailEnabled = emailConfigured(),
+    enabled = smsEnabled || emailEnabled;
+  const c = await cookies();
+  const pending = c.has(challengeCookie.RECOVER) || c.has(emailCookies.RECOVER);
   return (
     <section className="wrap page narrow">
       <h1>{a.recoveryTitle}</h1>
-      <p>{a.recoveryHelp}</p>
+      <p>{e.recoveryHelp}</p>
       <Notice error={p.error} />
-      {!enabled && <Notice message={a.smsUnavailable} />}
+      {!enabled && <Notice message={e.none} />}
       <form action={requestRecovery} className="panel stack">
+        <label>
+          {e.recoveryChannel}
+          <select
+            name="channel"
+            aria-label={e.recoveryChannel}
+            defaultValue={
+              p.channel === "EMAIL" && emailEnabled
+                ? "EMAIL"
+                : smsEnabled
+                  ? "SMS"
+                  : "EMAIL"
+            }
+          >
+            {smsEnabled && <option value="SMS">{e.sms}</option>}
+            {emailEnabled && <option value="EMAIL">{e.emailChannel}</option>}
+          </select>
+        </label>
         <label>
           {a.identifier}
           <input
@@ -35,7 +59,7 @@ export default async function Recover({
       </form>
       {pending && (
         <>
-          <Notice message={a.recoverySent} />
+          <Notice message={e.recoverySent} />
           <form action={resetPassword} className="panel stack">
             <label>
               {a.code}

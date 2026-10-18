@@ -1,7 +1,8 @@
 name: neighbour
 x-app-env: &app-env
-  DATABASE_URL: postgresql://marketplace:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@postgres:5432/marketplace
-  REDIS_URL: redis://redis:6379
+  DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL to the shared PostgreSQL connection URL}
+  REDIS_URL: ${REDIS_URL:?Set REDIS_URL to the shared Redis connection URL}
+  REDIS_KEY_PREFIX: ${REDIS_KEY_PREFIX:-marketplace}
   APP_URL: ${APP_URL:?Set APP_URL to your public HTTPS URL}
   COOKIE_SECURE: ${COOKIE_SECURE:-true}
   UPLOAD_DIR: /app/uploads
@@ -17,55 +18,29 @@ x-app-env: &app-env
   S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
   S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-}
 services:
-  postgres:
-    image: postgres:17-bookworm
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: marketplace
-      POSTGRES_USER: marketplace
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
-    volumes: ["postgres-data:/var/lib/postgresql/data"]
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U marketplace -d marketplace"]
-      interval: 5s
-      timeout: 5s
-      retries: 15
-  redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    command:
-      [
-        "redis-server",
-        "--appendonly",
-        "yes",
-        "--maxmemory-policy",
-        "noeviction",
-      ]
-    volumes: ["redis-data:/data"]
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 5s
-      retries: 15
   migrate:
-    build: { context: ., target: tools }
+    image: ${MARKETPLACE_TOOLS_IMAGE:-ghcr.io/macmann/marketplace-tools:main}
     restart: "no"
     environment:
       <<: *app-env
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
     command: ["sh", "-c", "npm run db:migrate && npm run db:seed"]
-    depends_on:
-      postgres: { condition: service_healthy }
   web:
-    build: { context: ., target: runner }
+    image: ${MARKETPLACE_WEB_IMAGE:-ghcr.io/macmann/marketplace-web:main}
     restart: unless-stopped
-    environment: *app-env
+    environment:
+      <<: *app-env
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
     expose: ["3000"]
     volumes: ["uploads:/app/uploads"]
     depends_on:
       migrate: { condition: service_completed_successfully }
-      redis: { condition: service_healthy }
     healthcheck:
       test:
         [
@@ -80,14 +55,13 @@ services:
       start_period: 20s
   worker:
     volumes: ["uploads:/app/uploads"]
-    build: { context: ., target: tools }
+    image: ${MARKETPLACE_TOOLS_IMAGE:-ghcr.io/macmann/marketplace-tools:main}
     restart: unless-stopped
     environment:
       <<: *app-env
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     depends_on:
       migrate: { condition: service_completed_successfully }
-      redis: { condition: service_healthy }
     healthcheck:
       test: ["CMD", "node", "--import", "tsx", "scripts/worker-health.ts"]
       interval: 30s
@@ -95,6 +69,9 @@ services:
       retries: 3
       start_period: 30s
 volumes:
-  postgres-data:
-  redis-data:
   uploads:
+
+networks:
+  default:
+    external: true
+    name: ${COOLIFY_NETWORK:-coolify}

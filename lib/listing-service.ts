@@ -48,11 +48,11 @@ export class ListingService {
       const {
         rows: [user],
       } = await client.query(
-        "SELECT id,phone_verified FROM users WHERE id=$1 AND NOT suspended AND deleted_at IS NULL FOR UPDATE",
+        "SELECT id,phone_verified,email_verified FROM users WHERE id=$1 AND NOT suspended AND deleted_at IS NULL FOR UPDATE",
         [owner],
       );
       if (!user) throw new ListingError("notFound");
-      if (publish && !user.phone_verified)
+      if (publish && !user.phone_verified && !user.email_verified)
         throw new ListingError("phoneRequired");
       let id = cmd.id;
       let row;

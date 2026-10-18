@@ -1,3 +1,4 @@
+import { emailCopy } from "@/lib/email-i18n";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { accountCopy } from "@/lib/account-i18n";
@@ -13,6 +14,7 @@ export default async function Settings({
     accountCopy(),
     searchParams,
   ]);
+  const e = await emailCopy();
   return (
     <section className="wrap page narrow">
       <h1>{a.settings}</h1>
@@ -32,6 +34,14 @@ export default async function Settings({
           <Link href="/verify">{a.verifyTitle} →</Link>
         </div>
       )}
+      <section className="panel stack">
+        <h2>{e.title}</h2>
+        <p>{e.accountHelp}</p>
+        <p>
+          {u.email ?? ""} {u.email_verified ? "✓ " + e.verified : ""}
+        </p>
+        <Link href="/verify">{e.title} →</Link>
+      </section>
       <section className="panel stack">
         <h2>{a.sessions}</h2>
         <p>{a.sessionsHelp}</p>
