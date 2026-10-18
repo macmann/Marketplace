@@ -461,14 +461,14 @@ nav a:hover,
 }
 .filters {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 2fr) auto;
-  align-items: start;
-  gap: 0;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 18px;
   background: white;
   border: 1px solid var(--line);
   border-radius: 9px;
   position: relative;
-  padding: 9px;
+  padding: 20px;
   margin-bottom: 35px;
 }
 .filters > *,
@@ -480,24 +480,61 @@ nav a:hover,
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
-.filters > select {
-  border: 0;
-  border-left: 1px solid var(--line);
-  border-radius: 0;
-  font-size: 12px;
+.filters .filter-field,
+.filters .location-picker label,
+.filters .filter-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.filters > .location-picker {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 16px;
+}
+.filters .location-picker .two-columns {
+  display: contents;
+}
+.filters input,
+.filters select {
+  height: 52px;
+  min-height: 52px;
+  font-size: 14px;
+}
+.filters .location-picker input,
+.filters .location-picker select {
+  margin-top: 0;
+}
+.filters > .button {
+  grid-column: 3;
+  grid-row: 1;
+  height: 52px;
+}
+.filters > .muted {
+  grid-column: 1/-1;
+  margin-bottom: 0;
 }
 .search-field {
   display: flex;
   align-items: center;
+  height: 52px;
+  border: 1px solid #d9cbb9;
+  border-radius: 6px;
+  background: white;
 }
-.search-field span {
+.search-field > span {
   font-size: 29px;
   padding-left: 9px;
 }
 .search-field input {
   border: 0;
   min-width: 0;
-  font-size: 13px;
+  height: 50px;
+  min-height: 50px;
 }
 .extra-filters {
   grid-column: 1/-1;
@@ -506,14 +543,16 @@ nav a:hover,
   padding-top: 5px;
 }
 .extra-filters summary {
-  text-align: right;
+  text-align: left;
   cursor: pointer;
   padding: 5px 7px;
 }
 .filter-row {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  align-items: end;
+  gap: 12px;
+  padding: 12px 0 0;
 }
 .filter-row input,
 .filter-row select {
@@ -1223,17 +1262,6 @@ details summary {
   .trust-row {
     gap: 20px;
   }
-  .filters {
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-    gap: 12px;
-  }
-  .filters > .location-picker {
-    grid-column: 1/-1;
-  }
-  .filters > .button {
-    grid-column: 1/-1;
-    margin-top: 7px;
-  }
   .detail-grid {
     gap: 25px;
   }
@@ -1323,33 +1351,23 @@ details summary {
   .filters {
     grid-template-columns: minmax(0, 1fr);
     gap: 12px;
-    padding: 9px;
+    padding: 14px;
     margin-bottom: 25px;
   }
-  .search-field {
-    grid-column: 1/-1;
-    border-bottom: 1px solid var(--line);
-  }
-  .filters > select {
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    font-size: 14px;
-    padding: 10px;
-  }
-  .filters .location-picker .two-columns {
+  .filters > .location-picker {
     grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
   .filters > .button {
     grid-column: 1/-1;
+    grid-row: auto;
     margin-top: 0;
   }
   .extra-filters {
     padding-top: 0;
   }
   .filter-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 5px;
+    grid-template-columns: minmax(0, 1fr);
   }
   .categories {
     grid-template-columns: repeat(4, 1fr);
