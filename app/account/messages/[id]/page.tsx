@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
@@ -14,6 +15,8 @@ export default async function Thread({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ error?: string; before?: string }>;
 }) {
+  const ui = await uiCopy();
+
   const [u, t, { id }, p] = await Promise.all([
     requireUser(),
     translations(),
@@ -53,7 +56,7 @@ export default async function Thread({
       <Notice error={p.error} />
       {ms.length > 50 && (
         <Link href={"/account/messages/" + id + "?before=" + ms[1].id}>
-          ← Earlier messages
+          {ui("← Earlier messages")}
         </Link>
       )}
       <div className="thread" aria-live="polite">

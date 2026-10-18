@@ -1,3 +1,4 @@
+import { searchTerms, normalizeIndex } from "./myanmar-text";
 import { searchAlternatives, fuzzyEnglish } from "./search";
 import { query } from "./db";
 import { attributeDefinitions } from "./attributes";
@@ -12,6 +13,7 @@ export type Listing = {
   listing_type: string;
   condition: string;
   status: string;
+  automation_state: string;
   created_at: string;
   category_en: string;
   category_my: string;
@@ -48,30 +50,28 @@ export async function catalog(
     );
   let relevance = "";
   if (filters.q) {
-    const terms = normalizeSearch(filters.q)
-      .toLowerCase()
-      .split(" ")
-      .filter(Boolean)
-      .slice(0, 10);
+    const terms = searchTerms(filters.q);
     for (const term of terms) {
       const alternatives = searchAlternatives(term).map((word) => {
         const q = add("%" + word.replace(/[\\%_]/g, "\\$&") + "%");
         const clauses = [
-          `lower(normalize(l.title,NFC)) LIKE ${q}`,
-          `lower(normalize(l.description,NFC)) LIKE ${q}`,
+          `COALESCE(l.search_title,lower(normalize(l.title,NFC))) LIKE ${q}`,
+          `COALESCE(l.search_text,lower(normalize(l.description,NFC))) LIKE ${q}`,
           `lower(normalize(c.name_en,NFC)) LIKE ${q}`,
           `normalize(c.name_my,NFC) LIKE ${q}`,
         ];
         if (fuzzyEnglish(word))
           clauses.push(
-            `word_similarity(${add(word)},lower(normalize(l.title,NFC)))>=0.5`,
+            `word_similarity(${add(word)},COALESCE(l.search_title,lower(normalize(l.title,NFC))))>=0.5`,
           );
         return "(" + clauses.join(" OR ") + ")";
       });
       where.push("(" + alternatives.join(" OR ") + ")");
     }
-    const exact = add(normalizeSearch(filters.q).toLowerCase());
-    relevance = `(CASE WHEN lower(normalize(l.title,NFC))=${exact} THEN 3 WHEN strpos(lower(normalize(l.title,NFC)),${exact})>0 THEN 2 ELSE 1 END) DESC,`;
+    if (!["near", "low", "high", "newest"].includes(filters.sort ?? "")) {
+      const exact = add(normalizeIndex(filters.q));
+      relevance = `(CASE WHEN COALESCE(l.search_title,lower(normalize(l.title,NFC)))=${exact} THEN 3 WHEN strpos(COALESCE(l.search_title,lower(normalize(l.title,NFC))),${exact})>0 THEN 2 ELSE 1 END) DESC,`;
+    }
   }
   if (filters.category) {
     where.push(
@@ -101,9 +101,9 @@ export async function catalog(
       );
     }
   }
-  if (filters.location)
+  if (filters.location && filters.sort !== "near")
     where.push(
-      `l.location_id IN (WITH RECURSIVE descendants AS (SELECT id FROM locations WHERE id=${add(filters.location)} UNION ALL SELECT x.id FROM locations x JOIN descendants d ON x.parent_id=d.id) SELECT id FROM descendants)`,
+      `COALESCE(loc.canonical_id,loc.id) IN (WITH RECURSIVE descendants AS (SELECT COALESCE(canonical_id,id) id FROM locations WHERE id=${add(filters.location)} UNION SELECT x.id FROM locations x JOIN descendants d ON x.parent_id=d.id) SELECT id FROM descendants)`,
     );
   if (["FREE", "SALE"].includes(filters.type ?? ""))
     where.push(`l.listing_type=${add(filters.type)}`);
@@ -116,12 +116,23 @@ export async function catalog(
       where.push(
         `l.price ${op} ${add(Math.max(0, Math.min(999999999999, Number(filters[key]))))}`,
       );
+  let distanceSort = "";
+  if (filters.sort === "near" && filters.location) {
+    const origin = (
+      await query(
+        "SELECT COALESCE(c.latitude,l.latitude) lat,COALESCE(c.longitude,l.longitude) lon FROM locations l LEFT JOIN locations c ON c.id=l.canonical_id WHERE l.id=$1",
+        [filters.location],
+      )
+    )[0];
+    if (origin?.lat != null && origin?.lon != null)
+      distanceSort = `((COALESCE(loc.latitude,(SELECT latitude FROM locations WHERE id=loc.canonical_id))-${add(origin.lat)})^2+(cos(radians(${add(origin.lat)}))*(COALESCE(loc.longitude,(SELECT longitude FROM locations WHERE id=loc.canonical_id))-${add(origin.lon)}))^2) ASC NULLS LAST,`;
+  }
   const sort =
     filters.sort === "low"
       ? "l.price ASC,l.created_at DESC"
       : filters.sort === "high"
         ? "l.price DESC,l.created_at DESC"
-        : (filters.sort === "newest" ? "" : relevance) +
+        : (distanceSort || (filters.sort === "newest" ? "" : relevance)) +
           "l.created_at DESC,l.id DESC";
   const page = Math.max(
     1,
@@ -135,10 +146,10 @@ export async function catalog(
 export async function options() {
   return {
     categories: await query(
-      "SELECT * FROM categories WHERE enabled ORDER BY position,name_en",
+      "SELECT * FROM categories WHERE category_visible(id) ORDER BY position,name_en",
     ),
     locations: await query(
-      "SELECT * FROM locations WHERE kind IN ('CITY','TOWNSHIP') ORDER BY name_en",
+      "SELECT l.*,COALESCE(c.name_en,l.name_en) display_en,COALESCE(c.name_my,l.name_my) display_my,COALESCE(c.parent_id,l.parent_id) display_parent FROM locations l LEFT JOIN locations c ON c.id=l.canonical_id WHERE l.kind IN ('REGION','DISTRICT','CITY','TOWNSHIP') ORDER BY l.name_en",
     ),
   };
 }

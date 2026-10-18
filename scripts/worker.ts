@@ -1,3 +1,4 @@
+import { mediaWorker } from "../lib/media-worker";
 import { deliverPush } from "../lib/push";
 import { Queue, Worker } from "bullmq";
 import { pool } from "../lib/db";
@@ -54,11 +55,26 @@ const heartbeatTimer = setInterval(() => {
       heartbeatBusy = false;
     });
 }, 30000);
+let mediaBusy = false;
+const mediaTimer = setInterval(() => {
+  if (mediaBusy) return;
+  mediaBusy = true;
+  mediaWorker
+    .images(2)
+    .then(() => mediaWorker.moderation(2))
+    .catch(() =>
+      console.error(JSON.stringify({ event: "media_automation_failed" })),
+    )
+    .finally(() => {
+      mediaBusy = false;
+    });
+}, 3000);
 console.log(JSON.stringify({ event: "worker_ready" }));
 for (const signal of ["SIGTERM", "SIGINT"])
   process.on(signal, async () => {
     clearInterval(heartbeatTimer);
-    while (heartbeatBusy)
+    clearInterval(mediaTimer);
+    while (heartbeatBusy || mediaBusy)
       await new Promise((resolve) => setTimeout(resolve, 50));
     await worker.close();
     await queue.close();

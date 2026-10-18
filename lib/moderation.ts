@@ -2,6 +2,7 @@ import type { PoolClient, Pool } from "pg";
 import { pool } from "./db";
 import { attributeDefinitions } from "./attributes";
 import { validatePayload, validateAttributes } from "./listing-validation";
+import { normalizeIndex } from "./myanmar-text";
 import { permits } from "./permissions";
 export async function reviewReasons(
   db: PoolClient,
@@ -18,9 +19,9 @@ export async function reviewReasons(
   const rules = await db.query(
     "SELECT phrase FROM moderation_rules WHERE enabled",
   );
-  const text = (title + " " + description).normalize("NFC").toLowerCase();
+  const text = normalizeIndex(title + " " + description);
   for (const rule of rules.rows)
-    if (text.includes(rule.phrase.normalize("NFC").toLowerCase()))
+    if (text.includes(normalizeIndex(rule.phrase)))
       reasons.push("Text rule: " + rule.phrase);
   const duplicates = await db.query(
     "SELECT 1 FROM listings WHERE seller_id=$1 AND id<>$2 AND status IN ('ACTIVE','RESERVED','PENDING_REVIEW') AND lower(normalize(title,NFC))=lower(normalize($3,NFC)) AND lower(normalize(description,NFC))=lower(normalize($4,NFC)) LIMIT 1",
@@ -123,11 +124,16 @@ export class ModerationService {
           )
             throw Error("Seller, category or expiry prevents publication");
           const images = await c.query(
-            "SELECT 1 FROM listing_images WHERE listing_id=$1",
+            "SELECT processing_state FROM listing_images WHERE listing_id=$1",
             [id],
           );
           if (!images.rowCount || images.rowCount > 10)
             throw Error("Listing needs 1–10 photos");
+          if (
+            images.rows.some((i) => i.processing_state !== "READY") ||
+            l.automation_state === "PENDING"
+          )
+            throw Error("automation_pending");
           const attrs = await c.query(
             "SELECT attribute_id,value FROM listing_attribute_values WHERE listing_id=$1",
             [id],
@@ -154,7 +160,7 @@ export class ModerationService {
           );
         }
         result = await c.query(
-          "UPDATE listings SET status=$1,removed_from=CASE WHEN $3='REMOVE' THEN status ELSE removed_from END,revision=revision+1,updated_at=now() WHERE id=$2 RETURNING id",
+          "UPDATE listings SET status=$1,automation_state=CASE WHEN $3 IN ('APPROVE','REJECT','REMOVE','RESTORE') THEN 'OVERRIDDEN' ELSE automation_state END,removed_from=CASE WHEN $3='REMOVE' THEN status ELSE removed_from END,revision=revision+1,updated_at=now() WHERE id=$2 RETURNING id",
           [next, id, action],
         );
       }

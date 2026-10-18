@@ -1,7 +1,9 @@
 "use client";
+import { useUi } from "@/app/ui-provider";
 import { useEffect, useState } from "react";
 import { pushConfiguration, subscribePush, unsubscribePush } from "./actions";
 export default function Push() {
+  const ui = useUi();
   const [key, setKey] = useState(""),
     [enabled, setEnabled] = useState(false),
     [status, setStatus] = useState("");
@@ -17,8 +19,9 @@ export default function Push() {
   return (
     <div className="panel">
       <p>
-        Receive notifications when Neighbour is closed. Message contents are
-        kept private.
+        {ui(
+          "Receive notifications when Neighbour is closed. Message contents are kept private.",
+        )}
       </p>
       <button
         className="button secondary"
@@ -32,7 +35,7 @@ export default function Push() {
                 await s.unsubscribe();
               }
               setEnabled(false);
-              setStatus("Push notifications disabled.");
+              setStatus(ui("Push notifications disabled."));
             } else {
               const bytes = Uint8Array.from(
                 atob(key.replace(/-/g, "+").replace(/_/g, "/")),
@@ -44,16 +47,20 @@ export default function Push() {
               });
               await subscribePush(subscription.toJSON());
               setEnabled(true);
-              setStatus("Push notifications enabled.");
+              setStatus(ui("Push notifications enabled."));
             }
           } catch {
             setStatus(
-              "Push notifications could not be changed. Check browser permissions and try again.",
+              ui(
+                "Push notifications could not be changed. Check browser permissions and try again.",
+              ),
             );
           }
         }}
       >
-        {enabled ? "Disable push notifications" : "Enable push notifications"}
+        {ui(
+          enabled ? "Disable push notifications" : "Enable push notifications",
+        )}
       </button>
       <p role="status">{status}</p>
     </div>

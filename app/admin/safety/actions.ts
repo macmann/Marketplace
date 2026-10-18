@@ -25,11 +25,15 @@ export async function safetySettings(f: FormData) {
         "INSERT INTO moderation_rules(phrase) VALUES($1) ON CONFLICT(phrase) DO UPDATE SET enabled=true",
         [phrase],
       );
-    } else
+    } else {
+      const mode = String(f.get("moderation_mode") ?? "MANUAL");
+      if (!["LOCAL", "OPENAI", "MANUAL"].includes(mode))
+        throw Error("Invalid mode");
       await c.query(
-        "UPDATE marketplace_settings SET review_all=$1 WHERE id=true",
-        [f.get("review_all") === "on"],
+        "UPDATE marketplace_settings SET review_all=$1,moderation_mode=$2 WHERE id=true",
+        [f.get("review_all") === "on", mode],
       );
+    }
     await c.query(
       "INSERT INTO audit_logs(actor_id,action,entity_id,detail) VALUES($1,'SAFETY_POLICY','settings',$2)",
       [u.id, phrase || String(f.get("rule") ?? "Review policy updated")],

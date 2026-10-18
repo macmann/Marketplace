@@ -1,4 +1,5 @@
 "use client";
+import LocationPicker, { type LocationOption } from "@/app/location-picker";
 import { useActionState, useState, useEffect, useRef, useMemo } from "react";
 import { saveListing, type EditorResult } from "./actions";
 import {
@@ -27,7 +28,7 @@ export default function ListingForm({
   a: Awaited<ReturnType<typeof listingCopy>>;
   lang: string;
   categories: { id: string; label: string; parent_id: string | null }[];
-  locations: { id: string; label: string }[];
+  locations: LocationOption[];
   conditions: { id: string; label: string }[];
   definitions: Attribute[];
   initial?: ListingPayload;
@@ -354,22 +355,15 @@ export default function ListingForm({
           />
         </label>
       )}
-      <label>
-        {t.location}
-        <select
-          aria-label={t.location}
-          required
-          value={payload.location}
-          onChange={(e) => field("location", e.target.value)}
-        >
-          <option value="">—</option>
-          {locations.map((l) => (
-            <option key={l.id} value={l.id}>
-              {l.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <LocationPicker
+        locations={locations}
+        value={payload.location}
+        onChange={(value) => field("location", value)}
+        lang={lang}
+        label={t.location}
+        allLabel="—"
+        required
+      />
       <div className="editor-buttons">
         {kind === "draft" && (
           <button

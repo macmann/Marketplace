@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/lib/auth";
@@ -8,6 +9,8 @@ export default async function Review({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const ui = await uiCopy();
+
   await requirePermission("moderate");
   const { id } = await params;
   if (!uuid.safeParse(id).success) notFound();
@@ -19,12 +22,13 @@ export default async function Review({
   );
   return (
     <section className="wrap page narrow">
-      <Link href="/admin">← Moderation queue</Link>
+      <Link href="/admin">{ui("← Moderation queue")}</Link>
       <h1>{l.title}</h1>
       <p>{l.status}</p>
       <p className="prose">{l.description}</p>
       <p>
-        {l.price} MMK · {l.category_id}
+        {l.price} {ui("MMK ·")}
+        {l.category_id}
       </p>
       {images.map((i) => (
         <img

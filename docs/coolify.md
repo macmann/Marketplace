@@ -82,3 +82,13 @@ Configure optional `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` and `VAPID_SUBJECT` o
 Ensure the reverse proxy does not buffer `/api/events` and permits connections over 60 seconds. Add external alerts for `/api/health` and `/api/ready`; inspect `/admin/operations` after deployment. Set `COOKIE_SECURE=true` for HTTPS/HSTS. Review `/admin/safety`, especially the review-all option, before admitting public sellers. Phone verification does not imply a listing passed human review unless policy requires it.
 
 Follow [operations.md](operations.md) for consistent database/uploads snapshots, encrypted off-host copies, empty-target restoration, worker incidents, push constraints and performance validation. Backup scheduling and real provider tests require your deployment accounts; no live deployment is performed by the build.
+
+## Media automation and Myanmar discovery rollout
+
+Back up database and uploads together before this release. The existing migration/seed job applies `008_media_automation.sql` and `009_myanmar_discovery.sql`; deploy web and worker together with their shared uploads volume (or the same private S3 bucket). Seed reruns preserve administrator edits and old location identifiers. Existing public images stay visible while worker jobs backfill variants and hashes.
+
+Moderation defaults to **MANUAL**. New publications and edits remain private until image processing finishes and a moderator approves them. In Admin → Safety, choose **LOCAL** to allow clean listings automatically after deterministic text/fraud/duplicate checks; LOCAL does not classify image content. Choose **OPENAI** only after setting `OPENAI_API_KEY` securely on the worker and accepting external processing of submitted listing text and sanitized images. The optional provider is `omni-moderation-latest`; provider outages retry and then require human review. Drafts are never sent. Live provider delivery has not been validated with a real key.
+
+Admin → Media shows failed image work, pending automation and review history, with audited retries. Worker readiness remains required. Do not expose uploads or the S3 bucket publicly: authorization is enforced by `/media`, including thumbnail/card requests. No CDN is enabled; a future CDN must preserve private access and revocation.
+
+Reference locations represent a licensed 2019 snapshot of 330 townships, not current administrative boundaries. Review names/hierarchy locally before launch; attribution and source scope are in `data/NOTICE.md`. Nearest results use approximate area centers, never household GPS. Burmese wording and search vocabulary also need native review.

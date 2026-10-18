@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import { reportReasons } from "@/lib/report-reasons";
 import { releaseCopy } from "@/lib/release-i18n";
 import { reportTarget } from "./actions";
@@ -9,6 +10,7 @@ export default async function ReportForm({
   id: string;
 }) {
   const t = await releaseCopy();
+  const ui = await uiCopy();
   return (
     <details className="panel">
       <summary>{kind === "user" ? t.reportUser : t.reportMessage}</summary>
@@ -19,7 +21,9 @@ export default async function ReportForm({
           {t.reason}
           <select name="reason">
             {reportReasons.map((r) => (
-              <option key={r}>{r}</option>
+              <option key={r} value={r}>
+                {ui(r)}
+              </option>
             ))}
           </select>
         </label>

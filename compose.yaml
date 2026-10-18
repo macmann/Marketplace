@@ -82,7 +82,9 @@ services:
     volumes: ["uploads:/app/uploads"]
     build: { context: ., target: tools }
     restart: unless-stopped
-    environment: *app-env
+    environment:
+      <<: *app-env
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     depends_on:
       migrate: { condition: service_completed_successfully }
       redis: { condition: service_healthy }

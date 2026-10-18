@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import { reportReasons } from "@/lib/report-reasons";
 import { recordMetric } from "@/lib/metrics";
 import Link from "next/link";
@@ -50,6 +51,8 @@ export default async function Detail({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ reported?: string }>;
 }) {
+  const ui = await uiCopy();
+
   const { id } = await params;
   const l = await getListing(id);
   if (!l) notFound();
@@ -143,7 +146,7 @@ export default async function Detail({
           </span>
           <h1>{l.title}</h1>
           <strong className="detail-price">
-            {l.listing_type === "FREE" ? t.freeLabel : money(l.price)}
+            {l.listing_type === "FREE" ? t.freeLabel : money(l.price, lang)}
           </strong>
           <div className="listing-facts">
             <span>⌖ {lang === "my" ? l.location_my : l.location_en}</span>
@@ -195,7 +198,9 @@ export default async function Detail({
                 {t.reason}
                 <select name="reason">
                   {reportReasons.map((r) => (
-                    <option key={r}>{r}</option>
+                    <option key={r} value={r}>
+                      {ui(r)}
+                    </option>
                   ))}
                 </select>
               </label>

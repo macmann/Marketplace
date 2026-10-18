@@ -1,14 +1,17 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { query } from "@/lib/db";
 import { manageCategory } from "../../actions";
 export default async function Categories() {
+  const ui = await uiCopy();
+
   await requireAdmin();
   const cs = await query("SELECT * FROM categories ORDER BY position,name_en");
   return (
     <section className="wrap page">
-      <Link href="/admin">← Administration</Link>
-      <h1>Categories</h1>
+      <Link href="/admin">{ui("← Administration")}</Link>
+      <h1>{ui("Categories")}</h1>
       <div className="admin-cards">
         {[
           ...cs,
@@ -23,7 +26,7 @@ export default async function Categories() {
         ].map((c, i) => (
           <form className="panel stack" action={manageCategory} key={i}>
             <label>
-              Category ID
+              {ui("Category ID")}
               <input
                 name="id"
                 defaultValue={c.id}
@@ -33,7 +36,7 @@ export default async function Categories() {
               />
             </label>
             <label>
-              English name
+              {ui("English name")}
               <input
                 name="en"
                 defaultValue={c.name_en}
@@ -42,7 +45,7 @@ export default async function Categories() {
               />
             </label>
             <label>
-              Myanmar name
+              {ui("Myanmar name")}
               <input
                 name="my"
                 defaultValue={c.name_my}
@@ -51,9 +54,9 @@ export default async function Categories() {
               />
             </label>
             <label>
-              Parent category
+              {ui("Parent category")}
               <select name="parent" defaultValue={c.parent_id ?? ""}>
-                <option value="">None</option>
+                <option value="">{ui("None")}</option>
                 {cs
                   .filter((p) => p.id !== c.id)
                   .map((p) => (
@@ -64,7 +67,7 @@ export default async function Categories() {
               </select>
             </label>
             <label>
-              Position
+              {ui("Position")}
               <input
                 type="number"
                 name="position"
@@ -79,10 +82,10 @@ export default async function Categories() {
                 type="checkbox"
                 defaultChecked={c.enabled}
               />
-              Enabled
+              {ui("Enabled")}
             </label>
             <button className="button primary">
-              {c.id ? "Save category" : "Add category"}
+              {c.id ? ui("Save category") : ui("Add category")}
             </button>
           </form>
         ))}

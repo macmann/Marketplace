@@ -1,3 +1,4 @@
+import { seedMyanmar } from "./reference-data";
 import { pool, query } from "../lib/db";
 import { hash } from "bcryptjs";
 const categories = [
@@ -68,6 +69,7 @@ ON CONFLICT(category_id,key) DO NOTHING;
       "INSERT INTO moderation_rules(phrase) VALUES($1) ON CONFLICT(phrase) DO NOTHING",
       [phrase],
     );
+  await seedMyanmar();
   if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
     if (process.env.ADMIN_PASSWORD.length < 14)
       throw new Error("ADMIN_PASSWORD must contain at least 14 characters");

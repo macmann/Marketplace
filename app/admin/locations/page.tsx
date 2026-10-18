@@ -1,17 +1,46 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { query } from "@/lib/db";
 import { manageLocation } from "../../actions";
-export default async function Locations() {
+export default async function Locations({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; page?: string }>;
+}) {
+  const ui = await uiCopy();
+
   await requireAdmin();
+  const f = await searchParams;
+  const page = Math.max(1, Math.min(10000, Number(f.page) || 1));
   const ls = await query("SELECT * FROM locations ORDER BY kind,name_en");
   return (
     <section className="wrap page">
-      <Link href="/admin">← Administration</Link>
-      <h1>Locations</h1>
+      <Link href="/admin">{ui("← Administration")}</Link>
+      <h1>{ui("Locations")}</h1>
+      <form className="panel">
+        <label>
+          {ui("Search")}
+          <input name="q" defaultValue={f.q} />
+        </label>
+        <button className="button secondary">{ui("Search")}</button>
+      </form>
+      <p>
+        {ui("Source reference")}
+        {ui(": geoBoundaries 2019 / MIMU · 330")}
+      </p>
       <div className="admin-cards">
         {[
-          ...ls.filter((l) => l.kind !== "COUNTRY"),
+          ...ls
+            .filter(
+              (l) =>
+                l.kind !== "COUNTRY" &&
+                (!f.q ||
+                  (l.name_en + " " + l.name_my + " " + l.id)
+                    .toLowerCase()
+                    .includes(f.q.toLowerCase())),
+            )
+            .slice((page - 1) * 20, page * 20),
           {
             id: "",
             name_en: "",
@@ -22,7 +51,7 @@ export default async function Locations() {
         ].map((l, i) => (
           <form action={manageLocation} className="panel stack" key={i}>
             <label>
-              Location ID
+              {ui("Location ID")}
               <input
                 name="id"
                 defaultValue={l.id}
@@ -32,7 +61,7 @@ export default async function Locations() {
               />
             </label>
             <label>
-              English name
+              {ui("English name")}
               <input
                 name="en"
                 defaultValue={l.name_en}
@@ -41,7 +70,7 @@ export default async function Locations() {
               />
             </label>
             <label>
-              Myanmar name
+              {ui("Myanmar name")}
               <input
                 name="my"
                 defaultValue={l.name_my}
@@ -50,19 +79,24 @@ export default async function Locations() {
               />
             </label>
             <label>
-              Level
+              {ui("Level")}
               <select name="kind" defaultValue={l.kind}>
-                {["REGION", "CITY", "TOWNSHIP"].map((k) => (
-                  <option key={k}>{k}</option>
+                {["REGION", "DISTRICT", "CITY", "TOWNSHIP"].map((k) => (
+                  <option key={k} value={k}>
+                    {ui(k)}
+                  </option>
                 ))}
               </select>
             </label>
             <label>
-              Parent (country → region → city → township)
+              {ui("Parent (country → region → city → township)")}
               <select name="parent" defaultValue={l.parent_id ?? ""} required>
-                <option value="">Select</option>
+                <option value="">{ui("Select")}</option>
                 {ls
-                  .filter((p) => p.id !== l.id)
+                  .filter(
+                    (p) =>
+                      p.id !== l.id && p.kind !== "TOWNSHIP" && !p.canonical_id,
+                  )
                   .map((p) => (
                     <option value={p.id} key={p.id}>
                       {p.name_en} · {p.kind}
@@ -71,11 +105,33 @@ export default async function Locations() {
               </select>
             </label>
             <button className="button primary">
-              {l.id ? "Save location" : "Add location"}
+              {l.id ? ui("Save location") : ui("Add location")}
             </button>
           </form>
         ))}
       </div>
+      <nav className="pagination">
+        {page > 1 && (
+          <Link
+            href={
+              "/admin/locations?" +
+              new URLSearchParams({ q: f.q ?? "", page: String(page - 1) })
+            }
+          >
+            {ui("Previous page")}
+          </Link>
+        )}
+        {page * 20 < ls.length && (
+          <Link
+            href={
+              "/admin/locations?" +
+              new URLSearchParams({ q: f.q ?? "", page: String(page + 1) })
+            }
+          >
+            {ui("Next page")}
+          </Link>
+        )}
+      </nav>
     </section>
   );
 }

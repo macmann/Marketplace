@@ -110,10 +110,23 @@ after(async () => {
   await db.end();
   await catalogPool.end();
 });
+// These discovery/moderator tests use fake storage; full image/queue behavior is covered in media.test.ts.
+async function readyForReview(id: string, active = false) {
+  await db.query(
+    "UPDATE listing_images SET processing_state='READY' WHERE listing_id=$1",
+    [id],
+  );
+  await db.query(
+    "UPDATE listings SET automation_state=$2,status=CASE WHEN $3 THEN 'ACTIVE' ELSE status END WHERE id=$1",
+    [id, active ? "PASSED" : "REVIEW", active],
+  );
+  await db.query("DELETE FROM moderation_jobs WHERE listing_id=$1", [id]);
+}
 test("discovery searches normalized mixed-language terms and descendants with typed false/zero filters", async () => {
   const cmd = draft("Cafe\u0301 ကုလားထိုင် " + randomUUID());
   cmd.payload.attributes = { [field]: "false", [num]: "0" };
   const listing = await service.save(seller, cmd);
+  await readyForReview(listing.id, true);
   const filters = {
     q: "ကုလားထိုင် café",
     category,
@@ -147,12 +160,20 @@ test("English typo matching and common Myanmar synonyms discover listings", asyn
     seller,
     draft("iPhone ကုလားထိုင် " + randomUUID()),
   );
+  await readyForReview(l.id, true);
   assert.ok(
     (await catalog({ category, q: "iphne" })).some((r) => r.id === l.id),
   );
   assert.ok(
     (await catalog({ category, q: "chair" })).some((r) => r.id === l.id),
   );
+  for (const sort of ["newest", "low", "high", "near"]) {
+    assert.ok(
+      (
+        await catalog({ category, q: "chair", sort, location: "sanchaung" })
+      ).some((r) => r.id === l.id),
+    );
+  }
   await db.query("UPDATE categories SET enabled=false WHERE id=$1", [category]);
   try {
     assert.equal(
@@ -190,6 +211,7 @@ test("flagged publication, edits, duplicates and resubmission require moderator 
       moderation.act(moderator, l.id, "APPROVE", "Reviewed", 999),
       /changed/,
     );
+    await readyForReview(l.id);
     await moderation.act(
       moderator,
       l.id,
@@ -391,6 +413,10 @@ test("notifications and push outbox are transactional, retry failures and remove
     c.id,
   ]);
   assert.equal(n.user_id, seller);
+  await db.query(
+    "DELETE FROM push_deliveries WHERE notification_id IN (SELECT id FROM notifications WHERE user_id=$1 AND kind<>'MESSAGE')",
+    [seller],
+  );
   let calls = 0;
   await deliverPush(db, async () => {
     calls++;

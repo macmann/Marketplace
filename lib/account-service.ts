@@ -234,7 +234,7 @@ export class AccountService {
         [userId],
       );
       await client.query(
-        "UPDATE listings SET status='ARCHIVED',title='Deleted listing',description='',updated_at=now() WHERE seller_id=$1",
+        "UPDATE listings SET status='ARCHIVED',title='Deleted listing',description='',search_title='',search_text='',moderation_reasons='[]',updated_at=now() WHERE seller_id=$1",
         [userId],
       );
       await client.query(

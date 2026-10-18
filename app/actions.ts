@@ -285,10 +285,11 @@ export async function manageLocation(f: FormData) {
     my = value(f, "my").trim(),
     kind = value(f, "kind"),
     parent = value(f, "parent") || null;
-  const allowedParents: Record<string, string> = {
-    REGION: "COUNTRY",
-    CITY: "REGION",
-    TOWNSHIP: "CITY",
+  const allowedParents: Record<string, string[]> = {
+    REGION: ["COUNTRY"],
+    DISTRICT: ["REGION"],
+    CITY: ["REGION"],
+    TOWNSHIP: ["CITY", "DISTRICT"],
   };
   if (
     !/^[a-z0-9-]{1,60}$/.test(id) ||
@@ -306,7 +307,7 @@ export async function manageLocation(f: FormData) {
     const p = await client.query("SELECT kind FROM locations WHERE id=$1", [
       parent,
     ]);
-    if (p.rows[0]?.kind !== allowedParents[kind]) {
+    if (!allowedParents[kind].includes(p.rows[0]?.kind)) {
       await client.query("ROLLBACK");
       return;
     }

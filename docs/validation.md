@@ -53,3 +53,12 @@ Final release checks passed:
 - A small 40-request/four-concurrent local search HTTP smoke had zero failures, p50 58 ms and p95 332 ms on this sparse test database. This is not a production-sized search or capacity benchmark.
 
 Real VAPID provider delivery, Myanmar SMS delivery, S3 snapshots, Coolify/public HTTPS, browser installation on physical phones, production alert routing/encrypted backup scheduling and formal security/accessibility review remain deployment validation work. No live production service was contacted or deployed.
+
+## Media automation and Myanmar discovery phase
+
+- 22 unit and 32 PostgreSQL integration tests passed. New checks exercise actual Sharp variants/orientation/metadata stripping (including transparent images), strict provider requests and failures, queue leases/retries, fail-closed publication, late results, policy changes during checks, private staging cleanup and paginated orphan cleanup. Account deletion also scrubs the new normalized search columns.
+- All 15 browser journeys passed against a production server and an isolated fresh Docker Compose stack. New journeys cover manual moderation with real processed photos, authorization and revocation for every image size, support-role restrictions, unspaced Burmese queries, legacy-location ancestry, nearest ranking and Burmese locale persistence.
+- Production runner/tools images built, fresh migrations 008/009 and idempotent reference seeding succeeded, and web readiness/worker health passed. Existing development data was kept separate from disposable QA volumes.
+- TypeScript, formatting, production build and production dependency audit passed (zero reported vulnerabilities).
+
+External OpenAI calls are tested with injected HTTP transport, not a live API key. Default policy is MANUAL; LOCAL has no semantic image classifier. Private S3 integration and public Coolify deployment remain unverified. Reference data is a licensed historical 330-township snapshot with approximate centers, not a current boundary registry; native review of names/translations and real-query search evaluation remain required. No CDN or precise geolocation tracking was added.

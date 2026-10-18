@@ -1,0 +1,4081 @@
+{
+  "source_version": "geoBoundaries-9469f09-2019-reference",
+  "locations": [
+    {
+      "id": "magway-region",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Magway Region",
+      "name_my": "မကွေးတိုင်းဒေသကြီး",
+      "latitude": 20.15,
+      "longitude": 94.95,
+      "aliases": ["Magway"]
+    },
+    {
+      "id": "mandalay-region",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Mandalay Region",
+      "name_my": "မန္တလေးတိုင်းဒေသကြီး",
+      "latitude": 21.9769,
+      "longitude": 96.0869,
+      "aliases": ["Mandalay"]
+    },
+    {
+      "id": "nay-pyi-taw",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Nay Pyi Taw",
+      "name_my": "နေပြည်တော်",
+      "latitude": 19.8028,
+      "longitude": 96.1583,
+      "aliases": ["Nay Pyi Taw"]
+    },
+    {
+      "id": "kayah-state",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Kayah State",
+      "name_my": "ကယားပြည်နယ်",
+      "latitude": 19.6742,
+      "longitude": 97.2092,
+      "aliases": ["Loikaw"]
+    },
+    {
+      "id": "shan-state",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Shan State",
+      "name_my": "ရှမ်းပြည်နယ်",
+      "latitude": 20.7833,
+      "longitude": 96.9667,
+      "aliases": ["Taunggyi"]
+    },
+    {
+      "id": "ayeyawady-region",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Ayeyawady Region",
+      "name_my": "ဧရာဝတီတိုင်းဒေသကြီး",
+      "latitude": 16.7667,
+      "longitude": 94.7333,
+      "aliases": ["Pathein"]
+    },
+    {
+      "id": "bago-region",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Bago Region",
+      "name_my": "ပဲခူးတိုင်းဒေသကြီး",
+      "latitude": 17.3433,
+      "longitude": 96.4981,
+      "aliases": ["Bago"]
+    },
+    {
+      "id": "yangon-region",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Yangon Region",
+      "name_my": "ရန်ကုန်တိုင်းဒေသကြီး",
+      "latitude": 16.8,
+      "longitude": 96.15,
+      "aliases": ["Yangon"]
+    },
+    {
+      "id": "kachin-state",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Kachin State",
+      "name_my": "ကချင်ပြည်နယ်",
+      "latitude": 25.3867,
+      "longitude": 97.3936,
+      "aliases": ["Myitkyina"]
+    },
+    {
+      "id": "sagaing-region",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Sagaing Region",
+      "name_my": "စစ်ကိုင်းတိုင်းဒေသကြီး",
+      "latitude": 22.1083,
+      "longitude": 95.1358,
+      "aliases": ["Monywa"]
+    },
+    {
+      "id": "kayin-state",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Kayin State",
+      "name_my": "ကရင်ပြည်နယ်",
+      "latitude": 16.8906,
+      "longitude": 97.6333,
+      "aliases": ["Hpa-An"]
+    },
+    {
+      "id": "mon-state",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Mon State",
+      "name_my": "မွန်ပြည်နယ်",
+      "latitude": 16.4847,
+      "longitude": 97.6258,
+      "aliases": ["Mawlamyine"]
+    },
+    {
+      "id": "taninthayi-region",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Taninthayi Region",
+      "name_my": "တနင်္သာရီတိုင်းဒေသကြီး",
+      "latitude": 14.0367,
+      "longitude": 98.1867,
+      "aliases": ["Dawei"]
+    },
+    {
+      "id": "chin-state",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Chin State",
+      "name_my": "ချင်းပြည်နယ်",
+      "latitude": 22.65,
+      "longitude": 93.6167,
+      "aliases": ["Hakha"]
+    },
+    {
+      "id": "rakhine-state",
+      "kind": "REGION",
+      "parent_id": "mm",
+      "name_en": "Rakhine State",
+      "name_my": "ရခိုင်ပြည်နယ်",
+      "latitude": 20.1444,
+      "longitude": 92.8969,
+      "aliases": ["Sittwe"]
+    },
+    {
+      "id": "mmr001d002",
+      "kind": "DISTRICT",
+      "parent_id": "kachin-state",
+      "name_en": "Mohnyin",
+      "name_my": "မိုးညှင်းခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr001009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d002",
+      "name_en": "Hpakant",
+      "name_my": "ဖားကန့်",
+      "latitude": 25.692,
+      "longitude": 96.438,
+      "aliases": ["Hpakant"]
+    },
+    {
+      "id": "mmr015d008",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Mongmit",
+      "name_my": "မိုးမိတ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr015017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d008",
+      "name_en": "Mongmit",
+      "name_my": "မိုးမိတ်",
+      "latitude": 23.163,
+      "longitude": 96.614,
+      "aliases": ["Mongmit"]
+    },
+    {
+      "id": "mmr007d001",
+      "kind": "DISTRICT",
+      "parent_id": "bago-region",
+      "name_en": "Bago",
+      "name_my": "ပဲခူးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr007004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Waw",
+      "name_my": "ဝေါ",
+      "latitude": 17.546,
+      "longitude": 96.734,
+      "aliases": ["Waw"]
+    },
+    {
+      "id": "mmr008d001",
+      "kind": "DISTRICT",
+      "parent_id": "bago-region",
+      "name_en": "Pyay",
+      "name_my": "ပြည်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr008002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d001",
+      "name_en": "Paukkhaung",
+      "name_my": "ပေါက်ခေါင်း",
+      "latitude": 18.965,
+      "longitude": 95.612,
+      "aliases": ["Paukkhaung"]
+    },
+    {
+      "id": "mmr010d002",
+      "kind": "DISTRICT",
+      "parent_id": "mandalay-region",
+      "name_en": "Pyinoolwin",
+      "name_my": "ပြင်ဦးလွင်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr010011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d002",
+      "name_en": "Mogoke",
+      "name_my": "မိုးကုတ်",
+      "latitude": 22.908,
+      "longitude": 96.448,
+      "aliases": ["Mogoke"]
+    },
+    {
+      "id": "mmr001d003",
+      "kind": "DISTRICT",
+      "parent_id": "kachin-state",
+      "name_en": "Bhamo",
+      "name_my": "ဗန်းမော်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr001011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d003",
+      "name_en": "Shwegu",
+      "name_my": "ရွှေကူ",
+      "latitude": 24.385,
+      "longitude": 96.818,
+      "aliases": ["Shwegu"]
+    },
+    {
+      "id": "mmr007d002",
+      "kind": "DISTRICT",
+      "parent_id": "bago-region",
+      "name_en": "Taungoo",
+      "name_my": "တောင်ငူခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr007011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d002",
+      "name_en": "Kyaukkyi",
+      "name_my": "ကျောက်ကြီး",
+      "latitude": 18.389,
+      "longitude": 96.856,
+      "aliases": ["Kyaukkyi"]
+    },
+    {
+      "id": "mmr013d003",
+      "kind": "DISTRICT",
+      "parent_id": "yangon-region",
+      "name_en": "Yangon (South)",
+      "name_my": "ရန်ကုန်(တောင်ပိုင်း)",
+      "aliases": []
+    },
+    {
+      "id": "mmr013025",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Thongwa",
+      "name_my": "သုံးခွ",
+      "latitude": 16.712,
+      "longitude": 96.592,
+      "aliases": ["Thongwa"]
+    },
+    {
+      "id": "mmr013024",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Kyauktan",
+      "name_my": "ကျောက်တန်း",
+      "latitude": 16.603,
+      "longitude": 96.465,
+      "aliases": ["Kyauktan"]
+    },
+    {
+      "id": "mmr003d001",
+      "kind": "DISTRICT",
+      "parent_id": "kayin-state",
+      "name_en": "Hpa-An",
+      "name_my": "ဘားအံခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr003004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr003d001",
+      "name_en": "Thandaunggyi",
+      "name_my": "သံတောင်ကြီး",
+      "latitude": 19.054,
+      "longitude": 96.717,
+      "aliases": ["Thandaunggyi"]
+    },
+    {
+      "id": "mmr001007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d002",
+      "name_en": "Mohnyin",
+      "name_my": "မိုးညှင်း",
+      "latitude": 24.955,
+      "longitude": 96.306,
+      "aliases": ["Mohnyin"]
+    },
+    {
+      "id": "mmr009d003",
+      "kind": "DISTRICT",
+      "parent_id": "magway-region",
+      "name_en": "Thayet",
+      "name_my": "သရက်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr009015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d003",
+      "name_en": "Kamma",
+      "name_my": "ကံမ",
+      "latitude": 19.015,
+      "longitude": 94.923,
+      "aliases": ["Kamma"]
+    },
+    {
+      "id": "mmr014d001",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Taunggyi",
+      "name_my": "တောင်ကြီးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr014006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Pindaya",
+      "name_my": "ပင်းတယ",
+      "latitude": 20.926,
+      "longitude": 96.672,
+      "aliases": ["Pindaya"]
+    },
+    {
+      "id": "mmr014007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Ywangan",
+      "name_my": "ရွာငံ",
+      "latitude": 21.284,
+      "longitude": 96.501,
+      "aliases": ["Ywangan"]
+    },
+    {
+      "id": "mmr013d001",
+      "kind": "DISTRICT",
+      "parent_id": "yangon-region",
+      "name_en": "Yangon (North)",
+      "name_my": "ရန်ကုန်(မြောက်ပိုင်း)",
+      "aliases": []
+    },
+    {
+      "id": "mmr013001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Insein",
+      "name_my": "အင်းစိန်",
+      "latitude": 16.903,
+      "longitude": 96.104,
+      "aliases": ["Insein"]
+    },
+    {
+      "id": "mmr013003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Hmawbi",
+      "name_my": "မှော်ဘီ",
+      "latitude": 17.131,
+      "longitude": 96.038,
+      "aliases": ["Hmawbi"]
+    },
+    {
+      "id": "mmr017d004",
+      "kind": "DISTRICT",
+      "parent_id": "ayeyawady-region",
+      "name_en": "Labutta",
+      "name_my": "လပွတ္တာခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr017016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d004",
+      "name_en": "Labutta",
+      "name_my": "လပွတ္တာ",
+      "latitude": 16.052,
+      "longitude": 94.808,
+      "aliases": ["Labutta"]
+    },
+    {
+      "id": "mmr010008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d002",
+      "name_en": "Pyinoolwin",
+      "name_my": "ပြင်ဦးလွင်",
+      "latitude": 22.02,
+      "longitude": 96.503,
+      "aliases": ["Pyinoolwin"]
+    },
+    {
+      "id": "mmr002d002",
+      "kind": "DISTRICT",
+      "parent_id": "kayah-state",
+      "name_en": "Bawlake",
+      "name_my": "ဘောလခဲခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr002006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr002d002",
+      "name_en": "Hpasawng",
+      "name_my": "ဖားဆောင်း",
+      "latitude": 18.853,
+      "longitude": 97.189,
+      "aliases": ["Hpasawng"]
+    },
+    {
+      "id": "mmr007010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d002",
+      "name_en": "Yedashe",
+      "name_my": "ရေတာရှည်",
+      "latitude": 19.278,
+      "longitude": 96.175,
+      "aliases": ["Yedashe"]
+    },
+    {
+      "id": "mmr013026",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Kayan",
+      "name_my": "ခရမ်း",
+      "latitude": 16.877,
+      "longitude": 96.607,
+      "aliases": ["Kayan"]
+    },
+    {
+      "id": "mmr001d001",
+      "kind": "DISTRICT",
+      "parent_id": "kachin-state",
+      "name_en": "Myitkyina",
+      "name_my": "မြစ်ကြီးနားခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr001004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d001",
+      "name_en": "Tanai",
+      "name_my": "တနိုင်း",
+      "latitude": 26.403,
+      "longitude": 96.64,
+      "aliases": ["Tanai"]
+    },
+    {
+      "id": "mmr007009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d002",
+      "name_en": "Taungoo",
+      "name_my": "တောင်ငူ",
+      "latitude": 19.008,
+      "longitude": 96.255,
+      "aliases": ["Taungoo"]
+    },
+    {
+      "id": "mmr012d003",
+      "kind": "DISTRICT",
+      "parent_id": "rakhine-state",
+      "name_en": "Kyaukpyu",
+      "name_my": "ကျောက်ဖြူခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr012013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d003",
+      "name_en": "Ramree",
+      "name_my": "ရမ်းဗြဲ",
+      "latitude": 19.064,
+      "longitude": 93.866,
+      "aliases": ["Ramree"]
+    },
+    {
+      "id": "mmr007005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Nyaunglebin",
+      "name_my": "ညောင်လေးပင်",
+      "latitude": 17.912,
+      "longitude": 96.725,
+      "aliases": ["Nyaunglebin"]
+    },
+    {
+      "id": "mmr001008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d002",
+      "name_en": "Mogaung",
+      "name_my": "မိုးကောင်း",
+      "latitude": 25.355,
+      "longitude": 96.867,
+      "aliases": ["Mogaung"]
+    },
+    {
+      "id": "mmr009014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d003",
+      "name_en": "Mindon",
+      "name_my": "မင်းတုန်း",
+      "latitude": 19.343,
+      "longitude": 94.66,
+      "aliases": ["Mindon"]
+    },
+    {
+      "id": "mmr014009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Pinlaung",
+      "name_my": "ပင်လောင်း",
+      "latitude": 20.137,
+      "longitude": 96.69,
+      "aliases": ["Pinlaung"]
+    },
+    {
+      "id": "mmr015018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d008",
+      "name_en": "Mabein",
+      "name_my": "မဘိမ်း",
+      "latitude": 23.701,
+      "longitude": 96.752,
+      "aliases": ["Mabein"]
+    },
+    {
+      "id": "mmr007012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d002",
+      "name_en": "Phyu",
+      "name_my": "ဖြူး",
+      "latitude": 18.531,
+      "longitude": 96.263,
+      "aliases": ["Phyu"]
+    },
+    {
+      "id": "mmr012d004",
+      "kind": "DISTRICT",
+      "parent_id": "rakhine-state",
+      "name_en": "Thandwe",
+      "name_my": "သံတွဲခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr012016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d004",
+      "name_en": "Toungup",
+      "name_my": "တောင်ကုတ်",
+      "latitude": 19.08,
+      "longitude": 94.378,
+      "aliases": ["Toungup"]
+    },
+    {
+      "id": "mmr018d002",
+      "kind": "DISTRICT",
+      "parent_id": "nay-pyi-taw",
+      "name_en": "Det Khi Na",
+      "name_my": "ဒက္ခိဏခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr018006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d002",
+      "name_en": "Pyinmana",
+      "name_my": "ပျဉ်းမနား",
+      "latitude": 19.644,
+      "longitude": 96.411,
+      "aliases": ["Pyinmana"]
+    },
+    {
+      "id": "mmr014005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Kalaw",
+      "name_my": "ကလော",
+      "latitude": 20.733,
+      "longitude": 96.669,
+      "aliases": ["Kalaw"]
+    },
+    {
+      "id": "mmr002d001",
+      "kind": "DISTRICT",
+      "parent_id": "kayah-state",
+      "name_en": "Loikaw",
+      "name_my": "လွိုင်ကော်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr002003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr002d001",
+      "name_en": "Hpruso",
+      "name_my": "ဖရူဆို",
+      "latitude": 19.275,
+      "longitude": 97.07,
+      "aliases": ["Hpruso"]
+    },
+    {
+      "id": "mmr012011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d003",
+      "name_en": "Kyaukpyu",
+      "name_my": "ကျောက်ဖြူ",
+      "latitude": 19.355,
+      "longitude": 93.676,
+      "aliases": ["Kyaukpyu"]
+    },
+    {
+      "id": "mmr007002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Thanatpin",
+      "name_my": "သနပ်ပင်",
+      "latitude": 17.253,
+      "longitude": 96.732,
+      "aliases": ["Thanatpin"]
+    },
+    {
+      "id": "mmr007006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Kyauktaga",
+      "name_my": "ကျောက်တံခါး",
+      "latitude": 18.195,
+      "longitude": 96.326,
+      "aliases": ["Kyauktaga"]
+    },
+    {
+      "id": "mmr014010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Pekon",
+      "name_my": "ဖယ်ခုံ",
+      "latitude": 19.643,
+      "longitude": 96.854,
+      "aliases": ["Pekon"]
+    },
+    {
+      "id": "mmr013d002",
+      "kind": "DISTRICT",
+      "parent_id": "yangon-region",
+      "name_en": "Yangon (East)",
+      "name_my": "ရန်ကုန်(အရှေ့ပိုင်း)",
+      "aliases": []
+    },
+    {
+      "id": "mmr013019",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Dagon Myothit (North)",
+      "name_my": "ဒဂုံမြို့သစ်မြောက်ပိုင်း",
+      "latitude": 16.886,
+      "longitude": 96.192,
+      "aliases": ["Dagon Myothit (North)"]
+    },
+    {
+      "id": "mmr009016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d003",
+      "name_en": "Aunglan",
+      "name_my": "အောင်လံ",
+      "latitude": 19.207,
+      "longitude": 95.485,
+      "aliases": ["Aunglan"]
+    },
+    {
+      "id": "mmr014008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Lawksawk",
+      "name_my": "ရပ်စောက်",
+      "latitude": 21.635,
+      "longitude": 96.957,
+      "aliases": ["Lawksawk"]
+    },
+    {
+      "id": "mmr007007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Daik-U",
+      "name_my": "ဒိုက်ဦး",
+      "latitude": 17.772,
+      "longitude": 96.584,
+      "aliases": ["Daik-U"]
+    },
+    {
+      "id": "mmr007003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Kawa",
+      "name_my": "ကဝ",
+      "latitude": 17.006,
+      "longitude": 96.65,
+      "aliases": ["Kawa"]
+    },
+    {
+      "id": "mmr010d003",
+      "kind": "DISTRICT",
+      "parent_id": "mandalay-region",
+      "name_en": "Kyaukse",
+      "name_my": "ကျောက်ဆည်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr010013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d003",
+      "name_en": "Kyaukse",
+      "name_my": "ကျောက်ဆည်",
+      "latitude": 21.725,
+      "longitude": 96.444,
+      "aliases": ["Kyaukse"]
+    },
+    {
+      "id": "mmr002005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr002d002",
+      "name_en": "Bawlake",
+      "name_my": "ဘောလခဲ",
+      "latitude": 19.09,
+      "longitude": 97.531,
+      "aliases": ["Bawlake"]
+    },
+    {
+      "id": "mmr005d008",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Hkamti",
+      "name_my": "ခန္တီးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005037",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d008",
+      "name_en": "Nanyun",
+      "name_my": "နန်းယွန်း",
+      "latitude": 26.917,
+      "longitude": 96.25,
+      "aliases": ["Nanyun"]
+    },
+    {
+      "id": "mmr015d003",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Kyaukme",
+      "name_my": "ကျောက်မဲခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr015013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d003",
+      "name_en": "Nawnghkio",
+      "name_my": "နောင်ချို",
+      "latitude": 22.369,
+      "longitude": 96.597,
+      "aliases": ["Nawnghkio"]
+    },
+    {
+      "id": "mmr015012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d003",
+      "name_en": "Kyaukme",
+      "name_my": "ကျောက်မဲ",
+      "latitude": 22.601,
+      "longitude": 96.869,
+      "aliases": ["Kyaukme"]
+    },
+    {
+      "id": "mmr008d002",
+      "kind": "DISTRICT",
+      "parent_id": "bago-region",
+      "name_en": "Thayarwady",
+      "name_my": "သာယာဝတီခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr008009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Minhla",
+      "name_my": "မင်းလှ",
+      "latitude": 17.981,
+      "longitude": 95.765,
+      "aliases": ["Minhla"]
+    },
+    {
+      "id": "mmr017d001",
+      "kind": "DISTRICT",
+      "parent_id": "ayeyawady-region",
+      "name_en": "Pathein",
+      "name_my": "ပုသိမ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr017003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d001",
+      "name_en": "Thabaung",
+      "name_my": "သာပေါင်း",
+      "latitude": 17.181,
+      "longitude": 94.769,
+      "aliases": ["Thabaung"]
+    },
+    {
+      "id": "mmr008001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d001",
+      "name_en": "Pyay",
+      "name_my": "ပြည်",
+      "latitude": 18.914,
+      "longitude": 95.314,
+      "aliases": ["Pyay"]
+    },
+    {
+      "id": "mmr017004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d001",
+      "name_en": "Ngapudaw",
+      "name_my": "ငပုတော",
+      "latitude": 16.283,
+      "longitude": 94.48,
+      "aliases": ["Ngapudaw"]
+    },
+    {
+      "id": "mmr017d006",
+      "kind": "DISTRICT",
+      "parent_id": "ayeyawady-region",
+      "name_en": "Pyapon",
+      "name_my": "ဖျာပုံခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr017024",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d006",
+      "name_en": "Bogale",
+      "name_my": "ဘိုကလေး",
+      "latitude": 16.129,
+      "longitude": 95.365,
+      "aliases": ["Bogale"]
+    },
+    {
+      "id": "mmr013016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Pazundaung",
+      "name_my": "ပုဇွန်တောင်",
+      "latitude": 16.778,
+      "longitude": 96.176,
+      "aliases": ["Pazundaung"]
+    },
+    {
+      "id": "mmr012015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d004",
+      "name_en": "Thandwe",
+      "name_my": "သံတွဲ",
+      "latitude": 18.345,
+      "longitude": 94.564,
+      "aliases": ["Thandwe"]
+    },
+    {
+      "id": "mmr017d002",
+      "kind": "DISTRICT",
+      "parent_id": "ayeyawady-region",
+      "name_en": "Hinthada",
+      "name_my": "ဟင်္သာတခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr017011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d002",
+      "name_en": "Myanaung",
+      "name_my": "မြန်အောင်",
+      "latitude": 18.11,
+      "longitude": 95.142,
+      "aliases": ["Myanaung"]
+    },
+    {
+      "id": "mmr008003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d001",
+      "name_en": "Padaung",
+      "name_my": "ပန်းတောင်း",
+      "latitude": 18.67,
+      "longitude": 94.953,
+      "aliases": ["Padaung"]
+    },
+    {
+      "id": "mmr013029",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Kungyangon",
+      "name_my": "ကွမ်းခြံကုန်း",
+      "latitude": 16.429,
+      "longitude": 96.106,
+      "aliases": ["Kungyangon"]
+    },
+    {
+      "id": "mmr013d004",
+      "kind": "DISTRICT",
+      "parent_id": "yangon-region",
+      "name_en": "Yangon (West)",
+      "name_my": "ရန်ကုန်(အနောက်ပိုင်း)",
+      "aliases": []
+    },
+    {
+      "id": "mmr013033",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Kyauktada",
+      "name_my": "ကျောက်တံတား",
+      "latitude": 16.774,
+      "longitude": 96.161,
+      "aliases": ["Kyauktada"]
+    },
+    {
+      "id": "mmr013035",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Lanmadaw",
+      "name_my": "လမ်းမတော်",
+      "latitude": 16.779,
+      "longitude": 96.141,
+      "aliases": ["Lanmadaw"]
+    },
+    {
+      "id": "mmr017026",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d006",
+      "name_en": "Dedaye",
+      "name_my": "ဒေးဒရဲ",
+      "latitude": 16.304,
+      "longitude": 95.882,
+      "aliases": ["Dedaye"]
+    },
+    {
+      "id": "mmr008008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Letpadan",
+      "name_my": "လက်ပံတန်း",
+      "latitude": 17.871,
+      "longitude": 95.815,
+      "aliases": ["Letpadan"]
+    },
+    {
+      "id": "mmr013004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Hlegu",
+      "name_my": "လှည်းကူး",
+      "latitude": 17.291,
+      "longitude": 96.216,
+      "aliases": ["Hlegu"]
+    },
+    {
+      "id": "mmr017023",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d006",
+      "name_en": "Pyapon",
+      "name_my": "ဖျာပုံ",
+      "latitude": 16.044,
+      "longitude": 95.469,
+      "aliases": ["Pyapon"]
+    },
+    {
+      "id": "mmr013006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Htantabin",
+      "name_my": "ထန်းတပင်",
+      "latitude": 17.057,
+      "longitude": 95.921,
+      "aliases": ["Htantabin"]
+    },
+    {
+      "id": "mmr013017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Botahtaung",
+      "name_my": "ဗိုလ်တထောင်",
+      "latitude": 16.774,
+      "longitude": 96.18,
+      "aliases": ["Botahtaung"]
+    },
+    {
+      "id": "mmr008014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Gyobingauk",
+      "name_my": "ကြို့ပင်ကောက်",
+      "latitude": 18.271,
+      "longitude": 95.75,
+      "aliases": ["Gyobingauk"]
+    },
+    {
+      "id": "mmr012012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d003",
+      "name_en": "Munaung",
+      "name_my": "မာန်အောင်",
+      "latitude": 18.761,
+      "longitude": 93.65,
+      "aliases": ["Munaung"]
+    },
+    {
+      "id": "mmr013042",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Mayangone",
+      "name_my": "မရမ်းကုန်း",
+      "latitude": 16.866,
+      "longitude": 96.137,
+      "aliases": ["Mayangone"]
+    },
+    {
+      "id": "mmr013038",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Kyeemyindaing",
+      "name_my": "ကြည့်မြင်တိုင်",
+      "latitude": 16.802,
+      "longitude": 96.118,
+      "aliases": ["Kyeemyindaing"]
+    },
+    {
+      "id": "mmr017010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d002",
+      "name_en": "Lemyethna",
+      "name_my": "လေးမျက်နှာ",
+      "latitude": 17.603,
+      "longitude": 95.024,
+      "aliases": ["Lemyethna"]
+    },
+    {
+      "id": "mmr017d005",
+      "kind": "DISTRICT",
+      "parent_id": "ayeyawady-region",
+      "name_en": "Maubin",
+      "name_my": "မအူပင်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr017019",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d005",
+      "name_en": "Maubin",
+      "name_my": "မအူပင်",
+      "latitude": 16.712,
+      "longitude": 95.643,
+      "aliases": ["Maubin"]
+    },
+    {
+      "id": "mmr013036",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Latha",
+      "name_my": "လသာ",
+      "latitude": 16.777,
+      "longitude": 96.15,
+      "aliases": ["Latha"]
+    },
+    {
+      "id": "mmr007014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d002",
+      "name_en": "Htantabin",
+      "name_my": "ထန်းတပင်",
+      "latitude": 18.737,
+      "longitude": 96.544,
+      "aliases": ["Htantabin"]
+    },
+    {
+      "id": "mmr013022",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Mingalartaungnyunt",
+      "name_my": "မင်္ဂလာတောင်ညွန့်",
+      "latitude": 16.794,
+      "longitude": 96.173,
+      "aliases": ["Mingalartaungnyunt"]
+    },
+    {
+      "id": "mmr013015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Tamwe",
+      "name_my": "တာမွေ",
+      "latitude": 16.809,
+      "longitude": 96.177,
+      "aliases": ["Tamwe"]
+    },
+    {
+      "id": "mmr017018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d004",
+      "name_en": "Mawlamyinegyun",
+      "name_my": "မော်လမြိုင်ကျွန်း",
+      "latitude": 16.343,
+      "longitude": 95.286,
+      "aliases": ["Mawlamyinegyun"]
+    },
+    {
+      "id": "mmr013013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Thaketa",
+      "name_my": "သာကေတ",
+      "latitude": 16.795,
+      "longitude": 96.213,
+      "aliases": ["Thaketa"]
+    },
+    {
+      "id": "mmr013020",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Dagon Myothit (East)",
+      "name_my": "ဒဂုံမြို့သစ်အရှေ့ပိုင်း",
+      "latitude": 16.948,
+      "longitude": 96.266,
+      "aliases": ["Dagon Myothit (East)"]
+    },
+    {
+      "id": "mmr017020",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d005",
+      "name_en": "Pantanaw",
+      "name_my": "ပန်းတနော်",
+      "latitude": 16.989,
+      "longitude": 95.408,
+      "aliases": ["Pantanaw"]
+    },
+    {
+      "id": "mmr013037",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Ahlone",
+      "name_my": "အလုံ",
+      "latitude": 16.786,
+      "longitude": 96.128,
+      "aliases": ["Ahlone"]
+    },
+    {
+      "id": "mmr008004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d001",
+      "name_en": "Paungde",
+      "name_my": "ပေါင်းတည်",
+      "latitude": 18.636,
+      "longitude": 95.597,
+      "aliases": ["Paungde"]
+    },
+    {
+      "id": "mmr017d003",
+      "kind": "DISTRICT",
+      "parent_id": "ayeyawady-region",
+      "name_en": "Myaungmya",
+      "name_my": "မြောင်းမြခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr017017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d003",
+      "name_en": "Wakema",
+      "name_my": "ဝါးခယ်မ",
+      "latitude": 16.552,
+      "longitude": 95.247,
+      "aliases": ["Wakema"]
+    },
+    {
+      "id": "mmr017014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d003",
+      "name_en": "Myaungmya",
+      "name_my": "မြောင်းမြ",
+      "latitude": 16.532,
+      "longitude": 94.893,
+      "aliases": ["Myaungmya"]
+    },
+    {
+      "id": "mmr017007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d001",
+      "name_en": "Kyaunggon",
+      "name_my": "ကျောင်းကုန်း",
+      "latitude": 17.056,
+      "longitude": 95.158,
+      "aliases": ["Kyaunggon"]
+    },
+    {
+      "id": "mmr008010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Okpho",
+      "name_my": "အုတ်ဖို",
+      "latitude": 18.178,
+      "longitude": 95.845,
+      "aliases": ["Okpho"]
+    },
+    {
+      "id": "mmr013007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Shwepyithar",
+      "name_my": "ရွှေပြည်သာ",
+      "latitude": 16.978,
+      "longitude": 96.075,
+      "aliases": ["Shwepyithar"]
+    },
+    {
+      "id": "mmr013039",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Sanchaung",
+      "name_my": "စမ်းချောင်း",
+      "latitude": 16.807,
+      "longitude": 96.134,
+      "aliases": ["Sanchaung"]
+    },
+    {
+      "id": "mmr013028",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Kawhmu",
+      "name_my": "ကော့မှုး",
+      "latitude": 16.541,
+      "longitude": 96.05,
+      "aliases": ["Kawhmu"]
+    },
+    {
+      "id": "mmr013012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "North Okkalapa",
+      "name_my": "မြောက်ဥက္ကလာပ",
+      "latitude": 16.916,
+      "longitude": 96.178,
+      "aliases": ["North Okkalapa"]
+    },
+    {
+      "id": "mmr013032",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Cocokyun",
+      "name_my": "ကိုကိုးကျွန်း",
+      "latitude": 14.475,
+      "longitude": 93.497,
+      "aliases": ["Cocokyun"]
+    },
+    {
+      "id": "mmr013010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Yankin",
+      "name_my": "ရန်ကင်း",
+      "latitude": 16.837,
+      "longitude": 96.166,
+      "aliases": ["Yankin"]
+    },
+    {
+      "id": "mmr017002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d001",
+      "name_en": "Kangyidaunt",
+      "name_my": "ကန်ကြီးထောင့်",
+      "latitude": 16.789,
+      "longitude": 94.88,
+      "aliases": ["Kangyidaunt"]
+    },
+    {
+      "id": "mmr013023",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Thanlyin",
+      "name_my": "သန်လျှင်",
+      "latitude": 16.822,
+      "longitude": 96.326,
+      "aliases": ["Thanlyin"]
+    },
+    {
+      "id": "mmr013002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Mingaladon",
+      "name_my": "မင်္ဂလာဒုံ",
+      "latitude": 16.993,
+      "longitude": 96.138,
+      "aliases": ["Mingaladon"]
+    },
+    {
+      "id": "mmr013018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Dagon Myothit (South)",
+      "name_my": "ဒဂုံမြို့သစ်တောင်ပိုင်း",
+      "latitude": 16.862,
+      "longitude": 96.246,
+      "aliases": ["Dagon Myothit (South)"]
+    },
+    {
+      "id": "mmr017025",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d006",
+      "name_en": "Kyaiklat",
+      "name_my": "ကျိုက်လတ်",
+      "latitude": 16.514,
+      "longitude": 95.611,
+      "aliases": ["Kyaiklat"]
+    },
+    {
+      "id": "mmr017009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d002",
+      "name_en": "Zalun",
+      "name_my": "ဇလွန်",
+      "latitude": 17.481,
+      "longitude": 95.57,
+      "aliases": ["Zalun"]
+    },
+    {
+      "id": "mmr013041",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Kamaryut",
+      "name_my": "ကမာရွတ်",
+      "latitude": 16.823,
+      "longitude": 96.131,
+      "aliases": ["Kamaryut"]
+    },
+    {
+      "id": "mmr007013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d002",
+      "name_en": "Oktwin",
+      "name_my": "အုတ်တွင်း",
+      "latitude": 18.768,
+      "longitude": 96.175,
+      "aliases": ["Oktwin"]
+    },
+    {
+      "id": "mmr017012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d002",
+      "name_en": "Kyangin",
+      "name_my": "ကြံခင်း",
+      "latitude": 18.317,
+      "longitude": 95.048,
+      "aliases": ["Kyangin"]
+    },
+    {
+      "id": "mmr013009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Thingangyun",
+      "name_my": "သင်္ဃန်းကျွန်း",
+      "latitude": 16.829,
+      "longitude": 96.197,
+      "aliases": ["Thingangyun"]
+    },
+    {
+      "id": "mmr017013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d002",
+      "name_en": "Ingapu",
+      "name_my": "အင်္ဂပူ",
+      "latitude": 17.838,
+      "longitude": 95.179,
+      "aliases": ["Ingapu"]
+    },
+    {
+      "id": "mmr013044",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Bahan",
+      "name_my": "ဗဟန်း",
+      "latitude": 16.811,
+      "longitude": 96.157,
+      "aliases": ["Bahan"]
+    },
+    {
+      "id": "mmr012017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d004",
+      "name_en": "Gwa",
+      "name_my": "ဂွ",
+      "latitude": 17.738,
+      "longitude": 94.658,
+      "aliases": ["Gwa"]
+    },
+    {
+      "id": "mmr013014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Dawbon",
+      "name_my": "ဒေါပုံ",
+      "latitude": 16.791,
+      "longitude": 96.19,
+      "aliases": ["Dawbon"]
+    },
+    {
+      "id": "mmr013034",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Pabedan",
+      "name_my": "ပန်းပဲတန်း",
+      "latitude": 16.776,
+      "longitude": 96.156,
+      "aliases": ["Pabedan"]
+    },
+    {
+      "id": "mmr017001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d001",
+      "name_en": "Pathein",
+      "name_my": "ပုသိမ်",
+      "latitude": 16.908,
+      "longitude": 94.598,
+      "aliases": ["Pathein"]
+    },
+    {
+      "id": "mmr013027",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Twantay",
+      "name_my": "တွံတေး",
+      "latitude": 16.737,
+      "longitude": 95.967,
+      "aliases": ["Twantay"]
+    },
+    {
+      "id": "mmr008007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Thayarwady",
+      "name_my": "သာယာဝတီ",
+      "latitude": 17.691,
+      "longitude": 95.837,
+      "aliases": ["Thayarwady"]
+    },
+    {
+      "id": "mmr017005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d001",
+      "name_en": "Kyonpyaw",
+      "name_my": "ကျုံပျော်",
+      "latitude": 17.319,
+      "longitude": 95.28,
+      "aliases": ["Kyonpyaw"]
+    },
+    {
+      "id": "mmr017021",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d005",
+      "name_en": "Nyaungdon",
+      "name_my": "ညောင်တုန်း",
+      "latitude": 17.032,
+      "longitude": 95.699,
+      "aliases": ["Nyaungdon"]
+    },
+    {
+      "id": "mmr017015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d003",
+      "name_en": "Einme",
+      "name_my": "အိမ္မဲ",
+      "latitude": 16.764,
+      "longitude": 95.092,
+      "aliases": ["Einme"]
+    },
+    {
+      "id": "mmr013031",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Seikgyikanaungto",
+      "name_my": "ဆိပ်ကြီးခနောင်တို",
+      "latitude": 16.767,
+      "longitude": 96.105,
+      "aliases": ["Seikgyikanaungto"]
+    },
+    {
+      "id": "mmr013043",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Dagon",
+      "name_my": "ဒဂုံ",
+      "latitude": 16.793,
+      "longitude": 96.145,
+      "aliases": ["Dagon"]
+    },
+    {
+      "id": "mmr008013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Monyo",
+      "name_my": "မိုးညို",
+      "latitude": 18.089,
+      "longitude": 95.428,
+      "aliases": ["Monyo"]
+    },
+    {
+      "id": "mmr013045",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Seikkan",
+      "name_my": "ဆိပ်ကမ်း",
+      "latitude": 16.772,
+      "longitude": 96.156,
+      "aliases": ["Seikkan"]
+    },
+    {
+      "id": "mmr008006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d001",
+      "name_en": "Shwedaung",
+      "name_my": "ရွှေတောင်",
+      "latitude": 18.564,
+      "longitude": 95.201,
+      "aliases": ["Shwedaung"]
+    },
+    {
+      "id": "mmr013011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "South Okkalapa",
+      "name_my": "တောင်ဥက္ကလာပ",
+      "latitude": 16.849,
+      "longitude": 96.183,
+      "aliases": ["South Okkalapa"]
+    },
+    {
+      "id": "mmr017008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d002",
+      "name_en": "Hinthada",
+      "name_my": "ဟင်္သာတ",
+      "latitude": 17.621,
+      "longitude": 95.386,
+      "aliases": ["Hinthada"]
+    },
+    {
+      "id": "mmr013005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Taikkyi",
+      "name_my": "တိုက်ကြီး",
+      "latitude": 17.484,
+      "longitude": 95.873,
+      "aliases": ["Taikkyi"]
+    },
+    {
+      "id": "mmr011d002",
+      "kind": "DISTRICT",
+      "parent_id": "mon-state",
+      "name_en": "Thaton",
+      "name_my": "သထုံခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr011007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d002",
+      "name_en": "Thaton",
+      "name_my": "သထုံ",
+      "latitude": 16.98,
+      "longitude": 97.34,
+      "aliases": ["Thaton"]
+    },
+    {
+      "id": "mmr011d001",
+      "kind": "DISTRICT",
+      "parent_id": "mon-state",
+      "name_en": "Mawlamyine",
+      "name_my": "မော်လမြိုင်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr011006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d001",
+      "name_en": "Ye",
+      "name_my": "ရေး",
+      "latitude": 15.278,
+      "longitude": 97.939,
+      "aliases": ["Ye"]
+    },
+    {
+      "id": "mmr017022",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d005",
+      "name_en": "Danubyu",
+      "name_my": "ဓနုဖြူ",
+      "latitude": 17.242,
+      "longitude": 95.535,
+      "aliases": ["Danubyu"]
+    },
+    {
+      "id": "mmr013040",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d004",
+      "name_en": "Hlaing",
+      "name_my": "လှိုင်",
+      "latitude": 16.847,
+      "longitude": 96.12,
+      "aliases": ["Hlaing"]
+    },
+    {
+      "id": "mmr011003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d001",
+      "name_en": "Chaungzon",
+      "name_my": "ချောင်းဆုံ",
+      "latitude": 16.354,
+      "longitude": 97.523,
+      "aliases": ["Chaungzon"]
+    },
+    {
+      "id": "mmr011010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d002",
+      "name_en": "Bilin",
+      "name_my": "ဘီးလင်း",
+      "latitude": 17.315,
+      "longitude": 97.227,
+      "aliases": ["Bilin"]
+    },
+    {
+      "id": "mmr013030",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d003",
+      "name_en": "Dala",
+      "name_my": "ဒလ",
+      "latitude": 16.68,
+      "longitude": 96.152,
+      "aliases": ["Dala"]
+    },
+    {
+      "id": "mmr017006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr017d001",
+      "name_en": "Yegyi",
+      "name_my": "ရေကြည်",
+      "latitude": 17.349,
+      "longitude": 94.961,
+      "aliases": ["Yegyi"]
+    },
+    {
+      "id": "mmr008012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Nattalin",
+      "name_my": "နတ္တလင်း",
+      "latitude": 18.518,
+      "longitude": 95.652,
+      "aliases": ["Nattalin"]
+    },
+    {
+      "id": "mmr013008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d001",
+      "name_en": "Hlaingtharya",
+      "name_my": "လှိုင်သာယာ",
+      "latitude": 16.88,
+      "longitude": 96.054,
+      "aliases": ["Hlaingtharya"]
+    },
+    {
+      "id": "mmr007001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Bago",
+      "name_my": "ပဲခူး",
+      "latitude": 17.527,
+      "longitude": 96.329,
+      "aliases": ["Bago"]
+    },
+    {
+      "id": "mmr011001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d001",
+      "name_en": "Mawlamyine",
+      "name_my": "မော်လမြိုင်",
+      "latitude": 16.477,
+      "longitude": 97.653,
+      "aliases": ["Mawlamyine"]
+    },
+    {
+      "id": "mmr008011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d002",
+      "name_en": "Zigon",
+      "name_my": "ဇီးကုန်း",
+      "latitude": 18.345,
+      "longitude": 95.653,
+      "aliases": ["Zigon"]
+    },
+    {
+      "id": "mmr005d001",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Sagaing",
+      "name_my": "စစ်ကိုင်းခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d001",
+      "name_en": "Myaung",
+      "name_my": "မြောင်",
+      "latitude": 21.722,
+      "longitude": 95.327,
+      "aliases": ["Myaung"]
+    },
+    {
+      "id": "mmr013021",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr013d002",
+      "name_en": "Dagon Myothit (Seikkan)",
+      "name_my": "ဒဂုံမြို့သစ်ဆိပ်ကမ်း",
+      "latitude": 16.878,
+      "longitude": 96.301,
+      "aliases": ["Dagon Myothit (Seikkan)"]
+    },
+    {
+      "id": "mmr010d001",
+      "kind": "DISTRICT",
+      "parent_id": "mandalay-region",
+      "name_en": "Mandalay",
+      "name_my": "မန္တလေးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr010004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d001",
+      "name_en": "Chanmyathazi",
+      "name_my": "ချမ်းမြသာစည်",
+      "latitude": 21.932,
+      "longitude": 96.091,
+      "aliases": ["Chanmyathazi"]
+    },
+    {
+      "id": "mmr010002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d001",
+      "name_en": "Chanayethazan",
+      "name_my": "ချမ်းအေးသာဇံ",
+      "latitude": 21.976,
+      "longitude": 96.093,
+      "aliases": ["Chanayethazan"]
+    },
+    {
+      "id": "mmr008005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr008d001",
+      "name_en": "Thegon",
+      "name_my": "သဲကုန်း",
+      "latitude": 18.606,
+      "longitude": 95.417,
+      "aliases": ["Thegon"]
+    },
+    {
+      "id": "mmr006d003",
+      "kind": "DISTRICT",
+      "parent_id": "taninthayi-region",
+      "name_en": "Kawthoung",
+      "name_my": "ကော့သောင်းခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr006009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d003",
+      "name_en": "Kawthoung",
+      "name_my": "ကော့သောင်း",
+      "latitude": 10.301,
+      "longitude": 98.302,
+      "aliases": ["Kawthoung"]
+    },
+    {
+      "id": "mmr006d002",
+      "kind": "DISTRICT",
+      "parent_id": "taninthayi-region",
+      "name_en": "Myeik",
+      "name_my": "မြိတ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr006006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d002",
+      "name_en": "Kyunsu",
+      "name_my": "ကျွန်းစု",
+      "latitude": 12.127,
+      "longitude": 98.184,
+      "aliases": ["Kyunsu"]
+    },
+    {
+      "id": "mmr010001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d001",
+      "name_en": "Aungmyaythazan",
+      "name_my": "အောင်မြေသာဇံ",
+      "latitude": 22.004,
+      "longitude": 96.093,
+      "aliases": ["Aungmyaythazan"]
+    },
+    {
+      "id": "mmr005d007",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Mawlaik",
+      "name_my": "မော်လိုက်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005031",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d007",
+      "name_en": "Mawlaik",
+      "name_my": "မော်လိုက်",
+      "latitude": 23.662,
+      "longitude": 94.604,
+      "aliases": ["Mawlaik"]
+    },
+    {
+      "id": "mmr012d002",
+      "kind": "DISTRICT",
+      "parent_id": "rakhine-state",
+      "name_en": "Maungdaw",
+      "name_my": "မောင်တောခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr012010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d002",
+      "name_en": "Buthidaung",
+      "name_my": "ဘူးသီးတောင်",
+      "latitude": 20.983,
+      "longitude": 92.548,
+      "aliases": ["Buthidaung"]
+    },
+    {
+      "id": "mmr005d004",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Katha",
+      "name_my": "ကသာခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005022",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d004",
+      "name_en": "Tigyaing",
+      "name_my": "ထီးချိုင့်",
+      "latitude": 23.797,
+      "longitude": 96.244,
+      "aliases": ["Tigyaing"]
+    },
+    {
+      "id": "mmr006d001",
+      "kind": "DISTRICT",
+      "parent_id": "taninthayi-region",
+      "name_en": "Dawei",
+      "name_my": "ထားဝယ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr006002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d001",
+      "name_en": "Launglon",
+      "name_my": "လောင်းလုံ",
+      "latitude": 13.878,
+      "longitude": 98.065,
+      "aliases": ["Launglon"]
+    },
+    {
+      "id": "mmr006010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d003",
+      "name_en": "Bokpyin",
+      "name_my": "ဘုတ်ပြင်း",
+      "latitude": 11.223,
+      "longitude": 98.602,
+      "aliases": ["Bokpyin"]
+    },
+    {
+      "id": "mmr003d004",
+      "kind": "DISTRICT",
+      "parent_id": "kayin-state",
+      "name_en": "Hpapun",
+      "name_my": "ဖာပွန်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr003003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr003d004",
+      "name_en": "Hpapun",
+      "name_my": "ဖာပွန်",
+      "latitude": 18.069,
+      "longitude": 97.349,
+      "aliases": ["Hpapun"]
+    },
+    {
+      "id": "mmr003d003",
+      "kind": "DISTRICT",
+      "parent_id": "kayin-state",
+      "name_en": "Kawkareik",
+      "name_my": "ကော့ကရိတ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr003006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr003d003",
+      "name_en": "Kawkareik",
+      "name_my": "ကော့ကရိတ်",
+      "latitude": 16.527,
+      "longitude": 98.141,
+      "aliases": ["Kawkareik"]
+    },
+    {
+      "id": "mmr011008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d002",
+      "name_en": "Paung",
+      "name_my": "ပေါင်",
+      "latitude": 16.658,
+      "longitude": 97.42,
+      "aliases": ["Paung"]
+    },
+    {
+      "id": "mmr006005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d002",
+      "name_en": "Myeik",
+      "name_my": "မြိတ်",
+      "latitude": 12.482,
+      "longitude": 98.759,
+      "aliases": ["Myeik"]
+    },
+    {
+      "id": "mmr003002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr003d001",
+      "name_en": "Hlaingbwe",
+      "name_my": "လှိုင်းဘွဲ့",
+      "latitude": 17.262,
+      "longitude": 97.963,
+      "aliases": ["Hlaingbwe"]
+    },
+    {
+      "id": "mmr011009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d002",
+      "name_en": "Kyaikto",
+      "name_my": "ကျိုက်ထို",
+      "latitude": 17.431,
+      "longitude": 97.042,
+      "aliases": ["Kyaikto"]
+    },
+    {
+      "id": "mmr003d002",
+      "kind": "DISTRICT",
+      "parent_id": "kayin-state",
+      "name_en": "Myawaddy",
+      "name_my": "မြဝတီခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr003005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr003d002",
+      "name_en": "Myawaddy",
+      "name_my": "မြဝတီ",
+      "latitude": 16.566,
+      "longitude": 98.542,
+      "aliases": ["Myawaddy"]
+    },
+    {
+      "id": "mmr006001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d001",
+      "name_en": "Dawei",
+      "name_my": "ထားဝယ်",
+      "latitude": 13.947,
+      "longitude": 98.692,
+      "aliases": ["Dawei"]
+    },
+    {
+      "id": "mmr011002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d001",
+      "name_en": "Kyaikmaraw",
+      "name_my": "ကျိုက္မရော",
+      "latitude": 16.341,
+      "longitude": 97.893,
+      "aliases": ["Kyaikmaraw"]
+    },
+    {
+      "id": "mmr006007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d002",
+      "name_en": "Palaw",
+      "name_my": "ပုလော",
+      "latitude": 13.115,
+      "longitude": 98.532,
+      "aliases": ["Palaw"]
+    },
+    {
+      "id": "mmr003007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr003d003",
+      "name_en": "Kyainseikgyi",
+      "name_my": "ကြာအင်းဆိပ်ကြီး",
+      "latitude": 15.84,
+      "longitude": 98.212,
+      "aliases": ["Kyainseikgyi"]
+    },
+    {
+      "id": "mmr006004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d001",
+      "name_en": "Yebyu",
+      "name_my": "ရေဖြူ",
+      "latitude": 14.607,
+      "longitude": 98.101,
+      "aliases": ["Yebyu"]
+    },
+    {
+      "id": "mmr011005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d001",
+      "name_en": "Mudon",
+      "name_my": "မုဒုံ",
+      "latitude": 16.179,
+      "longitude": 97.724,
+      "aliases": ["Mudon"]
+    },
+    {
+      "id": "mmr006003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d001",
+      "name_en": "Thayetchaung",
+      "name_my": "သရက်ချောင်း",
+      "latitude": 13.658,
+      "longitude": 98.434,
+      "aliases": ["Thayetchaung"]
+    },
+    {
+      "id": "mmr002007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr002d002",
+      "name_en": "Mese",
+      "name_my": "မယ်စဲ့",
+      "latitude": 18.746,
+      "longitude": 97.548,
+      "aliases": ["Mese"]
+    },
+    {
+      "id": "mmr007008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr007d001",
+      "name_en": "Shwegyin",
+      "name_my": "ရွှေကျင်",
+      "latitude": 17.855,
+      "longitude": 96.975,
+      "aliases": ["Shwegyin"]
+    },
+    {
+      "id": "mmr003001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr003d001",
+      "name_en": "Hpa-An",
+      "name_my": "ဘားအံ",
+      "latitude": 17.111,
+      "longitude": 97.685,
+      "aliases": ["Hpa-An"]
+    },
+    {
+      "id": "mmr011004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr011d001",
+      "name_en": "Thanbyuzayat",
+      "name_my": "သံဖြူဇရပ်",
+      "latitude": 15.852,
+      "longitude": 97.721,
+      "aliases": ["Thanbyuzayat"]
+    },
+    {
+      "id": "mmr006008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr006d002",
+      "name_en": "Tanintharyi",
+      "name_my": "တနင်္သာရီ",
+      "latitude": 12.385,
+      "longitude": 99.21,
+      "aliases": ["Tanintharyi"]
+    },
+    {
+      "id": "mmr009d001",
+      "kind": "DISTRICT",
+      "parent_id": "magway-region",
+      "name_en": "Magway",
+      "name_my": "မကွေးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr009006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d001",
+      "name_en": "Natmauk",
+      "name_my": "နတ်မောက်",
+      "latitude": 20.525,
+      "longitude": 95.434,
+      "aliases": ["Natmauk"]
+    },
+    {
+      "id": "mmr012d005",
+      "kind": "DISTRICT",
+      "parent_id": "rakhine-state",
+      "name_en": "Mrauk-U",
+      "name_my": "မြောက်ဦးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr012006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d005",
+      "name_en": "Myebon",
+      "name_my": "မြေပုံ",
+      "latitude": 19.952,
+      "longitude": 93.501,
+      "aliases": ["Myebon"]
+    },
+    {
+      "id": "mmr005d009",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Yinmarbin",
+      "name_my": "ယင်းမာပင်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d009",
+      "name_en": "Yinmarbin",
+      "name_my": "ယင်းမာပင်",
+      "latitude": 22.155,
+      "longitude": 94.842,
+      "aliases": ["Yinmarbin"]
+    },
+    {
+      "id": "mmr005019",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d009",
+      "name_en": "Pale",
+      "name_my": "ပုလဲ",
+      "latitude": 22.016,
+      "longitude": 94.661,
+      "aliases": ["Pale"]
+    },
+    {
+      "id": "mmr009d004",
+      "kind": "DISTRICT",
+      "parent_id": "magway-region",
+      "name_en": "Pakokku",
+      "name_my": "ပခုက္ကူခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr009020",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d004",
+      "name_en": "Myaing",
+      "name_my": "မြိုင်",
+      "latitude": 21.628,
+      "longitude": 94.844,
+      "aliases": ["Myaing"]
+    },
+    {
+      "id": "mmr010015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d003",
+      "name_en": "Myittha",
+      "name_my": "မြစ်သား",
+      "latitude": 21.342,
+      "longitude": 96.157,
+      "aliases": ["Myittha"]
+    },
+    {
+      "id": "mmr010016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d003",
+      "name_en": "Tada-U",
+      "name_my": "တံတားဦး",
+      "latitude": 21.693,
+      "longitude": 95.893,
+      "aliases": ["Tada-U"]
+    },
+    {
+      "id": "mmr005018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d009",
+      "name_en": "Salingyi",
+      "name_my": "ဆားလင်းကြီး",
+      "latitude": 21.988,
+      "longitude": 95.018,
+      "aliases": ["Salingyi"]
+    },
+    {
+      "id": "mmr012014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d003",
+      "name_en": "Ann",
+      "name_my": "အမ်း",
+      "latitude": 19.924,
+      "longitude": 94.028,
+      "aliases": ["Ann"]
+    },
+    {
+      "id": "mmr012d001",
+      "kind": "DISTRICT",
+      "parent_id": "rakhine-state",
+      "name_en": "Sittwe",
+      "name_my": "စစ်တွေခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr012007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d001",
+      "name_en": "Pauktaw",
+      "name_my": "ပေါက်တော",
+      "latitude": 20.09,
+      "longitude": 93.081,
+      "aliases": ["Pauktaw"]
+    },
+    {
+      "id": "mmr010009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d002",
+      "name_en": "Madaya",
+      "name_my": "မတ္တရာ",
+      "latitude": 22.205,
+      "longitude": 96.179,
+      "aliases": ["Madaya"]
+    },
+    {
+      "id": "mmr005d002",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Shwebo",
+      "name_my": "ရွှေဘိုခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d002",
+      "name_en": "Khin-U",
+      "name_my": "ခင်ဦး",
+      "latitude": 22.782,
+      "longitude": 95.696,
+      "aliases": ["Khin-U"]
+    },
+    {
+      "id": "mmr005d005",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Kale",
+      "name_my": "ကလေးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005029",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d005",
+      "name_en": "Mingin",
+      "name_my": "မင်းကင်း",
+      "latitude": 22.792,
+      "longitude": 94.567,
+      "aliases": ["Mingin"]
+    },
+    {
+      "id": "mmr012008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d001",
+      "name_en": "Rathedaung",
+      "name_my": "ရသေ့တောင်",
+      "latitude": 20.511,
+      "longitude": 92.73,
+      "aliases": ["Rathedaung"]
+    },
+    {
+      "id": "mmr005033",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d008",
+      "name_en": "Hkamti",
+      "name_my": "ခန္တီး",
+      "latitude": 25.907,
+      "longitude": 95.627,
+      "aliases": ["Hkamti"]
+    },
+    {
+      "id": "mmr009d002",
+      "kind": "DISTRICT",
+      "parent_id": "magway-region",
+      "name_en": "Minbu",
+      "name_my": "မင်းဘူးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr009011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d002",
+      "name_en": "Sidoktaya",
+      "name_my": "စေတုတ္တရာ",
+      "latitude": 20.533,
+      "longitude": 94.132,
+      "aliases": ["Sidoktaya"]
+    },
+    {
+      "id": "mmr010010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d002",
+      "name_en": "Singu",
+      "name_my": "စဉ့်ကူး",
+      "latitude": 22.55,
+      "longitude": 96.118,
+      "aliases": ["Singu"]
+    },
+    {
+      "id": "mmr005017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d009",
+      "name_en": "Kani",
+      "name_my": "ကနီ",
+      "latitude": 22.476,
+      "longitude": 94.642,
+      "aliases": ["Kani"]
+    },
+    {
+      "id": "mmr004d002",
+      "kind": "DISTRICT",
+      "parent_id": "chin-state",
+      "name_en": "Mindat",
+      "name_my": "မင်းတပ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr004007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d002",
+      "name_en": "Matupi",
+      "name_my": "မတူပီ",
+      "latitude": 21.732,
+      "longitude": 93.516,
+      "aliases": ["Matupi"]
+    },
+    {
+      "id": "mmr012001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d001",
+      "name_en": "Sittwe",
+      "name_my": "စစ်တွေ",
+      "latitude": 20.207,
+      "longitude": 92.844,
+      "aliases": ["Sittwe"]
+    },
+    {
+      "id": "mmr018d001",
+      "kind": "DISTRICT",
+      "parent_id": "nay-pyi-taw",
+      "name_en": "Oke Ta Ra",
+      "name_my": "ဥတ္တရခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr018008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d001",
+      "name_en": "Oke Ta Ra Thi Ri",
+      "name_my": "ဥတ္တရသီရိ",
+      "latitude": 19.911,
+      "longitude": 95.966,
+      "aliases": ["Oke Ta Ra Thi Ri"]
+    },
+    {
+      "id": "mmr010d004",
+      "kind": "DISTRICT",
+      "parent_id": "mandalay-region",
+      "name_en": "Myingyan",
+      "name_my": "မြင်းခြံခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr010017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d004",
+      "name_en": "Myingyan",
+      "name_my": "မြင်းခြံ",
+      "latitude": 21.554,
+      "longitude": 95.439,
+      "aliases": ["Myingyan"]
+    },
+    {
+      "id": "mmr012005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d005",
+      "name_en": "Minbya",
+      "name_my": "မင်းပြား",
+      "latitude": 20.507,
+      "longitude": 93.484,
+      "aliases": ["Minbya"]
+    },
+    {
+      "id": "mmr004d003",
+      "kind": "DISTRICT",
+      "parent_id": "chin-state",
+      "name_en": "Hakha",
+      "name_my": "ဟားခါးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr004002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d003",
+      "name_en": "Hakha",
+      "name_my": "ဟားခါး",
+      "latitude": 22.417,
+      "longitude": 93.758,
+      "aliases": ["Hakha"]
+    },
+    {
+      "id": "mmr012004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d005",
+      "name_en": "Kyauktaw",
+      "name_my": "ကျောက်တော်",
+      "latitude": 20.902,
+      "longitude": 92.939,
+      "aliases": ["Kyauktaw"]
+    },
+    {
+      "id": "mmr004d001",
+      "kind": "DISTRICT",
+      "parent_id": "chin-state",
+      "name_en": "Falam",
+      "name_my": "ဖလန်းခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr004005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d001",
+      "name_en": "Tonzang",
+      "name_my": "တွန်းဇံ",
+      "latitude": 23.797,
+      "longitude": 93.739,
+      "aliases": ["Tonzang"]
+    },
+    {
+      "id": "mmr005026",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d004",
+      "name_en": "Pinlebu",
+      "name_my": "ပင်လည်ဘူး",
+      "latitude": 24.036,
+      "longitude": 95.393,
+      "aliases": ["Pinlebu"]
+    },
+    {
+      "id": "mmr005028",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d005",
+      "name_en": "Kalewa",
+      "name_my": "ကလေးဝ",
+      "latitude": 23.282,
+      "longitude": 94.572,
+      "aliases": ["Kalewa"]
+    },
+    {
+      "id": "mmr010d006",
+      "kind": "DISTRICT",
+      "parent_id": "mandalay-region",
+      "name_en": "Yamethin",
+      "name_my": "ရမည်းသင်းခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr010023",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d006",
+      "name_en": "Yamethin",
+      "name_my": "ရမည်းသင်း",
+      "latitude": 20.393,
+      "longitude": 96.135,
+      "aliases": ["Yamethin"]
+    },
+    {
+      "id": "mmr005021",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d004",
+      "name_en": "Indaw",
+      "name_my": "အင်းတော်",
+      "latitude": 24.297,
+      "longitude": 96.135,
+      "aliases": ["Indaw"]
+    },
+    {
+      "id": "mmr005025",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d004",
+      "name_en": "Wuntho",
+      "name_my": "ဝန်းသို",
+      "latitude": 24.003,
+      "longitude": 95.782,
+      "aliases": ["Wuntho"]
+    },
+    {
+      "id": "mmr012003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d005",
+      "name_en": "Mrauk-U",
+      "name_my": "မြောက်ဦး",
+      "latitude": 20.608,
+      "longitude": 93.217,
+      "aliases": ["Mrauk-U"]
+    },
+    {
+      "id": "mmr012002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d001",
+      "name_en": "Ponnagyun",
+      "name_my": "ပုဏ္ဏားကျွန်း",
+      "latitude": 20.606,
+      "longitude": 92.885,
+      "aliases": ["Ponnagyun"]
+    },
+    {
+      "id": "mmr004009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d002",
+      "name_en": "Paletwa",
+      "name_my": "ပလက်ဝ",
+      "latitude": 21.432,
+      "longitude": 93.123,
+      "aliases": ["Paletwa"]
+    },
+    {
+      "id": "mmr005d003",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Monywa",
+      "name_my": "မုံရွာခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d003",
+      "name_en": "Budalin",
+      "name_my": "ဘုတလင်",
+      "latitude": 22.439,
+      "longitude": 95.116,
+      "aliases": ["Budalin"]
+    },
+    {
+      "id": "mmr005020",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d004",
+      "name_en": "Katha",
+      "name_my": "ကသာ",
+      "latitude": 24.14,
+      "longitude": 96.412,
+      "aliases": ["Katha"]
+    },
+    {
+      "id": "mmr010012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d002",
+      "name_en": "Thabeikkyin",
+      "name_my": "သပိတ်ကျဉ်း",
+      "latitude": 23.191,
+      "longitude": 96.148,
+      "aliases": ["Thabeikkyin"]
+    },
+    {
+      "id": "mmr009012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d003",
+      "name_en": "Thayet",
+      "name_my": "သရက်",
+      "latitude": 19.375,
+      "longitude": 95.044,
+      "aliases": ["Thayet"]
+    },
+    {
+      "id": "mmr009d005",
+      "kind": "DISTRICT",
+      "parent_id": "magway-region",
+      "name_en": "Gangaw",
+      "name_my": "ဂန့်ဂေါခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr009025",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d005",
+      "name_en": "Saw",
+      "name_my": "ဆော",
+      "latitude": 21.21,
+      "longitude": 94.168,
+      "aliases": ["Saw"]
+    },
+    {
+      "id": "mmr005d010",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Kanbalu",
+      "name_my": "ကန့်ဘလူခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d010",
+      "name_en": "Kyunhla",
+      "name_my": "ကျွန်းလှ",
+      "latitude": 23.557,
+      "longitude": 95.241,
+      "aliases": ["Kyunhla"]
+    },
+    {
+      "id": "mmr018003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d001",
+      "name_en": "Tatkon",
+      "name_my": "တပ်ကုန်း",
+      "latitude": 20.172,
+      "longitude": 96.121,
+      "aliases": ["Tatkon"]
+    },
+    {
+      "id": "mmr005d006",
+      "kind": "DISTRICT",
+      "parent_id": "sagaing-region",
+      "name_en": "Tamu",
+      "name_my": "တမူးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr005030",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d006",
+      "name_en": "Tamu",
+      "name_my": "တမူး",
+      "latitude": 24.188,
+      "longitude": 94.384,
+      "aliases": ["Tamu"]
+    },
+    {
+      "id": "mmr010003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d001",
+      "name_en": "Mahaaungmyay",
+      "name_my": "မဟာအောင်မြေ",
+      "latitude": 21.962,
+      "longitude": 96.088,
+      "aliases": ["Mahaaungmyay"]
+    },
+    {
+      "id": "mmr004001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d001",
+      "name_en": "Falam",
+      "name_my": "ဖလမ်း",
+      "latitude": 23.078,
+      "longitude": 93.683,
+      "aliases": ["Falam"]
+    },
+    {
+      "id": "mmr004008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d002",
+      "name_en": "Kanpetlet",
+      "name_my": "ကန်ပက်လက်",
+      "latitude": 20.971,
+      "longitude": 93.807,
+      "aliases": ["Kanpetlet"]
+    },
+    {
+      "id": "mmr004003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d003",
+      "name_en": "Thantlang",
+      "name_my": "ထန်တလန်",
+      "latitude": 22.579,
+      "longitude": 93.317,
+      "aliases": ["Thantlang"]
+    },
+    {
+      "id": "mmr009013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d003",
+      "name_en": "Minhla",
+      "name_my": "မင်းလှ",
+      "latitude": 19.766,
+      "longitude": 94.733,
+      "aliases": ["Minhla"]
+    },
+    {
+      "id": "mmr005010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d002",
+      "name_en": "Tabayin",
+      "name_my": "ဒီပဲယင်း",
+      "latitude": 22.635,
+      "longitude": 95.188,
+      "aliases": ["Tabayin"]
+    },
+    {
+      "id": "mmr005006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d002",
+      "name_en": "Wetlet",
+      "name_my": "ဝက်လက်",
+      "latitude": 22.349,
+      "longitude": 95.767,
+      "aliases": ["Wetlet"]
+    },
+    {
+      "id": "mmr010d007",
+      "kind": "DISTRICT",
+      "parent_id": "mandalay-region",
+      "name_en": "Meiktila",
+      "name_my": "မိတ္ထီလာခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr010031",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d007",
+      "name_en": "Wundwin",
+      "name_my": "ဝမ်းတွင်း",
+      "latitude": 21.2,
+      "longitude": 96.004,
+      "aliases": ["Wundwin"]
+    },
+    {
+      "id": "mmr005014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d003",
+      "name_en": "Ayadaw",
+      "name_my": "အရာတော်",
+      "latitude": 22.3,
+      "longitude": 95.448,
+      "aliases": ["Ayadaw"]
+    },
+    {
+      "id": "mmr005002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d001",
+      "name_en": "Myinmu",
+      "name_my": "မြင်းမူ",
+      "latitude": 22.001,
+      "longitude": 95.519,
+      "aliases": ["Myinmu"]
+    },
+    {
+      "id": "mmr005015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d003",
+      "name_en": "Chaung-U",
+      "name_my": "ချောင်းဦး",
+      "latitude": 21.922,
+      "longitude": 95.28,
+      "aliases": ["Chaung-U"]
+    },
+    {
+      "id": "mmr005004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d002",
+      "name_en": "Shwebo",
+      "name_my": "ရွှေဘို",
+      "latitude": 22.578,
+      "longitude": 95.71,
+      "aliases": ["Shwebo"]
+    },
+    {
+      "id": "mmr009005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d001",
+      "name_en": "Myothit",
+      "name_my": "မြို့သစ်",
+      "latitude": 20.177,
+      "longitude": 95.509,
+      "aliases": ["Myothit"]
+    },
+    {
+      "id": "mmr005027",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d005",
+      "name_en": "Kale",
+      "name_my": "ကလေး",
+      "latitude": 23.12,
+      "longitude": 94.113,
+      "aliases": ["Kale"]
+    },
+    {
+      "id": "mmr005036",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d008",
+      "name_en": "Lahe",
+      "name_my": "လဟယ်",
+      "latitude": 26.229,
+      "longitude": 95.46,
+      "aliases": ["Lahe"]
+    },
+    {
+      "id": "mmr010024",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d006",
+      "name_en": "Pyawbwe",
+      "name_my": "ပျော်ဘွယ်",
+      "latitude": 20.586,
+      "longitude": 95.957,
+      "aliases": ["Pyawbwe"]
+    },
+    {
+      "id": "mmr005007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d010",
+      "name_en": "Kanbalu",
+      "name_my": "ကန့်ဘလူ",
+      "latitude": 23.285,
+      "longitude": 95.661,
+      "aliases": ["Kanbalu"]
+    },
+    {
+      "id": "mmr010021",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d004",
+      "name_en": "Ngazun",
+      "name_my": "ငါန်းဇွန်",
+      "latitude": 21.769,
+      "longitude": 95.612,
+      "aliases": ["Ngazun"]
+    },
+    {
+      "id": "mmr018002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d002",
+      "name_en": "Za Bu Thi Ri",
+      "name_my": "ဇမ္ဗူသီရိ",
+      "latitude": 19.751,
+      "longitude": 96.125,
+      "aliases": ["Za Bu Thi Ri"]
+    },
+    {
+      "id": "mmr012009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr012d002",
+      "name_en": "Maungdaw",
+      "name_my": "မောင်တော",
+      "latitude": 20.966,
+      "longitude": 92.414,
+      "aliases": ["Maungdaw"]
+    },
+    {
+      "id": "mmr005009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d010",
+      "name_en": "Ye-U",
+      "name_my": "ရေဦး",
+      "latitude": 22.857,
+      "longitude": 95.124,
+      "aliases": ["Ye-U"]
+    },
+    {
+      "id": "mmr009017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d003",
+      "name_en": "Sinbaungwe",
+      "name_my": "ဆင်ပေါင်ဝဲ",
+      "latitude": 19.656,
+      "longitude": 95.376,
+      "aliases": ["Sinbaungwe"]
+    },
+    {
+      "id": "mmr010006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d001",
+      "name_en": "Amarapura",
+      "name_my": "အမရပူရ",
+      "latitude": 21.857,
+      "longitude": 96.1,
+      "aliases": ["Amarapura"]
+    },
+    {
+      "id": "mmr009002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d001",
+      "name_en": "Yenangyaung",
+      "name_my": "ရေနံချောင်း",
+      "latitude": 20.463,
+      "longitude": 94.992,
+      "aliases": ["Yenangyaung"]
+    },
+    {
+      "id": "mmr005034",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d008",
+      "name_en": "Homalin",
+      "name_my": "ဟုမ္မလင်း",
+      "latitude": 24.917,
+      "longitude": 95.307,
+      "aliases": ["Homalin"]
+    },
+    {
+      "id": "mmr009004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d001",
+      "name_en": "Taungdwingyi",
+      "name_my": "တောင်တွင်းကြီး",
+      "latitude": 19.878,
+      "longitude": 95.554,
+      "aliases": ["Taungdwingyi"]
+    },
+    {
+      "id": "mmr009001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d001",
+      "name_en": "Magway",
+      "name_my": "မကွေး",
+      "latitude": 20.07,
+      "longitude": 95.151,
+      "aliases": ["Magway"]
+    },
+    {
+      "id": "mmr005032",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d007",
+      "name_en": "Paungbyin",
+      "name_my": "ဖေါင်းပြင်",
+      "latitude": 24.169,
+      "longitude": 94.924,
+      "aliases": ["Paungbyin"]
+    },
+    {
+      "id": "mmr015d002",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Muse",
+      "name_my": "မူဆယ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr015009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d002",
+      "name_en": "Muse",
+      "name_my": "မူဆယ်",
+      "latitude": 23.901,
+      "longitude": 98.213,
+      "aliases": ["Muse"]
+    },
+    {
+      "id": "mmr001012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d003",
+      "name_en": "Momauk",
+      "name_my": "မိုးမောက်",
+      "latitude": 24.534,
+      "longitude": 97.47,
+      "aliases": ["Momauk"]
+    },
+    {
+      "id": "mmr014d002",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Loilen",
+      "name_my": "လွိုင်လင်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr014012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d002",
+      "name_en": "Laihka",
+      "name_my": "လဲချား",
+      "latitude": 21.299,
+      "longitude": 97.766,
+      "aliases": ["Laihka"]
+    },
+    {
+      "id": "mmr014d003",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Langkho",
+      "name_my": "လင်းခေးရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr014019",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d003",
+      "name_en": "Mongnai",
+      "name_my": "မိုးနဲ",
+      "latitude": 20.692,
+      "longitude": 98.134,
+      "aliases": ["Mongnai"]
+    },
+    {
+      "id": "mmr014020",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d003",
+      "name_en": "Mawkmai",
+      "name_my": "မောက်မယ်",
+      "latitude": 20.096,
+      "longitude": 97.609,
+      "aliases": ["Mawkmai"]
+    },
+    {
+      "id": "mmr005011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d010",
+      "name_en": "Taze",
+      "name_my": "တန့်ဆည်",
+      "latitude": 23.078,
+      "longitude": 95.183,
+      "aliases": ["Taze"]
+    },
+    {
+      "id": "mmr018007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d002",
+      "name_en": "Lewe",
+      "name_my": "လယ်ဝေး",
+      "latitude": 19.679,
+      "longitude": 96.1,
+      "aliases": ["Lewe"]
+    },
+    {
+      "id": "mmr010d005",
+      "kind": "DISTRICT",
+      "parent_id": "mandalay-region",
+      "name_en": "Nyaung-U",
+      "name_my": "ညောင်ဦးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr010020",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d005",
+      "name_en": "Kyaukpadaung",
+      "name_my": "ကျောက်ပန်းတောင်း",
+      "latitude": 20.828,
+      "longitude": 95.268,
+      "aliases": ["Kyaukpadaung"]
+    },
+    {
+      "id": "mmr009009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d002",
+      "name_en": "Ngape",
+      "name_my": "ငဖဲ",
+      "latitude": 19.954,
+      "longitude": 94.425,
+      "aliases": ["Ngape"]
+    },
+    {
+      "id": "mmr001d004",
+      "kind": "DISTRICT",
+      "parent_id": "kachin-state",
+      "name_en": "Puta-O",
+      "name_my": "ပူတာအိုခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr001017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d004",
+      "name_en": "Nawngmun",
+      "name_my": "နောင်မွန်း",
+      "latitude": 27.928,
+      "longitude": 97.847,
+      "aliases": ["Nawngmun"]
+    },
+    {
+      "id": "mmr015011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d002",
+      "name_en": "Kutkai",
+      "name_my": "ကွတ်ခိုင်",
+      "latitude": 23.642,
+      "longitude": 98.095,
+      "aliases": ["Kutkai"]
+    },
+    {
+      "id": "mmr001001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d001",
+      "name_en": "Myitkyina",
+      "name_my": "မြစ်ကြီးနား",
+      "latitude": 25.368,
+      "longitude": 97.105,
+      "aliases": ["Myitkyina"]
+    },
+    {
+      "id": "mmr016d002",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Monghsat",
+      "name_my": "မိုင်းဆတ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr016008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d002",
+      "name_en": "Mongton",
+      "name_my": "မိုင်းတုံ",
+      "latitude": 20.253,
+      "longitude": 98.868,
+      "aliases": ["Mongton"]
+    },
+    {
+      "id": "mmr001003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d001",
+      "name_en": "Injangyang",
+      "name_my": "အင်ဂျန်းယန်",
+      "latitude": 26.191,
+      "longitude": 97.889,
+      "aliases": ["Injangyang"]
+    },
+    {
+      "id": "mmr002004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr002d001",
+      "name_en": "Shadaw",
+      "name_my": "ရှားတော",
+      "latitude": 19.53,
+      "longitude": 97.643,
+      "aliases": ["Shadaw"]
+    },
+    {
+      "id": "mmr009021",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d004",
+      "name_en": "Pauk",
+      "name_my": "ပေါက်",
+      "latitude": 21.504,
+      "longitude": 94.501,
+      "aliases": ["Pauk"]
+    },
+    {
+      "id": "mmr015d001",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Lashio",
+      "name_my": "လားရှိုးခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr015003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d001",
+      "name_en": "Mongyai",
+      "name_my": "မိုင်းရယ်",
+      "latitude": 22.448,
+      "longitude": 98.055,
+      "aliases": ["Mongyai"]
+    },
+    {
+      "id": "mmr014016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d002",
+      "name_en": "Mongkaing",
+      "name_my": "မိုင်းကိုင်",
+      "latitude": 21.747,
+      "longitude": 97.51,
+      "aliases": ["Mongkaing"]
+    },
+    {
+      "id": "mmr015001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d001",
+      "name_en": "Lashio",
+      "name_my": "လားရှိုး",
+      "latitude": 22.928,
+      "longitude": 98.036,
+      "aliases": ["Lashio"]
+    },
+    {
+      "id": "mmr009019",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d004",
+      "name_en": "Yesagyo",
+      "name_my": "ရေစကြို",
+      "latitude": 21.619,
+      "longitude": 95.173,
+      "aliases": ["Yesagyo"]
+    },
+    {
+      "id": "mmr005035",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d008",
+      "name_en": "Lay Shi",
+      "name_my": "လေရှီး",
+      "latitude": 25.307,
+      "longitude": 94.908,
+      "aliases": ["Lay Shi"]
+    },
+    {
+      "id": "mmr001013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d003",
+      "name_en": "Mansi",
+      "name_my": "မန်စီ",
+      "latitude": 23.919,
+      "longitude": 97.363,
+      "aliases": ["Mansi"]
+    },
+    {
+      "id": "mmr014021",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d003",
+      "name_en": "Mongpan",
+      "name_my": "မိုင်းပန်",
+      "latitude": 20.234,
+      "longitude": 98.366,
+      "aliases": ["Mongpan"]
+    },
+    {
+      "id": "mmr015d007",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Matman",
+      "name_my": "မက်မန်းခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr015024",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d007",
+      "name_en": "Matman",
+      "name_my": "မက်မန်း",
+      "latitude": 21.871,
+      "longitude": 98.843,
+      "aliases": ["Matman"]
+    },
+    {
+      "id": "mmr016d003",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Tachileik",
+      "name_my": "တာချီလိတ်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr016009",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d003",
+      "name_en": "Tachileik",
+      "name_my": "တာချီလိတ်",
+      "latitude": 20.682,
+      "longitude": 100.044,
+      "aliases": ["Tachileik"]
+    },
+    {
+      "id": "mmr010014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d003",
+      "name_en": "Sintgaing",
+      "name_my": "စဉ့်ကိုင်",
+      "latitude": 21.749,
+      "longitude": 96.12,
+      "aliases": ["Sintgaing"]
+    },
+    {
+      "id": "mmr010007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d001",
+      "name_en": "Patheingyi",
+      "name_my": "ပုသိမ်ကြီး",
+      "latitude": 21.989,
+      "longitude": 96.189,
+      "aliases": ["Patheingyi"]
+    },
+    {
+      "id": "mmr005012",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d003",
+      "name_en": "Monywa",
+      "name_my": "မုံရွာ",
+      "latitude": 22.118,
+      "longitude": 95.225,
+      "aliases": ["Monywa"]
+    },
+    {
+      "id": "mmr009022",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d004",
+      "name_en": "Seikphyu",
+      "name_my": "ဆိပ်ဖြူ",
+      "latitude": 21.052,
+      "longitude": 94.553,
+      "aliases": ["Seikphyu"]
+    },
+    {
+      "id": "mmr005023",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d004",
+      "name_en": "Banmauk",
+      "name_my": "ဗန်းမောက်",
+      "latitude": 24.552,
+      "longitude": 95.659,
+      "aliases": ["Banmauk"]
+    },
+    {
+      "id": "mmr009023",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d005",
+      "name_en": "Gangaw",
+      "name_my": "ဂန့်ဂေါ",
+      "latitude": 22.283,
+      "longitude": 94.208,
+      "aliases": ["Gangaw"]
+    },
+    {
+      "id": "mmr009010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d002",
+      "name_en": "Salin",
+      "name_my": "စလင်း",
+      "latitude": 20.7,
+      "longitude": 94.528,
+      "aliases": ["Salin"]
+    },
+    {
+      "id": "mmr010030",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d007",
+      "name_en": "Thazi",
+      "name_my": "သာစည်",
+      "latitude": 20.782,
+      "longitude": 96.253,
+      "aliases": ["Thazi"]
+    },
+    {
+      "id": "mmr005001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d001",
+      "name_en": "Sagaing",
+      "name_my": "စစ်ကိုင်း",
+      "latitude": 22.051,
+      "longitude": 95.823,
+      "aliases": ["Sagaing"]
+    },
+    {
+      "id": "mmr018001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d001",
+      "name_en": "Zay Yar Thi Ri",
+      "name_my": "ဇေယျာသီရိ",
+      "latitude": 19.882,
+      "longitude": 96.335,
+      "aliases": ["Zay Yar Thi Ri"]
+    },
+    {
+      "id": "mmr018005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d001",
+      "name_en": "Poke Ba Thi Ri",
+      "name_my": "ပုဗ္ဗသီရိ",
+      "latitude": 19.891,
+      "longitude": 96.192,
+      "aliases": ["Poke Ba Thi Ri"]
+    },
+    {
+      "id": "mmr004004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d001",
+      "name_en": "Tedim",
+      "name_my": "တီးတိန်",
+      "latitude": 23.373,
+      "longitude": 93.712,
+      "aliases": ["Tedim"]
+    },
+    {
+      "id": "mmr009007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d002",
+      "name_en": "Minbu",
+      "name_my": "မင်းဘူး",
+      "latitude": 20.096,
+      "longitude": 94.737,
+      "aliases": ["Minbu"]
+    },
+    {
+      "id": "mmr010022",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d005",
+      "name_en": "Nyaung-U",
+      "name_my": "ညောင်ဦး",
+      "latitude": 21.086,
+      "longitude": 95.031,
+      "aliases": ["Nyaung-U"]
+    },
+    {
+      "id": "mmr009018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d004",
+      "name_en": "Pakokku",
+      "name_my": "ပခုက္ကူ",
+      "latitude": 21.195,
+      "longitude": 94.951,
+      "aliases": ["Pakokku"]
+    },
+    {
+      "id": "mmr010019",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d004",
+      "name_en": "Natogyi",
+      "name_my": "နွားထိုးကြီး",
+      "latitude": 21.461,
+      "longitude": 95.721,
+      "aliases": ["Natogyi"]
+    },
+    {
+      "id": "mmr010029",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d007",
+      "name_en": "Mahlaing",
+      "name_my": "မလှိုင်",
+      "latitude": 21.106,
+      "longitude": 95.65,
+      "aliases": ["Mahlaing"]
+    },
+    {
+      "id": "mmr009024",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d005",
+      "name_en": "Tilin",
+      "name_my": "ထီးလင်း",
+      "latitude": 21.73,
+      "longitude": 94.162,
+      "aliases": ["Tilin"]
+    },
+    {
+      "id": "mmr004006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr004d002",
+      "name_en": "Mindat",
+      "name_my": "မင်းတပ်",
+      "latitude": 21.442,
+      "longitude": 93.798,
+      "aliases": ["Mindat"]
+    },
+    {
+      "id": "mmr010005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d001",
+      "name_en": "Pyigyitagon",
+      "name_my": "ပြည်ကြီးတံခွန်",
+      "latitude": 21.904,
+      "longitude": 96.102,
+      "aliases": ["Pyigyitagon"]
+    },
+    {
+      "id": "mmr009008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d002",
+      "name_en": "Pwintbyu",
+      "name_my": "ပွင့်ဖြူ",
+      "latitude": 20.318,
+      "longitude": 94.65,
+      "aliases": ["Pwintbyu"]
+    },
+    {
+      "id": "mmr009003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr009d001",
+      "name_en": "Chauk",
+      "name_my": "ချောက်",
+      "latitude": 20.734,
+      "longitude": 94.863,
+      "aliases": ["Chauk"]
+    },
+    {
+      "id": "mmr015006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d007",
+      "name_en": "Narphan",
+      "name_my": "နားဖန့်",
+      "latitude": 22.566,
+      "longitude": 99.156,
+      "aliases": ["Narphan"]
+    },
+    {
+      "id": "mmr010028",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d007",
+      "name_en": "Meiktila",
+      "name_my": "မိတ္ထီလာ",
+      "latitude": 20.827,
+      "longitude": 95.759,
+      "aliases": ["Meiktila"]
+    },
+    {
+      "id": "mmr018004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr018d002",
+      "name_en": "Det Khi Na Thi Ri",
+      "name_my": "ဒက္ခိဏသီရိ",
+      "latitude": 19.713,
+      "longitude": 96.076,
+      "aliases": ["Det Khi Na Thi Ri"]
+    },
+    {
+      "id": "mmr005024",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr005d004",
+      "name_en": "Kawlin",
+      "name_my": "ကောလင်း",
+      "latitude": 23.695,
+      "longitude": 95.651,
+      "aliases": ["Kawlin"]
+    },
+    {
+      "id": "mmr010018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr010d004",
+      "name_en": "Taungtha",
+      "name_my": "တောင်သာ",
+      "latitude": 21.205,
+      "longitude": 95.368,
+      "aliases": ["Taungtha"]
+    },
+    {
+      "id": "mmr016d001",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Kengtung",
+      "name_my": "ကျိုင်းတုံခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr016002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d001",
+      "name_en": "Mongkhet",
+      "name_my": "မိုင်းခတ်",
+      "latitude": 21.694,
+      "longitude": 99.346,
+      "aliases": ["Mongkhet"]
+    },
+    {
+      "id": "mmr015014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d003",
+      "name_en": "Hsipaw",
+      "name_my": "သီပေါ",
+      "latitude": 22.401,
+      "longitude": 97.558,
+      "aliases": ["Hsipaw"]
+    },
+    {
+      "id": "mmr001015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d004",
+      "name_en": "Sumprabum",
+      "name_my": "ဆွမ်ပရာဘွမ်",
+      "latitude": 26.389,
+      "longitude": 97.722,
+      "aliases": ["Sumprabum"]
+    },
+    {
+      "id": "mmr016006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d002",
+      "name_en": "Monghsat",
+      "name_my": "မိုင်းဆတ်",
+      "latitude": 20.531,
+      "longitude": 99.335,
+      "aliases": ["Monghsat"]
+    },
+    {
+      "id": "mmr001018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d004",
+      "name_en": "Khaunglanhpu",
+      "name_my": "ခေါင်လန်ဖူး",
+      "latitude": 27.187,
+      "longitude": 98.341,
+      "aliases": ["Khaunglanhpu"]
+    },
+    {
+      "id": "mmr002002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr002d001",
+      "name_en": "Demoso",
+      "name_my": "ဒီမောဆို",
+      "latitude": 19.458,
+      "longitude": 97.144,
+      "aliases": ["Demoso"]
+    },
+    {
+      "id": "mmr015d006",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Hopang",
+      "name_my": "ဟိုပန်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr015008",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d006",
+      "name_en": "Mongmao",
+      "name_my": "မိုင်းမော",
+      "latitude": 22.949,
+      "longitude": 98.87,
+      "aliases": ["Mongmao"]
+    },
+    {
+      "id": "mmr014013",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d002",
+      "name_en": "Nansang",
+      "name_my": "နမ့်စန်",
+      "latitude": 20.832,
+      "longitude": 97.91,
+      "aliases": ["Nansang"]
+    },
+    {
+      "id": "mmr015d005",
+      "kind": "DISTRICT",
+      "parent_id": "shan-state",
+      "name_en": "Laukkaing",
+      "name_my": "လောက်ကိုင်ခရိုင်",
+      "aliases": []
+    },
+    {
+      "id": "mmr015022",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d005",
+      "name_en": "Laukkaing",
+      "name_my": "လောက်ကိုင်",
+      "latitude": 23.648,
+      "longitude": 98.725,
+      "aliases": ["Laukkaing"]
+    },
+    {
+      "id": "mmr002001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr002d001",
+      "name_en": "Loikaw",
+      "name_my": "လွိုင်ကော်",
+      "latitude": 19.618,
+      "longitude": 97.323,
+      "aliases": ["Loikaw"]
+    },
+    {
+      "id": "mmr015005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d007",
+      "name_en": "Pangsang",
+      "name_my": "ပန်ဆန်း",
+      "latitude": 22.515,
+      "longitude": 98.898,
+      "aliases": ["Pangsang"]
+    },
+    {
+      "id": "mmr001005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d001",
+      "name_en": "Chipwi",
+      "name_my": "ချီဗွေ",
+      "latitude": 26.029,
+      "longitude": 98.349,
+      "aliases": ["Chipwi"]
+    },
+    {
+      "id": "mmr015015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d003",
+      "name_en": "Namtu",
+      "name_my": "နမ္မတူ",
+      "latitude": 23.005,
+      "longitude": 97.403,
+      "aliases": ["Namtu"]
+    },
+    {
+      "id": "mmr016010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d003",
+      "name_en": "Monghpyak",
+      "name_my": "မိုင်းဖြတ်",
+      "latitude": 21.004,
+      "longitude": 99.801,
+      "aliases": ["Monghpyak"]
+    },
+    {
+      "id": "mmr001014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d004",
+      "name_en": "Puta-O",
+      "name_my": "ပူတာအို",
+      "latitude": 27.346,
+      "longitude": 97.325,
+      "aliases": ["Puta-O"]
+    },
+    {
+      "id": "mmr015023",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d005",
+      "name_en": "Konkyan",
+      "name_my": "ကုန်းကြမ်း",
+      "latitude": 23.953,
+      "longitude": 98.65,
+      "aliases": ["Konkyan"]
+    },
+    {
+      "id": "mmr001002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d001",
+      "name_en": "Waingmaw",
+      "name_my": "ဝိုင်းမော်",
+      "latitude": 25.226,
+      "longitude": 97.722,
+      "aliases": ["Waingmaw"]
+    },
+    {
+      "id": "mmr016007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d001",
+      "name_en": "Mongping",
+      "name_my": "မိုင်းပျင်း",
+      "latitude": 21.118,
+      "longitude": 98.926,
+      "aliases": ["Mongping"]
+    },
+    {
+      "id": "mmr001006",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d001",
+      "name_en": "Tsawlaw",
+      "name_my": "ဆော့လော်",
+      "latitude": 26.439,
+      "longitude": 98.455,
+      "aliases": ["Tsawlaw"]
+    },
+    {
+      "id": "mmr001016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d004",
+      "name_en": "Machanbaw",
+      "name_my": "မချမ်းဘော",
+      "latitude": 27.245,
+      "longitude": 97.771,
+      "aliases": ["Machanbaw"]
+    },
+    {
+      "id": "mmr014003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Hopong",
+      "name_my": "ဟိုပုံး",
+      "latitude": 21.001,
+      "longitude": 97.247,
+      "aliases": ["Hopong"]
+    },
+    {
+      "id": "mmr014002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Nyaungshwe",
+      "name_my": "ညောင်ရွှေ",
+      "latitude": 20.361,
+      "longitude": 96.959,
+      "aliases": ["Nyaungshwe"]
+    },
+    {
+      "id": "mmr014004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Hsihseng",
+      "name_my": "ဆီဆိုင်",
+      "latitude": 20.243,
+      "longitude": 97.29,
+      "aliases": ["Hsihseng"]
+    },
+    {
+      "id": "mmr016005",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d001",
+      "name_en": "Mongla",
+      "name_my": "မိုင်းလား",
+      "latitude": 21.547,
+      "longitude": 99.95,
+      "aliases": ["Mongla"]
+    },
+    {
+      "id": "mmr015002",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d001",
+      "name_en": "Hseni",
+      "name_my": "သိန်းနီ",
+      "latitude": 23.258,
+      "longitude": 98.127,
+      "aliases": ["Hseni"]
+    },
+    {
+      "id": "mmr015020",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d001",
+      "name_en": "Kunlong",
+      "name_my": "ကွမ်းလုံ",
+      "latitude": 23.455,
+      "longitude": 98.622,
+      "aliases": ["Kunlong"]
+    },
+    {
+      "id": "mmr001010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr001d003",
+      "name_en": "Bhamo",
+      "name_my": "ဗန်းမော်",
+      "latitude": 24.211,
+      "longitude": 97.085,
+      "aliases": ["Bhamo"]
+    },
+    {
+      "id": "mmr015021",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d006",
+      "name_en": "Hopang",
+      "name_my": "ဟိုပန်",
+      "latitude": 23.221,
+      "longitude": 98.688,
+      "aliases": ["Hopang"]
+    },
+    {
+      "id": "mmr015010",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d002",
+      "name_en": "Namhkan",
+      "name_my": "နမ့်ခမ်း",
+      "latitude": 23.715,
+      "longitude": 97.633,
+      "aliases": ["Namhkan"]
+    },
+    {
+      "id": "mmr016001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d001",
+      "name_en": "Kengtung",
+      "name_my": "ကျိုင်းတုံ",
+      "latitude": 21.262,
+      "longitude": 99.605,
+      "aliases": ["Kengtung"]
+    },
+    {
+      "id": "mmr014018",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d003",
+      "name_en": "Langkho",
+      "name_my": "လင်းခေး",
+      "latitude": 20.085,
+      "longitude": 98.133,
+      "aliases": ["Langkho"]
+    },
+    {
+      "id": "mmr014017",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d002",
+      "name_en": "Monghsu",
+      "name_my": "မိုင်းရှုး",
+      "latitude": 21.794,
+      "longitude": 98.408,
+      "aliases": ["Monghsu"]
+    },
+    {
+      "id": "mmr014001",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d001",
+      "name_en": "Taunggyi",
+      "name_my": "တောင်ကြီး",
+      "latitude": 20.622,
+      "longitude": 96.999,
+      "aliases": ["Taunggyi"]
+    },
+    {
+      "id": "mmr015007",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d006",
+      "name_en": "Pangwaun",
+      "name_my": "ပန်ဝိုင်း",
+      "latitude": 22.938,
+      "longitude": 99.296,
+      "aliases": ["Pangwaun"]
+    },
+    {
+      "id": "mmr014015",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d002",
+      "name_en": "Kyethi",
+      "name_my": "ကျေးသီး",
+      "latitude": 21.678,
+      "longitude": 98.016,
+      "aliases": ["Kyethi"]
+    },
+    {
+      "id": "mmr014011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d002",
+      "name_en": "Loilen",
+      "name_my": "လွိုင်လင်",
+      "latitude": 20.864,
+      "longitude": 97.493,
+      "aliases": ["Loilen"]
+    },
+    {
+      "id": "mmr015019",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d003",
+      "name_en": "Manton",
+      "name_my": "မန်တုန်",
+      "latitude": 23.396,
+      "longitude": 97.326,
+      "aliases": ["Manton"]
+    },
+    {
+      "id": "mmr016003",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d001",
+      "name_en": "Mongyang",
+      "name_my": "မိုင်းယန်း",
+      "latitude": 21.932,
+      "longitude": 99.512,
+      "aliases": ["Mongyang"]
+    },
+    {
+      "id": "mmr014014",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr014d002",
+      "name_en": "Kunhing",
+      "name_my": "ကွန်ဟိန်း",
+      "latitude": 21.263,
+      "longitude": 98.518,
+      "aliases": ["Kunhing"]
+    },
+    {
+      "id": "mmr016011",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr016d003",
+      "name_en": "Mongyawng",
+      "name_my": "မိုင်းယောင်း",
+      "latitude": 21.37,
+      "longitude": 100.583,
+      "aliases": ["Mongyawng"]
+    },
+    {
+      "id": "mmr015004",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d001",
+      "name_en": "Tangyan",
+      "name_my": "တန့်ယန်း",
+      "latitude": 22.412,
+      "longitude": 98.392,
+      "aliases": ["Tangyan"]
+    },
+    {
+      "id": "mmr015016",
+      "kind": "TOWNSHIP",
+      "parent_id": "mmr015d003",
+      "name_en": "Namhsan",
+      "name_my": "နမ့်ဆန်",
+      "latitude": 22.945,
+      "longitude": 97.094,
+      "aliases": ["Namhsan"]
+    }
+  ],
+  "legacy_aliases": [
+    {
+      "id": "tamwe",
+      "canonical_id": "mmr013015"
+    },
+    {
+      "id": "sanchaung",
+      "canonical_id": "mmr013039"
+    },
+    {
+      "id": "yankin",
+      "canonical_id": "mmr013010"
+    },
+    {
+      "id": "kamayut",
+      "canonical_id": "mmr013041"
+    },
+    {
+      "id": "bahan",
+      "canonical_id": "mmr013044"
+    },
+    {
+      "id": "hlaing",
+      "canonical_id": "mmr013040"
+    },
+    {
+      "id": "yangon",
+      "canonical_id": "yangon-region"
+    },
+    {
+      "id": "mandalay",
+      "canonical_id": "mandalay-region"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { query } from "@/lib/db";
@@ -10,6 +11,8 @@ export default async function Attributes({
 }: {
   searchParams: Promise<{ saved?: string; error?: string }>;
 }) {
+  const ui = await uiCopy();
+
   await requireAdmin();
   const [a, lang, p, cs, attrs] = await Promise.all([
     listingCopy(),
@@ -34,7 +37,7 @@ export default async function Attributes({
   };
   return (
     <section className="wrap page">
-      <Link href="/admin">← Administration</Link>
+      <Link href="/admin">{ui("← Administration")}</Link>
       <h1>{a.attributes}</h1>
       <p>{a.adminHelp}</p>
       <Notice
@@ -55,12 +58,12 @@ export default async function Attributes({
               </>
             )}
             <label>
-              Category
+              {ui("Category")}
               <select
                 name={d.id ? undefined : "category"}
                 disabled={!!d.id}
                 defaultValue={d.category_id}
-                aria-label="Category"
+                aria-label={ui("Category")}
               >
                 {cs.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -105,7 +108,9 @@ export default async function Attributes({
                 defaultValue={d.type}
               >
                 {["TEXT", "NUMBER", "BOOLEAN", "ENUM", "DATE"].map((k) => (
-                  <option key={k}>{k}</option>
+                  <option key={k} value={k}>
+                    {ui(k)}
+                  </option>
                 ))}
               </select>
             </label>

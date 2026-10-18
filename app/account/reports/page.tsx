@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import { requireUser } from "@/lib/auth";
 import { query } from "@/lib/db";
 import { releaseCopy } from "@/lib/release-i18n";
@@ -7,6 +8,7 @@ export default async function Reports({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const ui = await uiCopy();
   const [u, t, f] = await Promise.all([
     requireUser(),
     releaseCopy(),
@@ -25,7 +27,7 @@ export default async function Reports({
       {rows.slice(0, 24).map((r) => (
         <article className="panel" key={r.id}>
           <h2>{r.reason}</h2>
-          <p>{r.status}</p>
+          <p>{ui(r.status)}</p>
           <p>{r.detail}</p>
           {r.resolution && <p>{r.resolution}</p>}
           <small>{new Date(r.created_at).toLocaleString()}</small>

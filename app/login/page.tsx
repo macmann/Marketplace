@@ -1,3 +1,4 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import { cookies } from "next/headers";
 import { challengeCookie } from "@/lib/account-validation";
 import Link from "next/link";
@@ -17,6 +18,8 @@ export default async function Login({
     deleted?: string;
   }>;
 }) {
+  const ui = await uiCopy();
+
   const [t, a, p] = await Promise.all([
     translations(),
     accountCopy(),
@@ -27,7 +30,7 @@ export default async function Login({
   return (
     <section className="auth-shell">
       <div className="auth-aside">
-        <span className="eyebrow">NEIGHBOUR · MYANMAR</span>
+        <span className="eyebrow">{ui("NEIGHBOUR · MYANMAR")}</span>
         <h1>{t.tagline}</h1>
         <p>{t.about}</p>
         <span className="auth-art">↻</span>

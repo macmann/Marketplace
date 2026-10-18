@@ -35,7 +35,8 @@ export default function LiveNotifications({
             });
           if (
             path.startsWith("/account/messages") ||
-            path.startsWith("/account/notifications")
+            path.startsWith("/account/notifications") ||
+            path.startsWith("/account/listings")
           )
             router.refresh();
         }

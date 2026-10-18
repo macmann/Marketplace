@@ -1,3 +1,4 @@
+import { waitForPublication } from "../helpers/publication";
 import { test, expect, type Page } from "@playwright/test";
 import { Pool } from "pg";
 import { randomUUID } from "node:crypto";
@@ -180,8 +181,12 @@ test("private drafts, stale tabs, typed fields and photo editing work end to end
     await p
       .getByRole("button", { name: "Publish listing", exact: false })
       .click();
-    await expect(p).toHaveURL(/\/listing\//);
-    const id = p.url().split("/").pop()!;
+    const id = await waitForPublication(
+      p,
+      db,
+      owner,
+      "Resumed chair " + suffix,
+    );
     expect(
       (await db.query("SELECT id FROM listing_drafts WHERE id=$1", [draftId]))
         .rowCount,
@@ -226,7 +231,7 @@ test("private drafts, stale tabs, typed fields and photo editing work end to end
     expect(
       (await anonymous.request.get("/media/" + before[0].storage_key)).status(),
     ).toBe(404);
-    await p.goto("/listing/" + id);
+    await waitForPublication(p, db, owner, "Resumed chair " + suffix);
     await expect(p.locator(".attribute-list")).toContainText("Painted");
   } finally {
     await context.close();

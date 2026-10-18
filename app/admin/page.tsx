@@ -1,10 +1,11 @@
+import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
 import { requirePermission } from "@/lib/auth";
 import { permits } from "@/lib/permissions";
 import { query } from "@/lib/db";
 import { moderate } from "../actions";
 import { Notice } from "../components";
-function Controls({
+async function Controls({
   id,
   actions,
   revision,
@@ -13,6 +14,8 @@ function Controls({
   actions: string[];
   revision?: number;
 }) {
+  const ui = await uiCopy();
+
   return (
     <form action={moderate} className="stack">
       <input type="hidden" name="id" value={id} />
@@ -20,11 +23,11 @@ function Controls({
         <input type="hidden" name="revision" value={revision} />
       )}
       <label>
-        Decision reason
+        {ui("Decision reason")}
         <input
           name="note"
           maxLength={1000}
-          placeholder="Explain the decision"
+          placeholder={ui("Explain the decision")}
         />
       </label>
       <div>
@@ -38,14 +41,14 @@ function Controls({
             {
               (
                 {
-                  REMOVE: "Remove",
-                  RESTORE: "Restore",
-                  APPROVE: "Approve",
-                  REJECT: "Reject",
-                  SUSPEND: "Suspend",
-                  UNSUSPEND: "Restore",
-                  RESOLVE: "Resolve",
-                  DISMISS: "Dismiss",
+                  REMOVE: ui("Remove"),
+                  RESTORE: ui("Restore"),
+                  APPROVE: ui("Approve"),
+                  REJECT: ui("Reject"),
+                  SUSPEND: ui("Suspend"),
+                  UNSUSPEND: ui("Restore"),
+                  RESOLVE: ui("Resolve"),
+                  DISMISS: ui("Dismiss"),
                 } as Record<string, string>
               )[a]
             }
@@ -60,6 +63,8 @@ export default async function Admin({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const ui = await uiCopy();
+
   const u = await requirePermission("support"),
     canModerate = permits(u.role, "moderate"),
     canConfigure = permits(u.role, "configure");
@@ -96,36 +101,40 @@ export default async function Admin({
   );
   return (
     <section className="wrap page">
-      <h1>Marketplace administration</h1>
+      <h1>{ui("Marketplace administration")}</h1>
       <Notice error={f.error} />
       {canModerate && (
         <form className="panel filter-row">
           <label>
-            Search listings and users
+            {ui("Search listings and users")}
             <input name="q" defaultValue={f.q} maxLength={100} />
           </label>
-          <button className="button secondary">Search</button>
+          <button className="button secondary">{ui("Search")}</button>
         </form>
       )}
       {canConfigure && (
         <nav className="account-nav">
-          <Link href="/admin/categories">Categories</Link>
-          <Link href="/admin/locations">Locations</Link>
-          <Link href="/admin/attributes">Category fields</Link>
-          <Link href="/admin/safety">Safety & staff</Link>
-          <Link href="/admin/operations">Operations</Link>
+          <Link href="/admin/categories">{ui("Categories")}</Link>
+          <Link href="/admin/locations">{ui("Locations")}</Link>
+          <Link href="/admin/attributes">{ui("Category fields")}</Link>
+          <Link href="/admin/safety">{ui("Safety & staff")}</Link>
+          <Link href="/admin/media">{ui("Media & checks")}</Link>
+          <Link href="/admin/operations">{ui("Operations")}</Link>
         </nav>
       )}
       <div className="stats">
         {Object.entries(counts).map(([k, v]) => (
           <div className="panel" key={k}>
             <strong>{String(v)}</strong>
-            <span>{k}</span>
+            <span>{ui(k)}</span>
           </div>
         ))}
       </div>
-      <h2>Reports</h2>
-      {!reports.length && <p>No open reports.</p>}
+      {canModerate && !canConfigure && (
+        <Link href="/admin/media">{ui("Media & checks")}</Link>
+      )}
+      <h2>{ui("Reports")}</h2>
+      {!reports.length && <p>{ui("No open reports.")}</p>}
       {reports.map((r) => (
         <div className="panel" key={r.id}>
           <h3>
@@ -134,20 +143,22 @@ export default async function Admin({
           <p>{r.detail}</p>
           {r.body && <blockquote>{r.body}</blockquote>}
           {r.listing_id && (
-            <Link href={"/admin/listings/" + r.listing_id}>Review listing</Link>
+            <Link href={"/admin/listings/" + r.listing_id}>
+              {ui("Review listing")}
+            </Link>
           )}
           <Controls id={r.id} actions={["RESOLVE", "DISMISS"]} />
         </div>
       ))}
       {canModerate && (
         <>
-          <h2>Listings</h2>
+          <h2>{ui("Listings")}</h2>
           <div className="admin-table">
             {listings.slice(0, 50).map((l) => (
               <div className="admin-row" key={l.id}>
                 <Link href={"/admin/listings/" + l.id}>{l.title}</Link>
                 <span>
-                  {l.status}
+                  {ui(l.status)}
                   {l.moderation_reasons.length > 0 && (
                     <small>{l.moderation_reasons.join("; ")}</small>
                   )}
@@ -166,11 +177,11 @@ export default async function Admin({
               </div>
             ))}
           </div>
-          <h2>Users</h2>
+          <h2>{ui("Users")}</h2>
           {users.slice(0, 50).map((u) => (
             <div className="admin-row" key={u.id}>
               <span>{u.name}</span>
-              <span>{u.suspended ? "Suspended" : "Active"}</span>
+              <span>{u.suspended ? ui("Suspended") : ui("Active")}</span>
               <Controls
                 id={u.id}
                 actions={[u.suspended ? "UNSUSPEND" : "SUSPEND"]}
@@ -186,7 +197,7 @@ export default async function Admin({
                   new URLSearchParams({ q: f.q ?? "", page: String(page - 1) })
                 }
               >
-                ← Previous page
+                {ui("← Previous page")}
               </Link>
             )}
             {(listings.length > 50 || users.length > 50) && (
@@ -197,11 +208,11 @@ export default async function Admin({
                   new URLSearchParams({ q: f.q ?? "", page: String(page + 1) })
                 }
               >
-                Next page →
+                {ui("Next page →")}
               </Link>
             )}
           </nav>
-          <h2>Audit log</h2>
+          <h2>{ui("Audit log")}</h2>
           {logs.map((l) => (
             <p className="audit-row" key={l.id}>
               {new Date(l.created_at).toISOString()} · {l.name} · {l.action} ·{" "}
@@ -212,10 +223,11 @@ export default async function Admin({
       )}
       {canConfigure && (
         <>
-          <h2>Activity · last 30 days</h2>
+          <h2>{ui("Activity · last 30 days")}</h2>
           <p>
-            Daily aggregate counters. No visitor identifiers, search text, or
-            message content is recorded.
+            {ui(
+              "Daily aggregate counters. No visitor identifiers, search text, or message content is recorded.",
+            )}
           </p>
           {metrics.map((m) => (
             <p key={m.day + m.event}>

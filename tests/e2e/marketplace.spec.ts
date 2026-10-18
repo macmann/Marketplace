@@ -1,3 +1,4 @@
+import { waitForPublication } from "../helpers/publication";
 import { test, expect } from "@playwright/test";
 import { Pool } from "pg";
 import { hash } from "bcryptjs";
@@ -76,8 +77,12 @@ test("core marketplace journey and access control", async ({ browser }) => {
     buffer: image,
   });
   await s.getByRole("button", { name: "Publish listing" }).click();
-  await expect(s).toHaveURL(/\/listing\//);
-  listingId = s.url().split("/").pop()!;
+  listingId = await waitForPublication(
+    s,
+    pool,
+    sellerId,
+    "Test teak chair " + suffix,
+  );
   await expect(
     s.getByRole("heading", { name: "Test teak chair " + suffix }),
   ).toBeVisible();
@@ -96,6 +101,7 @@ test("core marketplace journey and access control", async ({ browser }) => {
     (await pool.query("SELECT price FROM listings WHERE id=$1", [listingId]))
       .rows[0].price,
   ).toBe("42000");
+  await waitForPublication(s, pool, sellerId, "Test teak chair " + suffix);
   const buyer = await browser.newContext();
   const b = await buyer.newPage();
   await b.goto("/login");
