@@ -7,8 +7,13 @@ A Next.js/TypeScript modular monolith for a Myanmar local marketplace, prepared 
 Requires Node 24, Docker with Compose, and Chromium for browser tests.
 
 ```sh
-npm ci --cache /workspace/.npm-cache
+npm ci
 cp .env.example .env # only for a new checkout; preserve existing configuration
+# Replace the shared-service examples for local development:
+# DATABASE_URL=postgresql://marketplace:marketplace@localhost:5432/marketplace
+# REDIS_URL=redis://localhost:6379/0
+# APP_URL=http://localhost:3000
+# COOKIE_SECURE=false
 # Set UPLOAD_DIR to an absolute writable directory on your machine.
 docker compose -f compose.dev.yaml up -d --wait
 npm run db:migrate
@@ -34,7 +39,7 @@ Playwright uses `/usr/bin/chromium` by default. Set `CHROMIUM_PATH` to a differe
 
 ## Deployment
 
-See [Coolify deployment](docs/coolify.md). The production Compose file includes web, worker, migration/seed job, PostgreSQL, Redis, and persistent local image storage. Configure S3 if preferred. Only the web service needs a public domain.
+See [Coolify deployment](docs/coolify.md). Production Compose runs only prebuilt web, worker and migration/seed containers, with persistent uploads. Supply DATABASE_URL and REDIS_URL for existing shared Coolify services; no PostgreSQL/Redis container is started. Images build in GitHub Actions, away from the small VPS. Configure registry access and pin matching image tags before deploying. Only web needs a public domain; S3 remains optional.
 
 ## Project structure
 

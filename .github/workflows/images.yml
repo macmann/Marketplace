@@ -1,0 +1,66 @@
+name: Publish images
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
+concurrency:
+  group: images-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+        if: contains(vars.MARKETPLACE_PLATFORMS, 'arm64')
+      - uses: docker/setup-buildx-action@v3
+      - name: Image names
+        id: names
+        shell: bash
+        run: echo "base=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # One builder and shared dependency stage: npm ci is reused by runner.
+      - name: Publish migration and worker tools
+        id: tools
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ vars.MARKETPLACE_PLATFORMS || 'linux/amd64' }}
+          target: tools
+          push: true
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          tags: |
+            ${{ steps.names.outputs.base }}-tools:sha-${{ github.sha }}
+            ${{ steps.names.outputs.base }}-tools:main
+          cache-from: type=gha,scope=marketplace
+          cache-to: type=gha,scope=marketplace,mode=max
+      - name: Publish web runner
+        id: web
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ vars.MARKETPLACE_PLATFORMS || 'linux/amd64' }}
+          target: runner
+          push: true
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          tags: |
+            ${{ steps.names.outputs.base }}-web:sha-${{ github.sha }}
+            ${{ steps.names.outputs.base }}-web:main
+          cache-from: type=gha,scope=marketplace
+          cache-to: type=gha,scope=marketplace,mode=max
+      - name: Deployment image references
+        run: |
+          echo 'MARKETPLACE_WEB_IMAGE=${{ steps.names.outputs.base }}-web:sha-${{ github.sha }}' >> "$GITHUB_STEP_SUMMARY"
+          echo 'MARKETPLACE_TOOLS_IMAGE=${{ steps.names.outputs.base }}-tools:sha-${{ github.sha }}' >> "$GITHUB_STEP_SUMMARY"

@@ -1,7 +1,14 @@
 import { readFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { pool } from "../lib/db";
-const client = await pool.connect();
+if (!process.env.DATABASE_URL?.trim())
+  throw Error("DATABASE_URL is required for migrations");
+const client = await pool.connect().catch(async () => {
+  await pool.end();
+  throw Error(
+    "Cannot connect to migration database; check DATABASE_URL and shared-service network access.",
+  );
+});
 try {
   await client.query("BEGIN");
   await client.query("SELECT pg_advisory_xact_lock(742901)");

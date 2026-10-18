@@ -18,7 +18,7 @@ The supplied specification is the target product. The current build implements t
 - Listing reports, basic admin metrics, user suspension/restoration, listing removal/restoration, report resolution, category hierarchy editing, location hierarchy editing, immutable-to-ordinary-users audit records for admin actions. Admin, reporting, status and notification controls have Burmese labels.
 - SEO metadata, canonical listing URLs, structured listing data, sitemap, robots, web app manifest and icon.
 - PostgreSQL-backed rate limits for auth, OTP, publishing, reports and messages; Next Server Action same-origin protection; server-side ownership/membership checks; opaque HttpOnly sessions; input validation and parameterized SQL.
-- Docker/Coolify service configuration, transactional checksum-verified versioned migrations, reference-data seeding, BullMQ/Redis maintenance worker, health checks, example configuration and deployment notes.
+- Prebuilt three-service Docker/Coolify deployment using shared PostgreSQL/Redis and namespaced BullMQ, off-VPS image publishing, transactional checksum-verified versioned migrations, reference-data seeding, BullMQ/Redis maintenance worker, health checks, example configuration and deployment notes.
 
 ## Required before a public launch
 

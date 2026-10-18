@@ -1,87 +1,89 @@
-# Deploy on Coolify
+# Deploy Marketplace on Coolify with shared services
 
-## Create the resource
+Production Compose runs **only `migrate`, `web`, and `worker`**. PostgreSQL and Redis are existing Coolify resources. The only application volume is `uploads`; S3 remains optional. No production build runs on the VPS: Compose pulls prebuilt web/tools images.
 
-1. Review the code, commit it, and push it to the GitHub repository connected to Coolify.
-2. Create a **Docker Compose** application using this repository and `/compose.yaml`.
-3. Add a domain to **web**, routing to internal port **3000**. Use your HTTPS domain, for example `https://market.example.com`. Coolify's proxy terminates TLS.
-4. Leave PostgreSQL, Redis, worker and migrate without public domains or host ports.
-5. Set the variables below in Coolify, then deploy. The migration job must succeed before web and worker start.
+## Build away from the 2 GB VPS
 
-## Required configuration
+The `Publish images` GitHub workflow builds on a GitHub-hosted runner after a merge to `main` or a manual workflow dispatch. It uses one Buildx builder, builds tools first, and reuses the dependency stage for web. Dependencies install once and Next.js compiles once. Both images receive a matching immutable `sha-<full-commit>` tag, plus `main`. No database/Redis/build-time service or application secret is needed to build. The default image platform is `linux/amd64`: check `uname -m` on the VPS. For ARM set the GitHub Actions repository variable `MARKETPLACE_PLATFORMS=linux/arm64` (or both platforms) before building; QEMU is enabled only when requested. Each requested platform builds its own necessary artifacts.
 
-| Variable | Value |
-| --- | --- |
-| `APP_URL` | Public HTTPS origin, with no trailing slash |
-| `POSTGRES_PASSWORD` | Random URL-safe password (letters/digits; at least 32 characters) |
-| `COOKIE_SECURE` | `true` in production; default is true |
-| `ADMIN_EMAIL` | Initial administrator email, for bootstrap |
-| `ADMIN_PASSWORD` | Unique password of 14–72 characters, for bootstrap |
+Wait for **both** image publications to finish. In Coolify, set `MARKETPLACE_WEB_IMAGE` and `MARKETPLACE_TOOLS_IMAGE` to matching SHA tags from that successful run. Defaults reference `ghcr.io/macmann/marketplace-web:main` and `ghcr.io/macmann/marketplace-tools:main`, but immutable tags prevent mixed releases. Do not deploy between the two image pushes. Disable Git-push auto-deployment for this Compose app and redeploy after image publication, unless you separately wire an image-build-completion deployment trigger.
 
-The bootstrap inserts an admin only if that email does not exist. It never promotes or resets an existing user. Set these before the first deploy; remove `ADMIN_PASSWORD` from the environment after bootstrap. To intentionally create another admin, use a new email and rerun the seed job through your operational process. Ordinary users cannot promote themselves.
+New GHCR packages are normally private. Either grant Coolify registry access using a securely stored token with read-packages permission, or deliberately make the packages public. The GitHub application used for source access does not automatically supply registry access. The build workflow uses its scoped `GITHUB_TOKEN`, not a committed registry credential. Forks must set their own image references.
 
-Configure SMTP email (below) or Twilio Verify before admitting new posters. A verified phone **or** verified email permits publishing, so SMTP supports an SMS-free launch. Twilio's `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_VERIFY_SERVICE_SID` are optional unless phone sign-in/verification or SMS recovery is required. SMS recovery uses only a previously verified phone; email recovery uses only a previously verified email. Validate actual provider delivery and billing/geographic permissions. Never enter secrets in chat or commit `.env`.
+Do not enable a Dockerfile/Nixpacks build in Coolify or run `docker compose build` on the small VPS. Adding swap or a small Node heap limit does not make this build safe alongside the other applications. If GitHub-hosted image publishing is unavailable, build the same two Docker targets on a separate machine and publish them to your registry before deploying.
 
-Optional private S3-compatible storage:
+## Create or reuse the shared PostgreSQL database
 
-- `S3_ENDPOINT` — HTTPS endpoint (omit for AWS's default endpoint)
-- `S3_REGION` — provider region, defaults to `auto`
-- `S3_BUCKET`
-- `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` — scoped object get/put/delete access
+Use the existing PostgreSQL resource's terminal/admin connection. Create a dedicated database and role; do not point Marketplace at another application's database or reuse its tables. For a **new, empty** Marketplace database:
 
-Do not switch storage backends without migrating existing image objects. Otherwise their stored keys will no longer resolve. Without S3, the `uploads` named volume is required and must be backed up. Uploads are private at the origin and served by the app; no public bucket policy is needed. Use one web replica with local uploads. For multiple replicas use S3 and a shared stable `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` at build time; multi-replica deployment is not validated in this initial configuration.
-
-## Readiness and migrations
-
-The web health check requests `/api/health`, which checks PostgreSQL and the schema. Redis has a separate health check. The worker logs `worker_ready` after initial maintenance and Redis queue initialization. Coolify should show `migrate` exited successfully, PostgreSQL/Redis/web healthy, and worker running. Test registration, phone verification with a real device, publishing, image retrieval, and messaging on the public domain after deployment.
-
-The migration command applies sorted SQL files from `scripts/migrations/` transactionally under a PostgreSQL advisory lock. `000_initial.sql` safely adopts the original schema, including existing deployments; `001_account_lifecycle.sql` adds nullable phone-only credentials, authentication challenges, recent-session timestamps, deletion state and image cleanup jobs. Applied migration SHA-256 checksums are stored in `schema_migrations`; changed applied files are rejected. Back up the database before deploying, allow the migrate job to finish, and start the new web and worker together. Repeated runs skip unchanged migrations. **Add a new numbered file for future schema changes; do not edit applied files or reset production.** Older sessions remain valid for browsing but require password confirmation or a new sign-in for deletion because they have no recent-auth timestamp.
-
-For local production-stack verification you may use a git-ignored temporary Compose override that publishes web to `127.0.0.1`; the default production file exposes no host ports. Set `COOKIE_SECURE=false` only for that local HTTP smoke test.
-
-## Operations
-
-- Keep database, Redis and uploads volumes across redeploys. Never use `docker compose down -v` on production.
-- Schedule an encrypted PostgreSQL backup at least daily using Coolify's database backup facility or a `pg_dump` job with private off-host storage. Use 7 daily, 4 weekly and 3 monthly retention. Test restores into a separate database. This repository does not automatically provision backup jobs or PITR.
-- Back up uploads or use durable S3 storage with versioning/lifecycle policies. Coordinate image and database retention.
-- Preserve the database password after volume initialization. Changing the environment variable alone does not rotate a PostgreSQL role's password.
-- Use Coolify logs for initial diagnostics. Never log passwords, OTP codes, session cookies or private messages. Centralized error tracking/alerts remain deployment work.
-- The worker expires active listings after 60 days and removes expired sessions/rate-limit records and authentication challenges hourly. It also processes up to 100 queued image deletions per maintenance run, retaining failures for retry. It does not yet resize images asynchronously or deliver push notifications.
-- Configure your proxy to replace untrusted `X-Forwarded-For` and preserve the public host for Server Actions' same-origin checks. Set upload/request limits consistent with the application's 25 MB total request limit and 8 MB per-image limit. Do not disable origin checks to work around a proxy configuration problem.
-- Pin and review container image digests in your release process; base images currently follow supported major tags.
-
-## Local equivalent
-
-```sh
-# Supply variables securely using .env; do not put secrets into shell history.
-docker compose up -d --build
-# Inspect only service status and non-secret application logs.
-docker compose ps
+```sql
+CREATE ROLE marketplace_user LOGIN;
+\password marketplace_user
+CREATE DATABASE marketplace OWNER marketplace_user;
 ```
 
-Deployment from this workspace to your Coolify instance has not been performed. No Coolify connection or domain was supplied.
+`\password` prompts for the password without placing it in this document. Use your established secret-management process and URL-encode reserved characters in connection-string credentials. The database owner must be able to create its tables and the trusted `pg_trgm` extension. If your shared service restricts extensions, its administrator should install `pg_trgm` in the `marketplace` database first. No superuser role is required by the application.
 
-## Account rollout checks
+If the database or role already exists, reuse it and verify ownership/permissions instead of recreating or dropping it. For data currently in the old bundled database, stop Marketplace writers, take a coordinated database/uploads backup, and restore into a separately created empty shared database with ownership mapped to `marketplace_user` (`pg_restore --no-owner --no-privileges`). Verify data and media before changing traffic. Keep the old database and volumes intact until the cutover is verified. This code does not move, reset or delete any database automatically.
 
-After applying the migration, check phone sign-in for both a new and existing user, incorrect/expired code handling, phone linking from an email account, password recovery with session revocation, data export, and account deletion. Twilio Verify must support Myanmar destinations and have appropriate geographic permissions and spending limits. OTP request limits use the trusted proxy client IP and destination; keep forwarded-header sanitization enabled. Code checks are also capped per server-side challenge. Never use integration-test providers or test codes in production.
+## Connect the three application services
 
-Deletion requires a sign-in within the preceding 15 minutes or the current password. Phone-only members with older sessions should sign in again by OTP. The last active administrator cannot self-delete. Deletion anonymizes transaction/moderation references rather than deleting referential history; images are hidden immediately and queued for physical removal. Monitor `image_deletion_failed` events and the `image_deletions` queue. Do not describe this as immediate erasure of historical backups.
+1. Keep the existing shared PostgreSQL and Redis resources running in Coolify. Do not add copies for Marketplace.
+2. Create/update a **Docker Compose** application using this repository and `/compose.yaml`. Reuse the existing application resource when possible so its uploads volume/project identity stays the same.
+3. Attach the shared resources and application to the same existing internal Docker network. Set `COOLIFY_NETWORK` to its name if it differs from `coolify`. The Compose network is external: Marketplace does not create a replacement network or database service.
+4. Configure `DATABASE_URL` and `REDIS_URL` with the shared services' internal DNS hostnames, not `localhost`. Use the hostnames Coolify actually assigns; no UUID hostname is hardcoded here.
+5. Select matching prebuilt image references. Configure registry access if needed. Add a public HTTPS domain to **web**, internal port **3000**. Give migrate/worker no public domains or host ports.
+6. Set bootstrap variables only if an initial admin is needed, then deploy after the image workflow succeeds. Migration/seed must exit successfully before web/worker start. Remove the bootstrap password after success.
 
-## Listing workflow rollout
+Example connection strings only:
 
-Deploy the listing phase after the account lifecycle phase. `002_listing_workflow.sql` adds private drafts, optimistic revisions, draft image ownership, unique storage keys, and category field/value tables. The migrate job runs before `db:seed`; the seed then installs optional default fields without overwriting administrator changes. Both old data and fresh installations are covered by tests. Do not reorder these commands. Back up first and keep all applied migrations unchanged.
+```dotenv
+DATABASE_URL=postgresql://marketplace_user:PASSWORD@shared-postgres:5432/marketplace
+REDIS_URL=redis://shared-redis:6379/0
+APP_URL=https://market.example.com
+COOKIE_SECURE=true
+REDIS_KEY_PREFIX=marketplace
+```
 
-Verify saving an incomplete draft, owner-only access to its photos, resuming the draft, phone verification before publishing, category-field validation, cover-photo ordering, and removal of replaced photos from origin URLs. Removed objects are queued for worker cleanup. The 25 MB server-action request limit remains in force; the editor caps newly uploaded files at 24 MB combined to leave room for form data. Drafts are not automatically saved or available offline. New required category fields apply the next time a listing is published or edited; existing live listings are not silently removed. Disabling a field removes it from the editor, and its historical value is removed on the next successful edit.
+Supply real values securely in Coolify, never in Git or chat. Marketplace no longer requires `POSTGRES_PASSWORD`.
 
-## Marketplace release (sprints 3–6)
+## Required and optional variables
 
-Deploy the web and worker from the same release. Migrations 003–007 add scoped staff roles, moderation rules/policy, reports for users/messages, transactional notifications, Web Push subscriptions/outbox, category visibility, status-preserving restoration and report outcome notifications. They preserve existing listings/accounts; repeated open reports from a reporter are consolidated with a migration resolution note. Seeding adds starter review phrases without re-enabling rules an administrator disabled.
+Required: `APP_URL`, `DATABASE_URL`, `REDIS_URL`. Keep `COOKIE_SECURE=true` behind production HTTPS. `ADMIN_EMAIL` and `ADMIN_PASSWORD` are required only for first-admin bootstrap; the seed never promotes/resets an existing account with that email.
 
-Configure optional `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` and `VAPID_SUBJECT` on web and worker for background push. Generate keys once; keep the private key in Coolify secrets. Without these settings, in-app notifications and live updates still work and background push controls stay hidden.
+Optional deployment settings: `MARKETPLACE_WEB_IMAGE`, `MARKETPLACE_TOOLS_IMAGE` (pin matching SHA tags), `COOLIFY_NETWORK` (default `coolify`), `REDIS_KEY_PREFIX` (default `marketplace`). Distinct applications/environments sharing Redis must use distinct prefixes. Local media always uses `UPLOAD_DIR=/app/uploads` with the persistent uploads volume.
 
-Ensure the reverse proxy does not buffer `/api/events` and permits connections over 60 seconds. Add external alerts for `/api/health` and `/api/ready`; inspect `/admin/operations` after deployment. Set `COOKIE_SECURE=true` for HTTPS/HSTS. Review `/admin/safety`, especially the review-all option, before admitting public sellers. Phone verification does not imply a listing passed human review unless policy requires it.
+Optional integrations:
 
-Follow [operations.md](operations.md) for consistent database/uploads snapshots, encrypted off-host copies, empty-target restoration, worker incidents, push constraints and performance validation. Backup scheduling and real provider tests require your deployment accounts; no live deployment is performed by the build.
+- SMTP: `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `EMAIL_FROM` — web only; see email configuration below.
+- Twilio: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_VERIFY_SERVICE_SID`.
+- Web Push: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`.
+- Image classification: worker-only `OPENAI_API_KEY`, then select OPENAI in Admin → Safety. Default MANUAL sends nothing externally; LOCAL uses deterministic checks only.
+- S3: `S3_ENDPOINT`, `S3_REGION=auto`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`. Keep the existing storage backend until you explicitly migrate objects. No S3 move is part of this change.
+
+Configure and validate SMTP or Twilio for new users to verify a contact before posting. A verified email permits posting without SMS. Live provider delivery, public TLS/proxy behavior and the actual shared-service network require deployment-side verification.
+
+## Redis isolation and service readiness
+
+BullMQ's `maintenance` queue, scheduler, jobs, events and locks all use the configured BullMQ `prefix` option. Do not use ioredis's `keyPrefix` option with BullMQ. The health probe reads only `${REDIS_KEY_PREFIX}:service-health`; it does not read a global or another application’s key. Sessions, rate limits, notifications/push delivery, media jobs and moderation jobs live in the dedicated PostgreSQL database rather than Redis.
+
+Prefix isolation works on Redis DB 0. A logical DB in `REDIS_URL` is honored if your service supports it, but is not required for isolation. Use Redis persistence and `maxmemory-policy=noeviction` for BullMQ reliability; coordinate this with the shared Redis operator because that setting affects other applications. A prefix prevents accidental key collisions, not access by another client holding unrestricted credentials. Use Redis ACLs/network controls appropriate to your shared service.
+
+Changing the prefix starts a new namespace. Stop the old Marketplace worker first, then deploy web/worker with the same new prefix. The old queue contains periodic maintenance rather than user-message/media jobs; the new worker re-registers its scheduler and performs initial maintenance. Do not flush shared Redis or delete another application's keys. Leave old namespace cleanup to a separately reviewed operation.
+
+Missing URLs fail Compose interpolation. Migrate has a bounded PostgreSQL connection timeout and an explicit missing-URL error; it does not wait for a bundled healthcheck. Worker startup fails clearly after a bounded Redis initialization attempt, and Docker restarts it; established connections retry Redis outages. `/api/health` checks database/schema, `/api/ready` requires a recent worker heartbeat, and the worker container has its own heartbeat check. Migrate exits zero; web/worker should be healthy. Investigate network DNS, credentials, TLS and resource access instead of disabling verification.
+
+## Persistence and safe updates
+
+Never run `docker compose down -v` on production. Keep uploads attached across redeploys, and back up database/uploads consistently. A new Coolify application/project may allocate a different uploads volume: explicitly retain the old volume or restore its backup before switching traffic. Keep one web replica with local uploads. Do not change media storage or add replicas without a separate migration/review.
+
+Migrations are append-only, checksum-verified and transactional under an advisory lock. Every deployment runs `npm run db:migrate && npm run db:seed` using the external URL. Do not edit applied files or reset production. The seed preserves administrator edits and never creates demo inventory. The one-shot job must complete before both long-running services start.
+
+Coolify must replace untrusted `X-Forwarded-For`, preserve the public host for Server Actions, and avoid buffering `/api/events` (allow connections over 60 seconds). Keep request limits consistent with the 25 MB action limit and 8 MB per image. Do not weaken same-origin checks or TLS to work around networking problems.
+
+Use shared-database backups plus coordinated uploads snapshots. The repository backup/restore helpers accept `DATABASE_URL` and can use host PostgreSQL clients or the **existing** shared database container via `POSTGRES_CLIENT_CONTAINER`; they do not start a database service. Restore helpers require an explicitly empty target. Test restoration to a separate database and configure encrypted off-host retention and alerts. See [operations.md](operations.md).
+
+Validate sign-in, email/phone verification, a free giveaway, moderation, image retrieval, messages and notifications over the real public domain before broad launch. Historical Myanmar reference names and Burmese wording still require local review. Sharing infrastructure reduces duplicate services; it does not establish a RAM, latency or uptime guarantee for the 2 GB VPS.
 
 ## Media automation and Myanmar discovery rollout
 
