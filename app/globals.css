@@ -118,11 +118,16 @@ header {
   font-weight: 700;
   gap: 9px;
 }
-.brand small {
-  font-size: 8px;
-  letter-spacing: 2px;
-  align-self: flex-end;
-  margin: 0 0 10px 2px;
+.brand-wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.brand .brand-wordmark small {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  margin-top: 4px;
 }
 .brand-icon {
   background: var(--green);
@@ -420,7 +425,8 @@ nav a:hover,
 }
 .filters {
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr auto;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 2fr) auto;
+  align-items: start;
   gap: 0;
   background: white;
   border: 1px solid var(--line);
@@ -428,6 +434,15 @@ nav a:hover,
   position: relative;
   padding: 9px;
   margin-bottom: 35px;
+}
+.filters > *,
+.location-picker,
+.location-picker label {
+  min-width: 0;
+}
+.location-picker .two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 .filters > select {
   border: 0;
@@ -1160,9 +1175,6 @@ details summary {
   .auth-shell {
     margin: 35px;
   }
-  .brand small {
-    display: none;
-  }
   .topbar {
     gap: 20px;
   }
@@ -1170,7 +1182,11 @@ details summary {
     gap: 20px;
   }
   .filters {
-    grid-template-columns: 1.3fr 1fr 1fr;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 12px;
+  }
+  .filters > .location-picker {
+    grid-column: 1/-1;
   }
   .filters > .button {
     grid-column: 1/-1;
@@ -1186,7 +1202,12 @@ details summary {
     padding-right: 20px;
   }
   .topbar {
-    height: 72px;
+    height: auto;
+    min-height: 72px;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
   .brand {
     font-size: 25px;
@@ -1207,6 +1228,7 @@ details summary {
   }
   header nav {
     gap: 8px;
+    margin-left: auto;
   }
   .language {
     font-size: 12px;
@@ -1255,8 +1277,8 @@ details summary {
     padding-top: 20px;
   }
   .filters {
-    grid-template-columns: 1fr 1fr;
-    gap: 7px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
     padding: 9px;
     margin-bottom: 25px;
   }
@@ -1267,8 +1289,11 @@ details summary {
   .filters > select {
     border: 1px solid var(--line);
     border-radius: 5px;
-    font-size: 11px;
+    font-size: 14px;
     padding: 10px;
+  }
+  .filters .location-picker .two-columns {
+    grid-template-columns: minmax(0, 1fr);
   }
   .filters > .button {
     grid-column: 1/-1;

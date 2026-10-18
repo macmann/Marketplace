@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Neighbour Myanmar",
+    name: "Neighbour by Flash Tech",
     short_name: "Neighbour",
     description: "Buy. Sell. Give away. Find useful things near you.",
     id: "/",

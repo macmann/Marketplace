@@ -12,8 +12,8 @@ import { releaseCopy } from "@/lib/release-i18n";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL || "http://localhost:3000"),
   title: {
-    default: "Neighbour · Buy. Sell. Give away.",
-    template: "%s · Neighbour",
+    default: "Neighbour by Flash Tech · Buy. Sell. Give away.",
+    template: "%s · Neighbour by Flash Tech",
   },
   description: "Find useful things near you. A local marketplace for Myanmar.",
   manifest: "/manifest.webmanifest",
@@ -48,8 +48,10 @@ export default async function Layout({
                 <span className="brand-icon">
                   n<span>•</span>
                 </span>
-                {t.brand}
-                <small>MYANMAR</small>
+                <span className="brand-wordmark">
+                  <span>{t.brand}</span>
+                  <small>by Flash Tech</small>
+                </span>
               </Link>
               <nav aria-label={ui("Main navigation")}>
                 <Link href="/">{t.home}</Link>
@@ -80,8 +82,10 @@ export default async function Layout({
             <Pwa install={r.install} />
             <div>
               <Link className="brand" href="/">
-                {t.brand}
-                <span className="dot">.</span>
+                <span className="brand-wordmark">
+                  <span>{t.brand}</span>
+                  <small>by Flash Tech</small>
+                </span>
               </Link>
               <p>{t.about}</p>
               <Link href="/safety">{r.safety}</Link>
