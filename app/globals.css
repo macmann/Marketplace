@@ -1641,3 +1641,50 @@ details summary {
     grid-template-columns: 1fr;
   }
 }
+
+.notification-count {
+  display: inline-block;
+  margin-inline-start: 0.35rem;
+  background: #224c3b;
+  color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+}
+.admin-row .stack {
+  min-width: 0;
+}
+.admin-row input {
+  width: 100%;
+  min-width: 0;
+}
+.admin-row small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.message details {
+  font-size: 0.75rem;
+  padding: 0.4rem;
+  margin: 0.5rem 0 0;
+}
+.filter-row label {
+  min-width: 140px;
+  flex: 1;
+}
+@media (max-width: 700px) {
+  .admin-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

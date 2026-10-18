@@ -1,4 +1,7 @@
+import { searchAlternatives, fuzzyEnglish } from "./search";
 import { query } from "./db";
+import { attributeDefinitions } from "./attributes";
+import { pool } from "./db";
 import { normalizeSearch } from "./validation";
 export type Listing = {
   id: string;
@@ -33,25 +36,71 @@ export async function catalog(
   const where = [
     owner
       ? `l.seller_id=${add(owner)}`
-      : "l.status IN ('ACTIVE','RESERVED') AND NOT u.suspended AND c.enabled",
+      : "l.status IN ('ACTIVE','RESERVED') AND l.expires_at>now() AND NOT u.suspended AND category_visible(l.category_id)",
   ];
   if (owner && publicOnly)
     where.push(
-      "l.status IN ('ACTIVE','RESERVED') AND NOT u.suspended AND c.enabled",
+      "l.status IN ('ACTIVE','RESERVED') AND l.expires_at>now() AND NOT u.suspended AND category_visible(l.category_id)",
     );
   if (saved)
     where.push(
       `EXISTS(SELECT 1 FROM favorites f WHERE f.listing_id=l.id AND f.user_id=${add(saved)})`,
     );
+  let relevance = "";
   if (filters.q) {
-    const q = add(
-      "%" + normalizeSearch(filters.q).replace(/[\\%_]/g, "\\$&") + "%",
-    );
-    where.push(
-      `(l.title ILIKE ${q} OR l.description ILIKE ${q} OR c.name_en ILIKE ${q} OR c.name_my ILIKE ${q})`,
-    );
+    const terms = normalizeSearch(filters.q)
+      .toLowerCase()
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 10);
+    for (const term of terms) {
+      const alternatives = searchAlternatives(term).map((word) => {
+        const q = add("%" + word.replace(/[\\%_]/g, "\\$&") + "%");
+        const clauses = [
+          `lower(normalize(l.title,NFC)) LIKE ${q}`,
+          `lower(normalize(l.description,NFC)) LIKE ${q}`,
+          `lower(normalize(c.name_en,NFC)) LIKE ${q}`,
+          `normalize(c.name_my,NFC) LIKE ${q}`,
+        ];
+        if (fuzzyEnglish(word))
+          clauses.push(
+            `word_similarity(${add(word)},lower(normalize(l.title,NFC)))>=0.5`,
+          );
+        return "(" + clauses.join(" OR ") + ")";
+      });
+      where.push("(" + alternatives.join(" OR ") + ")");
+    }
+    const exact = add(normalizeSearch(filters.q).toLowerCase());
+    relevance = `(CASE WHEN lower(normalize(l.title,NFC))=${exact} THEN 3 WHEN strpos(lower(normalize(l.title,NFC)),${exact})>0 THEN 2 ELSE 1 END) DESC,`;
   }
-  if (filters.category) where.push(`l.category_id=${add(filters.category)}`);
+  if (filters.category) {
+    where.push(
+      `l.category_id IN (WITH RECURSIVE descendants AS (SELECT id FROM categories WHERE id=${add(filters.category)} AND enabled UNION ALL SELECT c.id FROM categories c JOIN descendants d ON c.parent_id=d.id WHERE c.enabled) SELECT id FROM descendants)`,
+    );
+    const definitions = await attributeDefinitions(pool, filters.category);
+    for (const field of definitions) {
+      const raw = filters["attr_" + field.id];
+      if (raw === undefined || raw === "") continue;
+      let value: string | number | boolean = raw.slice(0, 500);
+      if (field.type === "NUMBER") {
+        if (!Number.isFinite(Number(raw))) {
+          where.push("false");
+          continue;
+        }
+        value = Number(raw);
+      }
+      if (field.type === "BOOLEAN") {
+        if (!["true", "false"].includes(raw)) {
+          where.push("false");
+          continue;
+        }
+        value = raw === "true";
+      }
+      where.push(
+        `EXISTS(SELECT 1 FROM listing_attribute_values v WHERE v.listing_id=l.id AND v.attribute_id=${add(field.id)} AND v.value=${add(JSON.stringify(value))}::jsonb)`,
+      );
+    }
+  }
   if (filters.location)
     where.push(
       `l.location_id IN (WITH RECURSIVE descendants AS (SELECT id FROM locations WHERE id=${add(filters.location)} UNION ALL SELECT x.id FROM locations x JOIN descendants d ON x.parent_id=d.id) SELECT id FROM descendants)`,
@@ -72,7 +121,8 @@ export async function catalog(
       ? "l.price ASC,l.created_at DESC"
       : filters.sort === "high"
         ? "l.price DESC,l.created_at DESC"
-        : "l.created_at DESC";
+        : (filters.sort === "newest" ? "" : relevance) +
+          "l.created_at DESC,l.id DESC";
   const page = Math.max(
     1,
     Math.min(10000, Math.floor(Number(filters.page)) || 1),

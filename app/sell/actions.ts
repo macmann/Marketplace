@@ -5,7 +5,7 @@ import { requireUser, requireAdmin, rateLimit } from "@/lib/auth";
 import { listingService } from "@/lib/listing-service";
 import { ListingError, type ListingPayload } from "@/lib/listing-validation";
 import { listingCopy } from "@/lib/listing-i18n";
-import { pool } from "@/lib/db";
+import { pool, query } from "@/lib/db";
 import { uuid } from "@/lib/validation";
 export type EditorResult = { error?: string };
 export async function saveListing(
@@ -47,7 +47,14 @@ export async function saveListing(
   if (result.kind === "draft")
     redirect("/sell/draft/" + result.id + "?saved=1");
   if (String(f.get("kind")) === "listing") redirect("/account/listings");
-  redirect("/listing/" + result.id);
+  const [published] = await query("SELECT status FROM listings WHERE id=$1", [
+    result.id,
+  ]);
+  redirect(
+    published?.status === "PENDING_REVIEW"
+      ? "/account/listings?review=1"
+      : "/listing/" + result.id,
+  );
 }
 export async function discardDraft(f: FormData) {
   const u = await requireUser();

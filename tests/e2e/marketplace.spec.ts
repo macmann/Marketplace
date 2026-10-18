@@ -118,6 +118,17 @@ test("core marketplace journey and access control", async ({ browser }) => {
   ).toBeVisible();
   await b.goto("/listing/" + listingId);
   await b.getByRole("button", { name: "♡ Save", exact: true }).click();
+  await expect
+    .poll(
+      async () =>
+        (
+          await pool.query(
+            "SELECT count(*) FROM favorites WHERE user_id=$1 AND listing_id=$2",
+            [buyerId, listingId],
+          )
+        ).rows[0].count,
+    )
+    .toBe("1");
   await b.goto("/account/favorites");
   await expect(
     b.getByRole("heading", { name: "Test teak chair " + suffix }),
@@ -238,6 +249,11 @@ test("administrators moderate listings and manage reference data with audit reco
     "INSERT INTO listings(seller_id,category_id,location_id,title,description,listing_type,price,condition) VALUES($1,'home','sanchaung',$2,'Moderation integration fixture','FREE',0,'GOOD') RETURNING id",
     [sellerId, "Moderation fixture " + suffix],
   );
+  // Restoring requires a valid photo, just as ordinary publication does.
+  await pool.query(
+    "INSERT INTO listing_images(listing_id,storage_key,position) VALUES($1,$2,0)",
+    [listing.id, randomUUID() + ".webp"],
+  );
   const categoryId = "test-" + suffix;
   try {
     await page.goto("/login");
@@ -249,6 +265,7 @@ test("administrators moderate listings and manage reference data with audit reco
     const row = page
       .locator(".admin-row")
       .filter({ hasText: "Moderation fixture " + suffix });
+    await row.getByLabel("Decision reason").fill("Removed by integration test");
     await row.getByRole("button", { name: "Remove", exact: true }).click();
     await expect
       .poll(

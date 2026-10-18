@@ -14,6 +14,11 @@ import {
   digest,
 } from "@/lib/auth";
 import { accountSchema, uuid, canTransition } from "@/lib/validation";
+import { recordMetric } from "@/lib/metrics";
+import { reportReasons } from "@/lib/report-reasons";
+import { createReport } from "@/lib/reporting";
+import { moderation } from "@/lib/moderation";
+import { requirePermission } from "@/lib/auth";
 import { listingService } from "@/lib/listing-service";
 const value = (f: FormData, k: string) => String(f.get(k) ?? "");
 function fail(path: string, error: string): never {
@@ -86,7 +91,7 @@ export async function favorite(f: FormData) {
   const u = await requireUser();
   const id = uuid.parse(value(f, "id"));
   const visible = await query(
-    "SELECT 1 FROM listings l JOIN users u ON u.id=l.seller_id WHERE l.id=$1 AND l.status IN ('ACTIVE','RESERVED') AND NOT u.suspended",
+    "SELECT 1 FROM listings l JOIN users u ON u.id=l.seller_id WHERE l.id=$1 AND l.status IN ('ACTIVE','RESERVED') AND l.expires_at>now() AND category_visible(l.category_id) AND NOT u.suspended",
     [id],
   );
   if (!visible.length) return;
@@ -135,7 +140,7 @@ export async function startConversation(f: FormData) {
   const id = uuid.parse(value(f, "id"));
   await rateLimit("conversation:" + u.id, 20, 3600);
   const [l] = await query(
-    "SELECT l.* FROM listings l JOIN users u ON u.id=l.seller_id WHERE l.id=$1 AND l.status IN ('ACTIVE','RESERVED') AND NOT u.suspended",
+    "SELECT l.* FROM listings l JOIN users u ON u.id=l.seller_id WHERE l.id=$1 AND l.status IN ('ACTIVE','RESERVED') AND l.expires_at>now() AND category_visible(l.category_id) AND NOT u.suspended",
     [id],
   );
   if (!l || l.seller_id === u.id) redirect("/account/messages");
@@ -148,6 +153,7 @@ export async function startConversation(f: FormData) {
     "INSERT INTO conversations(listing_id,buyer_id,seller_id) VALUES($1,$2,$3) ON CONFLICT(listing_id,buyer_id) DO UPDATE SET listing_id=excluded.listing_id RETURNING id",
     [id, u.id, l.seller_id],
   );
+  await recordMetric("CONTACT");
   redirect("/account/messages/" + c.id);
 }
 export async function sendMessage(f: FormData) {
@@ -187,23 +193,9 @@ export async function reportListing(f: FormData) {
   const u = await requireUser();
   const id = uuid.parse(value(f, "id"));
   const reason = value(f, "reason");
-  if (
-    ![
-      "Scam",
-      "Counterfeit",
-      "Prohibited item",
-      "Misleading listing",
-      "Spam",
-      "Harassment",
-      "Other",
-    ].includes(reason)
-  )
-    return;
+  if (!reportReasons.includes(reason as (typeof reportReasons)[number])) return;
   await rateLimit("report:" + u.id, 10, 86400);
-  await query(
-    "INSERT INTO reports(reporter_id,listing_id,reason,detail) SELECT $1,id,$3,$4 FROM listings WHERE id=$2",
-    [u.id, id, reason, value(f, "detail").slice(0, 2000)],
-  );
+  await createReport(u.id, "listing", id, reason, value(f, "detail"));
   redirect("/listing/" + id + "?reported=1");
 }
 export async function updateProfile(f: FormData) {
@@ -214,40 +206,22 @@ export async function updateProfile(f: FormData) {
   revalidatePath("/account");
 }
 export async function moderate(f: FormData) {
-  const u = await requireAdmin();
-  const id = uuid.parse(value(f, "id"));
-  const action = value(f, "action");
-  const client = await pool.connect();
+  const u = await requirePermission("support");
   try {
-    await client.query("BEGIN");
-    if (action === "REMOVE" || action === "RESTORE")
-      await client.query(
-        "UPDATE listings SET status=$1,updated_at=now() WHERE id=$2",
-        [action === "REMOVE" ? "REMOVED" : "ACTIVE", id],
-      );
-    else if (action === "SUSPEND" || action === "UNSUSPEND")
-      await client.query(
-        "UPDATE users SET suspended=$1 WHERE id=$2 AND role<>'ADMIN' AND deleted_at IS NULL",
-        [action === "SUSPEND", id],
-      );
-    else if (action === "RESOLVE")
-      await client.query("UPDATE reports SET status='RESOLVED' WHERE id=$1", [
-        id,
-      ]);
-    else {
-      await client.query("ROLLBACK");
-      return;
-    }
-    await client.query(
-      "INSERT INTO audit_logs(actor_id,action,entity_id) VALUES($1,$2,$3)",
-      [u.id, action, id],
+    await moderation.act(
+      u.id,
+      uuid.parse(value(f, "id")),
+      value(f, "action"),
+      value(f, "note"),
+      f.has("revision") ? Number(value(f, "revision")) : undefined,
     );
-    await client.query("COMMIT");
   } catch (e) {
-    await client.query("ROLLBACK");
-    throw e;
-  } finally {
-    client.release();
+    redirect(
+      "/admin?error=" +
+        encodeURIComponent(
+          e instanceof Error ? e.message : "Unable to moderate",
+        ),
+    );
   }
   revalidatePath("/", "layout");
 }
@@ -360,4 +334,21 @@ export async function manageLocation(f: FormData) {
     client.release();
   }
   revalidatePath("/", "layout");
+}
+
+export async function reportTarget(f: FormData) {
+  const u = await requireUser();
+  await rateLimit("report:" + u.id, 10, 86400);
+  try {
+    await createReport(
+      u.id,
+      value(f, "kind"),
+      uuid.parse(value(f, "id")),
+      value(f, "reason"),
+      value(f, "detail"),
+    );
+  } catch {
+    redirect("/account/messages?error=Unable+to+submit+report");
+  }
+  redirect("/account/messages?reported=1");
 }

@@ -20,6 +20,7 @@ USER node
 EXPOSE 3000
 CMD ["node","server.js"]
 FROM deps AS tools
+RUN mkdir -p /app/uploads && chown node:node /app/uploads
 COPY --chown=node:node . .
 ENV NODE_ENV=production
 USER node

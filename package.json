@@ -14,7 +14,8 @@
     "test:e2e": "playwright test",
     "format": "prettier --write app lib scripts tests *.ts *.json *.yaml .github/workflows/*.yml",
     "format:check": "prettier --check app lib scripts tests *.ts *.json *.yaml .github/workflows/*.yml",
-    "test:integration": "node --env-file-if-exists=.env --import tsx --test --test-concurrency=1 tests/integration/*.test.ts"
+    "test:integration": "node --env-file-if-exists=.env --import tsx --test --test-concurrency=1 tests/integration/*.test.ts",
+    "benchmark": "tsx scripts/benchmark.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.0.0",
@@ -25,6 +26,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sharp": "^0.35.5",
+    "web-push": "^3.6.7",
     "zod": "^4.0.0"
   },
   "devDependencies": {
@@ -33,6 +35,7 @@
     "@types/pg": "^8.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/web-push": "^3.6.4",
     "prettier": "^3.9.10",
     "tsx": "^4.0.0",
     "typescript": "^5.9.0"

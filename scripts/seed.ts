@@ -56,6 +56,18 @@ try {
  ('bicycles','wheel_size','Wheel size (inches)','ဘီးအရွယ်အစား (လက်မ)','NUMBER','[]',0)
 ON CONFLICT(category_id,key) DO NOTHING;
 `);
+  for (const phrase of [
+    "heroin",
+    "cocaine",
+    "methamphetamine",
+    "firearm",
+    "မူးယစ်ဆေး",
+    "သေနတ်",
+  ])
+    await query(
+      "INSERT INTO moderation_rules(phrase) VALUES($1) ON CONFLICT(phrase) DO NOTHING",
+      [phrase],
+    );
   if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
     if (process.env.ADMIN_PASSWORD.length < 14)
       throw new Error("ADMIN_PASSWORD must contain at least 14 characters");

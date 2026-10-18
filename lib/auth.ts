@@ -1,6 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { createHash, randomBytes } from "node:crypto";
 import { redirect } from "next/navigation";
+import { permits, type Permission } from "./permissions";
 import { query } from "./db";
 export type User = {
   id: string;
@@ -28,6 +29,11 @@ export async function currentUser(): Promise<User | null> {
 export async function requireUser() {
   const u = await currentUser();
   if (!u) redirect("/login");
+  return u;
+}
+export async function requirePermission(permission: Permission) {
+  const u = await requireUser();
+  if (!permits(u.role, permission)) redirect("/");
   return u;
 }
 export async function requireAdmin() {

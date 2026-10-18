@@ -1,3 +1,6 @@
+import { attributeDefinitions } from "@/lib/listing-service";
+import { pool } from "@/lib/db";
+import { releaseCopy } from "@/lib/release-i18n";
 import Link from "next/link";
 import { listingCopy } from "@/lib/listing-i18n";
 import { accountCopy } from "@/lib/account-i18n";
@@ -58,6 +61,8 @@ export async function Filters({
     translations(),
     locale(),
   ]);
+  const fields = await attributeDefinitions(pool, filters.category ?? "");
+  const r = await releaseCopy();
   return (
     <form className="filters" action={free ? "/free" : "/"}>
       <div className="search-field">
@@ -116,6 +121,7 @@ export async function Filters({
             defaultValue={filters.max}
           />
           <select name="sort" defaultValue={filters.sort} aria-label={t.sort}>
+            <option value="relevance">{r.relevance}</option>
             <option value="newest">{t.newest}</option>
             <option value="low">{t.low}</option>
             <option value="high">{t.high}</option>
@@ -145,6 +151,51 @@ export async function Filters({
           )}
         </div>
       </details>
+      {fields.length > 0 && (
+        <details className="extra-filters" open>
+          <summary>{r.categoryFilters}</summary>
+          <div className="filter-row">
+            {fields.map((a) => (
+              <label key={a.id}>
+                {lang === "my" ? a.name_my : a.name_en}
+                {a.type === "ENUM" || a.type === "BOOLEAN" ? (
+                  <select
+                    name={"attr_" + a.id}
+                    defaultValue={filters["attr_" + a.id] ?? ""}
+                  >
+                    <option value="">{r.any}</option>
+                    {(a.type === "BOOLEAN" ? ["true", "false"] : a.choices).map(
+                      (v) => (
+                        <option key={v} value={v}>
+                          {a.type === "BOOLEAN"
+                            ? v === "true"
+                              ? r.yes
+                              : r.no
+                            : v}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                ) : (
+                  <input
+                    name={"attr_" + a.id}
+                    type={
+                      a.type === "NUMBER"
+                        ? "number"
+                        : a.type === "DATE"
+                          ? "date"
+                          : "text"
+                    }
+                    step="any"
+                    maxLength={500}
+                    defaultValue={filters["attr_" + a.id]}
+                  />
+                )}
+              </label>
+            ))}
+          </div>
+        </details>
+      )}
     </form>
   );
 }
@@ -195,6 +246,10 @@ export async function AccountNav() {
       <Link href="/account/drafts">{l.drafts}</Link>
       <Link href="/account/favorites">{t.favorites}</Link>
       <Link href="/account/messages">{t.messages}</Link>
+      <Link href="/account/notifications">
+        {(await releaseCopy()).notifications}
+      </Link>
+      <Link href="/account/reports">{(await releaseCopy()).myReports}</Link>
       <Link href="/account/settings">{a.settings}</Link>
     </nav>
   );

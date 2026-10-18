@@ -4,6 +4,9 @@ import { currentUser } from "@/lib/auth";
 import { locale, translations } from "@/lib/i18n";
 import { language, logout } from "./actions";
 import "./globals.css";
+import Pwa from "./pwa";
+import LiveNotifications from "./live-notifications";
+import { releaseCopy } from "@/lib/release-i18n";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL || "http://localhost:3000"),
   title: {
@@ -28,6 +31,7 @@ export default async function Layout({
     locale(),
     currentUser(),
   ]);
+  const r = await releaseCopy();
   return (
     <html lang={lang} data-scroll-behavior="smooth">
       <body>
@@ -46,7 +50,13 @@ export default async function Layout({
             <nav aria-label="Main navigation">
               <Link href="/">{t.home}</Link>
               <Link href="/free">{t.free}</Link>
-              {u && <Link href="/account/messages">{t.messages}</Link>}
+              {u && (
+                <LiveNotifications
+                  key={u.id}
+                  label={r.notifications}
+                  newMessage={r.newMessage}
+                />
+              )}
               <form action={language}>
                 <button className="language" type="submit">
                   ◎ {t.language}
@@ -63,12 +73,14 @@ export default async function Layout({
         </header>
         <main id="main">{children}</main>
         <footer className="wrap">
+          <Pwa install={r.install} />
           <div>
             <Link className="brand" href="/">
               {t.brand}
               <span className="dot">.</span>
             </Link>
             <p>{t.about}</p>
+            <Link href="/safety">{r.safety}</Link>
           </div>
           <div>
             <strong>{t.tagline}</strong>

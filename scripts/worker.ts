@@ -1,3 +1,4 @@
+import { deliverPush } from "../lib/push";
 import { Queue, Worker } from "bullmq";
 import { pool } from "../lib/db";
 import { maintenance } from "../lib/maintenance";
@@ -31,9 +32,34 @@ worker.on("error", (error) =>
   ),
 );
 await cleanup();
+let heartbeatBusy = false;
+const heartbeat = async () => {
+  const client = await queue.client;
+  if (client.status !== "ready") throw Error("Redis unavailable");
+  await client.get("neighbour:health");
+  await pool.query(
+    "INSERT INTO service_heartbeats(name,last_seen) VALUES('worker',now()) ON CONFLICT(name) DO UPDATE SET last_seen=now()",
+  );
+};
+await heartbeat();
+const heartbeatTimer = setInterval(() => {
+  if (heartbeatBusy) return;
+  heartbeatBusy = true;
+  heartbeat()
+    .then(() => deliverPush())
+    .catch(() =>
+      console.error(JSON.stringify({ event: "heartbeat_or_push_failed" })),
+    )
+    .finally(() => {
+      heartbeatBusy = false;
+    });
+}, 30000);
 console.log(JSON.stringify({ event: "worker_ready" }));
 for (const signal of ["SIGTERM", "SIGINT"])
   process.on(signal, async () => {
+    clearInterval(heartbeatTimer);
+    while (heartbeatBusy)
+      await new Promise((resolve) => setTimeout(resolve, 50));
     await worker.close();
     await queue.close();
     await pool.end();

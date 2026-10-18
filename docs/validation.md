@@ -36,3 +36,20 @@ The account code adds no new third-party dependency or new secret requirement. D
 - All seven browser journeys passed against the production Docker container (37.9 seconds). They cover the previous account/marketplace/admin journeys and new draft resume/discard, actual private-photo authorization (including non-owner admins), two-tab conflicts, typed fields, phone gating, publication, photo cover/order/replacement, and category-field administration.
 - Build, TypeScript and formatting checks passed; production dependency audit reported zero vulnerabilities. Final web/tools images built with TLS verification enabled, and a fresh Compose database applied migrations 000/001/002 before successful reference-data seeding and healthy web/worker startup.
 - The temporary production test stack was removed afterward. Development services and repository data were preserved. No live SMS, optional S3 or public Coolify deployment was tested.
+
+## Combined marketplace, messaging, safety and operations release
+
+New coverage exercises NFC-normalized mixed-language searches, descendant categories and disabled ancestors, typed false/zero filters, English typo matching, common bilingual synonyms, private review routing, duplicate publication, rejected-listing resubmission, stale staff revisions, status-preserving restoration, message-report membership, duplicate report consolidation, scoped staff permissions, session revocation, report outcomes and transactional notification/outbox writes. Push tests inject delivery success/failure/410 responses; they do not contact browser push providers.
+
+Browser coverage adds real cross-context inbox updates through authenticated SSE, scoped report forms, support/admin boundaries, staff role changes and last-admin protection, category filters and static-only PWA offline behavior. Operator scripts refuse active writers, a nonempty restore database or a nonempty uploads target. Final validation results and restore evidence are recorded after the isolated container drill below.
+
+Final release checks passed:
+
+- 17 unit + 26 PostgreSQL integration + 12 Playwright browser tests (**55 tests**). The browser suite passed against the final production Docker runner in 47.9 seconds. Its override shares a temporary uploads directory with fixture writers; the separate restore drill uses the actual named-volume topology.
+- Production runner/tools image builds, TypeScript, formatting, migration repeatability/original-schema adoption, shell syntax checks and production dependency audit (zero vulnerabilities).
+- Fresh Compose PostgreSQL/Redis/migrations/seed/web/worker startup and successful `/api/health` + `/api/ready`. Worker deletion was observed from web on both the shared fixture mount and the restored deployment's named uploads volume.
+- Backup rejected active writers. With writers stopped, the scripts produced a checksummed PostgreSQL custom dump and uploads archive, restored them into a separate empty project, preserved a fixture account/listing and the exact SHA-256 of a real WebP, and served the restored listing/media successfully over HTTP. Restore refused a second run against the nonempty target.
+- A stopped worker with an expired heartbeat made `/api/ready` return 503 while `/api/health` stayed 200. Both isolated smoke projects and their test volumes were removed after verification; development PostgreSQL/Redis were preserved.
+- A small 40-request/four-concurrent local search HTTP smoke had zero failures, p50 58 ms and p95 332 ms on this sparse test database. This is not a production-sized search or capacity benchmark.
+
+Real VAPID provider delivery, Myanmar SMS delivery, S3 snapshots, Coolify/public HTTPS, browser installation on physical phones, production alert routing/encrypted backup scheduling and formal security/accessibility review remain deployment validation work. No live production service was contacted or deployed.

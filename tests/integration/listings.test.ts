@@ -63,7 +63,7 @@ async function images(id: string, kind = "draft") {
 }
 const valid = (): ListingPayload => ({
   ...emptyPayload,
-  title: "Integration chair",
+  title: "Integration chair " + randomUUID(),
   description: "A solid wooden chair in good condition.",
   category,
   location: "sanchaung",

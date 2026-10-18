@@ -4,6 +4,10 @@ export async function maintenance() {
   await query(
     "UPDATE listings SET status='EXPIRED',updated_at=now() WHERE status='ACTIVE' AND expires_at<now()",
   );
+  await query(
+    "DELETE FROM notifications WHERE created_at<now()-interval '90 days'",
+  );
+  await query("DELETE FROM daily_metrics WHERE day<current_date-400");
   await query("DELETE FROM sessions WHERE expires_at<now()");
   await query("DELETE FROM rate_limits WHERE reset_at<now()-interval '1 day'");
   await query(

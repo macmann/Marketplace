@@ -1,5 +1,6 @@
+import { reviewReasons } from "./moderation";
 import { randomUUID } from "node:crypto";
-import type { Pool, PoolClient } from "pg";
+import type { Pool } from "pg";
 import { pool } from "./db";
 import { saveImage, deleteImage } from "./storage";
 import {
@@ -7,21 +8,10 @@ import {
   validatePayload,
   validateAttributes,
   validatePhotoOrder,
-  type Attribute,
   type ListingPayload,
 } from "./listing-validation";
-export async function attributeDefinitions(
-  db: Pick<Pool, "query"> | PoolClient,
-  category: string,
-): Promise<Attribute[]> {
-  if (!category) return [];
-  return (
-    await db.query(
-      `WITH RECURSIVE ancestry AS (SELECT id,parent_id FROM categories WHERE id=$1 UNION ALL SELECT c.id,c.parent_id FROM categories c JOIN ancestry a ON c.id=a.parent_id) SELECT a.* FROM category_attributes a WHERE a.category_id IN (SELECT id FROM ancestry) AND a.enabled ORDER BY a.position,a.name_en,a.id`,
-      [category],
-    )
-  ).rows;
-}
+export { attributeDefinitions } from "./attributes";
+import { attributeDefinitions } from "./attributes";
 export type EditCommand = {
   kind: "draft" | "listing";
   id?: string;
@@ -69,7 +59,7 @@ export class ListingService {
         const r = await client.query(
           cmd.kind === "draft"
             ? "SELECT * FROM listing_drafts WHERE id=$1 AND seller_id=$2 FOR UPDATE"
-            : "SELECT * FROM listings WHERE id=$1 AND seller_id=$2 AND status IN ('ACTIVE','RESERVED','DRAFT','EXPIRED') FOR UPDATE",
+            : "SELECT * FROM listings WHERE id=$1 AND seller_id=$2 AND status IN ('ACTIVE','RESERVED','DRAFT','EXPIRED','PENDING_REVIEW','REJECTED') FOR UPDATE",
           [id, owner],
         );
         row = r.rows[0];
@@ -97,7 +87,7 @@ export class ListingService {
       );
       if (payload.category) {
         const valid = await client.query(
-          "SELECT 1 FROM categories WHERE id=$1 AND enabled",
+          "SELECT 1 FROM categories WHERE id=$1 AND category_visible(id)",
           [payload.category],
         );
         if (!valid.rowCount) throw new ListingError("invalid");
@@ -201,6 +191,27 @@ export class ListingService {
           await client.query(
             "INSERT INTO listing_attribute_values(listing_id,attribute_id,value) VALUES($1,$2,$3::jsonb)",
             [targetId, attribute, JSON.stringify(value)],
+          );
+      }
+      if (targetKind === "listing") {
+        const reasons = await reviewReasons(
+          client,
+          owner,
+          targetId,
+          payload.title,
+          payload.description,
+        );
+        if (row && ["REJECTED", "PENDING_REVIEW"].includes(row.status))
+          reasons.push("Seller resubmission");
+        if (reasons.length)
+          await client.query(
+            "UPDATE listings SET status='PENDING_REVIEW',moderation_reasons=$2::jsonb WHERE id=$1",
+            [targetId, JSON.stringify(reasons)],
+          );
+        else
+          await client.query(
+            "UPDATE listings SET moderation_reasons='[]' WHERE id=$1",
+            [targetId],
           );
       }
       if (cmd.kind === "draft" && cmd.mode === "publish")

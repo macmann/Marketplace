@@ -35,8 +35,18 @@ export async function GET() {
     "SELECT m.id,m.conversation_id,m.sender_id,m.body,m.created_at,m.read_at FROM messages m JOIN conversations c ON c.id=m.conversation_id WHERE c.buyer_id=$1 OR c.seller_id=$1 ORDER BY m.created_at",
     [u.id],
   );
+  const notifications = await query(
+    "SELECT * FROM notifications WHERE user_id=$1",
+    [u.id],
+  );
+  const reports = await query(
+    "SELECT id,reason,detail,status,resolution,created_at,resolved_at FROM reports WHERE reporter_id=$1",
+    [u.id],
+  );
   return Response.json(
     {
+      reports,
+      notifications,
       exportedAt: new Date().toISOString(),
       profile,
       listings,
