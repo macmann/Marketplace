@@ -145,14 +145,17 @@ test("messages update another signed-in inbox live; read marks and reported-mess
       s.locator(".panel").filter({ hasText: "New message" }),
     ).toBeVisible({ timeout: 15000 });
     await s.getByRole("button", { name: "Mark all as read" }).click();
-    expect(
-      (
-        await db.query(
-          "SELECT count(*) FROM notifications WHERE user_id=$1 AND read_at IS NULL",
-          [seller],
-        )
-      ).rows[0].count,
-    ).toBe("0");
+    await expect
+      .poll(
+        async () =>
+          (
+            await db.query(
+              "SELECT count(*) FROM notifications WHERE user_id=$1 AND read_at IS NULL",
+              [seller],
+            )
+          ).rows[0].count,
+      )
+      .toBe("0");
     await s.goto("/account/messages/" + conversation);
     await expect(
       s.getByText("Live message release fixture", { exact: true }),
