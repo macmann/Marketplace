@@ -6,11 +6,11 @@ test("header install provides accessible instructions without a native prompt", 
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto("/");
   const button = page.getByRole("button", {
-    name: "Install Neighbour",
+    name: "Install ZaySine",
     exact: true,
   });
   await button.click();
-  const dialog = page.getByRole("dialog", { name: "Install Neighbour" });
+  const dialog = page.getByRole("dialog", { name: "Install ZaySine" });
   await expect(dialog).toBeVisible();
   await expect(dialog).toContainText("Add to Home Screen");
   await expect(dialog).toContainText("Open in browser");
@@ -29,7 +29,7 @@ test("native install prompts are used once and a later prompt can be accepted", 
 }) => {
   await page.goto("/");
   const button = page.getByRole("button", {
-    name: "Install Neighbour",
+    name: "Install ZaySine",
     exact: true,
   });
   // Complete hydration before dispatching the browser event fixture.
@@ -66,6 +66,6 @@ test("installed apps hide the install action", async ({ page }) => {
   );
   await page.goto("/");
   await expect(
-    page.getByRole("button", { name: "Install Neighbour", exact: true }),
+    page.getByRole("button", { name: "Install ZaySine", exact: true }),
   ).toHaveCount(0);
 });

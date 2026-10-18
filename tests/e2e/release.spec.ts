@@ -313,7 +313,7 @@ test("PWA installs a static-only shell and shows an offline fallback without cac
     const keys = await caches.keys();
     return Promise.all(
       keys
-        .filter((k) => k.startsWith("neighbour-shell-"))
+        .filter((k) => k.startsWith("zaysine-shell-"))
         .map(async (k) =>
           (await (await caches.open(k)).keys()).map(
             (r) => new URL(r.url).pathname,
@@ -322,6 +322,14 @@ test("PWA installs a static-only shell and shows an offline fallback without cac
     );
   });
   expect(cached.flat()).toContain("/offline.html");
+  expect(cached.flat()).toContain("/icon-512.png");
+  expect(cached.flat()).toContain("/zaysine-logo.webp");
+  const manifest = await (
+    await page.request.get("/manifest.webmanifest")
+  ).json();
+  expect(manifest.name).toBe("ZaySine by Flash Tech");
+  expect(manifest.short_name).toBe("ZaySine");
+  expect(manifest.id).toBe("/");
   expect(
     cached.flat().some((p) => p.startsWith("/account") || p === "/login"),
   ).toBe(false);

@@ -76,12 +76,12 @@ export class SmtpEmailProvider implements EmailProvider {
       debug: false,
     });
     const result = await transport.sendMail({
-      from: { name: "Neighbour", address: config.from },
+      from: { name: "ZaySine", address: config.from },
       to: email,
       subject:
         purpose === "VERIFY"
-          ? "Verify your Neighbour email"
-          : "Reset your Neighbour password",
+          ? "Verify your ZaySine email"
+          : "Reset your ZaySine password",
       text: `${purpose === "VERIFY" ? "Email verification" : "Password recovery"} code: ${code}\n\nThis code expires in 10 minutes and can be used once. Never share it.\n\nအတည်ပြုကုဒ်: ${code}\n၁၀ မိနစ်အတွင်း တစ်ကြိမ်သာ အသုံးပြုနိုင်ပါသည်။ အခြားသူအား မပေးပါနှင့်။\n\nIf you did not request this code, ignore this message.`,
     });
     if (!result.accepted?.length || result.rejected?.length)

@@ -31,7 +31,7 @@ export default function LiveNotifications({
             Notification.permission === "granted"
           )
             new Notification(label, {
-              tag: "neighbour-inbox",
+              tag: "zaysine-inbox",
             });
           if (
             path.startsWith("/account/messages") ||

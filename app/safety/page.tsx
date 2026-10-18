@@ -29,7 +29,7 @@ export default async function Safety() {
             <h2>Trade safely</h2>
             <p>
               Meet in a public place and inspect the item before paying. Never
-              share passwords, OTP codes or banking credentials. Neighbour does
+              share passwords, OTP codes or banking credentials. ZaySine does
               not provide escrow, payment protection or delivery.
             </p>
             <h2>Prohibited goods</h2>

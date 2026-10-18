@@ -188,8 +188,8 @@ export const uiMessages: Record<string, string> = {
   BOOLEAN: "ဟုတ်/မဟုတ်",
   ENUM: "ရွေးချယ်စရာ",
   DATE: "ရက်စွဲ",
-  "Receive notifications when Neighbour is closed. Message contents are kept private.":
-    "Neighbour ပိတ်ထားချိန်တွင် အသိပေးချက်များ လက်ခံပါ။ စာအကြောင်းအရာကို မဖော်ပြပါ။",
+  "Receive notifications when ZaySine is closed. Message contents are kept private.":
+    "ZaySine ပိတ်ထားချိန်တွင် အသိပေးချက်များ လက်ခံပါ။ စာအကြောင်းအရာကို မဖော်ပြပါ။",
   "Enable push notifications": "အသိပေးချက် ဖွင့်ရန်",
   "Disable push notifications": "အသိပေးချက် ပိတ်ရန်",
   "Push notifications enabled.": "အသိပေးချက် ဖွင့်ပြီး။",

@@ -86,8 +86,8 @@ export default function Pwa({
         <h2 id="install-heading">{install}</h2>
         <p>
           {my
-            ? "Neighbour ကို ပင်မမျက်နှာပြင်တွင် ထည့်ပြီး အက်ပ်ကဲ့သို့ ဖွင့်နိုင်ပါသည်။"
-            : "Add Neighbour to your home screen or apps for quick access."}
+            ? "ZaySine ကို ပင်မမျက်နှာပြင်တွင် ထည့်ပြီး အက်ပ်ကဲ့သို့ ဖွင့်နိုင်ပါသည်။"
+            : "Add ZaySine to your home screen or apps for quick access."}
         </p>
         <ul>
           <li>
