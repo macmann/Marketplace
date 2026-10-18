@@ -1,6 +1,6 @@
 # Implementation status
 
-The supplied specification is the target product. This initial build implements a working vertical slice and deployment foundation, with the following boundaries.
+The supplied specification is the target product. The current build implements the core marketplace workflows and deployment foundation, with the following boundaries.
 
 ## Implemented
 
@@ -10,7 +10,7 @@ The supplied specification is the target product. This initial build implements 
 - Private, manually saved drafts with incomplete forms and 0–10 photos; resume/discard through the account area. Phone verification is required when publishing. The shared editor adds/replaces/removes/reorders photos and chooses a cover image. Published edits require 1–10 photos. Optimistic revisions reject stale-tab overwrites. Reserve, mark sold, archive and validated renewal remain supported.
 - Administrator-configured category fields (text, number, boolean, enum and date), inherited by subcategories, with required-field validation on publish/edit and display on listing details. Default optional fields are seeded idempotently after categories. Field category/key/type are immutable once created; labels, choices, required/enabled state and order can be updated.
 - PostgreSQL Unicode/English case-insensitive substring search over title, description, category. Trigram index available for lookup performance. Location filtering includes descendants.
-- Listing-linked private conversations, text messages, unread counters, read timestamps, block/unblock. Message display refreshes every eight seconds while the tab is visible; there is no WebSocket transport yet.
+- Listing-linked private conversations, text messages, unread counters, read timestamps, block/unblock. Authenticated server-sent events update open inboxes/threads and unread notification counts. Older messages use cursor pagination. There is no WebSocket transport.
 - Listing reports, basic admin metrics, user suspension/restoration, listing removal/restoration, report resolution, category hierarchy editing, location hierarchy editing, immutable-to-ordinary-users audit records for admin actions. Admin pages currently use English labels.
 - SEO metadata, canonical listing URLs, structured listing data, sitemap, robots, web app manifest and icon.
 - PostgreSQL-backed rate limits for auth, OTP, publishing, reports and messages; Next Server Action same-origin protection; server-side ownership/membership checks; opaque HttpOnly sessions; input validation and parameterized SQL.
@@ -21,13 +21,13 @@ The supplied specification is the target product. This initial build implements 
 - Configure and validate real Twilio SMS delivery for Myanmar numbers. Phone-first sign-in and SMS recovery are implemented but live delivery remains unverified. Email verification, email-based password recovery and OAuth are not implemented. Accounts without verified phones cannot use SMS recovery.
 - Complete and review Burmese translations. Core pages are translated, but some helper copy, server validation errors, admin labels and reporting reasons still use English. Have native speakers review wording and search behavior.
 - Extend location reference data beyond the initial Yangon townships and Mandalay city. The schema supports the hierarchy, but the seed is not a complete Myanmar gazetteer.
-- Add automated text/image moderation, spam/fraud rules and pre-publication review policy. Verified sellers' listings currently become ACTIVE immediately. Manual reporting/removal is available; this does not meet the specification's automated safety requirements.
-- Implement category-attribute search/filter controls, notification delivery, temporary account deactivation, and the remaining admin modules and moderator/support roles. Only USER and ADMIN roles exist initially.
-- Add proper Myanmar tokenization, synonyms, typo tolerance, transliteration and relevance ranking. Substring search is functional but is not semantic search. There is no distance/nearest ranking.
+- Validate moderation policy against real abuse. Configurable text rules, starter prohibited-goods phrases, same-seller exact duplicate detection and an optional review-all policy route listings to PENDING_REVIEW. Automated image classification, perceptual image duplicate detection and more advanced fraud scoring remain unimplemented.
+- Temporary account deactivation and the remaining advanced admin modules are not implemented. Category-field filters, notifications, scoped SUPPORT/MODERATOR roles and administrator role management are implemented.
+- Search now includes NFC-normalized multi-term matching, title ranking, a small English/Myanmar synonym vocabulary and English trigram typo matching. Complete Myanmar tokenization, broader vocabulary/transliteration and distance/nearest ranking remain unimplemented.
 - Add asynchronous image processing with thumbnail variants, retry/orphan cleanup, image moderation and a CDN policy; current image conversion occurs during publish.
-- Add push notifications and WebSockets if live delivery is a launch requirement. Current unread inbox and polling do not fulfill the full push/in-app notification specification.
-- Finish PWA offline/service-worker behavior and validate installability on target browsers. The manifest is a foundation only; authenticated content is not cached offline.
-- Configure production backups, restore tests, error tracking, alerting, security headers/CSP tuned to deployment, performance budgets and a security/accessibility review. No claim of WCAG conformance, uptime, throughput or latency targets is made.
+- Configure VAPID and validate background Web Push on target browsers. Transactional notifications, authenticated live SSE counters and opt-in browser alerts are implemented. Push retries/expiry handling are covered with an injected transport; real provider delivery is unverified.
+- Validate PWA installation on target mobile browsers. A service worker, PNG icons, install control and static bilingual offline fallback are implemented. Offline submission/autosave recovery is not implemented; private content is never cached by the service worker.
+- Configure production backup scheduling/encryption/off-site retention and external alert routing. Local-media backup/empty-target restore scripts, operational readiness/worker health, structured request-error logs, aggregate analytics, CSP/HSTS and an operations runbook are included. No claim of WCAG conformance, uptime, throughput or production latency targets is made; complete security/accessibility review and production-sized performance testing remain necessary.
 - Continue adding new versioned migrations for schema changes, and extend CI security/migration coverage. The migration runner checks applied-file SHA-256 checksums and is tested for repeatability. Existing tests cover representative workflows, not the complete specification.
 
 ## Deliberately later
@@ -44,4 +44,14 @@ Deletion clears name/contact details/password, archives and scrubs listing text,
 
 ## Listing workflow boundaries
 
-Drafts are stored separately from public listings, excluded from search/sitemaps/seller profiles, and their media is available only to the owner (including exclusion of other administrators). Saves are explicit; offline/autosave recovery is not implemented. Saving drafts does not require phone verification, while publishing and editing live listings do. Category fields are exact typed values; advanced attribute search/filtering remains part of search improvements. Images are still synchronously resized at save time. Failed uploads are compensated and failed cleanup is queued; a process crash before SQL commit can still leave an unattached storage object requiring a future orphan sweep. Account deletion scrubs drafts and category values and queues draft photos for deletion.
+Drafts are stored separately from public listings, excluded from search/sitemaps/seller profiles, and their media is available only to the owner (including exclusion of other administrators). Saves are explicit; offline/autosave recovery is not implemented. Saving drafts does not require phone verification, while publishing and editing live listings do. Category fields are exact typed values; exact typed filters are supported; attribute ranges and semantic filtering remain future search improvements. Images are still synchronously resized at save time. Failed uploads are compensated and failed cleanup is queued; a process crash before SQL commit can still leave an unattached storage object requiring a future orphan sweep. Account deletion scrubs drafts and category values and queues draft photos for deletion.
+
+## Sprints 3–6 release
+
+Category selection includes enabled descendants, and disabling an ancestor hides its descendants from public discovery, details, media and sitemap. Category-field filters preserve typed false and zero. Public feeds also check expiry even if a maintenance run is delayed.
+
+Private notifications are created transactionally with messages and listing status updates, retained for 90 days, included in account export and removed on account deletion. Background push stores browser subscriptions only after opt-in; deletion removes subscriptions/outbox. Push messages contain generic English text, never message contents. Delivery is at-least-once and can duplicate after a worker crash.
+
+Reports can target a listing, user or an incoming message; message reporting requires conversation membership. Duplicate open reports from one reporter are consolidated. Support resolves/dismisses reports; moderators also review listings/suspend ordinary users; administrators alone configure roles/reference data/policy/operations. Staff actions record reasons, and suspension/role changes revoke sessions. Last-administrator protection applies to role changes and deletion. Listings flagged or resubmitted after rejection stay private until reviewed; stale moderation revisions fail. Restoration preserves the pre-removal status, including SOLD, and legacy removals return to review.
+
+See [operations.md](operations.md) for operational boundaries, push setup and a consistent database/media backup-and-restore workflow. Live Coolify deployment and external providers are not configured by these changes.

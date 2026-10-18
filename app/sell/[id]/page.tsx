@@ -12,7 +12,7 @@ export default async function Edit({
   const [u, { id }] = await Promise.all([requireUser(), params]);
   if (!uuid.safeParse(id).success) notFound();
   const [l] = await query(
-    "SELECT * FROM listings WHERE id=$1 AND seller_id=$2 AND status IN ('ACTIVE','RESERVED','DRAFT','EXPIRED')",
+    "SELECT * FROM listings WHERE id=$1 AND seller_id=$2 AND status IN ('ACTIVE','RESERVED','DRAFT','EXPIRED','PENDING_REVIEW','REJECTED')",
     [id, u.id],
   );
   if (!l) notFound();

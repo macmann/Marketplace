@@ -238,6 +238,11 @@ test("administrators moderate listings and manage reference data with audit reco
     "INSERT INTO listings(seller_id,category_id,location_id,title,description,listing_type,price,condition) VALUES($1,'home','sanchaung',$2,'Moderation integration fixture','FREE',0,'GOOD') RETURNING id",
     [sellerId, "Moderation fixture " + suffix],
   );
+  // Restoring requires a valid photo, just as ordinary publication does.
+  await pool.query(
+    "INSERT INTO listing_images(listing_id,storage_key,position) VALUES($1,$2,0)",
+    [listing.id, randomUUID() + ".webp"],
+  );
   const categoryId = "test-" + suffix;
   try {
     await page.goto("/login");
@@ -249,6 +254,7 @@ test("administrators moderate listings and manage reference data with audit reco
     const row = page
       .locator(".admin-row")
       .filter({ hasText: "Moderation fixture " + suffix });
+    await row.getByLabel("Decision reason").fill("Removed by integration test");
     await row.getByRole("button", { name: "Remove", exact: true }).click();
     await expect
       .poll(

@@ -38,7 +38,9 @@ export default async function Account() {
             ＋ {t.sell}
           </Link>
           <Link href="/account/listings">{t.myListings} →</Link>
-          {u.role === "ADMIN" && <Link href="/admin">{t.admin} →</Link>}
+          {["ADMIN", "MODERATOR", "SUPPORT"].includes(u.role) && (
+            <Link href="/admin">{t.admin} →</Link>
+          )}
           {blocks.map((b) => (
             <form action={blockUser} key={b.id}>
               {b.name}

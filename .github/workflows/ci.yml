@@ -30,6 +30,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run format:check
+      - run: bash -n scripts/ops/backup.sh scripts/ops/restore.sh
       - run: npm test
       - run: npm run db:migrate && npm run db:seed
       - run: npm run db:migrate # Verify migration repeatability
@@ -39,11 +40,13 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: |
           npm start > /tmp/neighbour-web.log 2>&1 &
+          npm run worker > /tmp/neighbour-worker.log 2>&1 &
           for i in $(seq 1 30); do
-            if curl --fail --silent http://localhost:3000/api/health; then break; fi
+            if curl --fail --silent http://localhost:3000/api/health && curl --fail --silent http://localhost:3000/api/ready; then break; fi
             sleep 1
           done
           curl --fail http://localhost:3000/api/health
+          curl --fail http://localhost:3000/api/ready
           CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from '@playwright/test';console.log(chromium.executablePath())")" npm run test:e2e
       - run: npm audit --omit=dev --audit-level=high
       - uses: actions/upload-artifact@v4

@@ -1,3 +1,4 @@
+import { releaseCopy } from "@/lib/release-i18n";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { query } from "@/lib/db";
@@ -6,7 +7,7 @@ import { AccountNav, Notice } from "../../components";
 export default async function Messages({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; reported?: string }>;
 }) {
   const [u, t, p] = await Promise.all([
     requireUser(),
@@ -21,7 +22,10 @@ export default async function Messages({
     <section className="wrap page narrow">
       <h1>{t.messages}</h1>
       <AccountNav />
-      <Notice error={p.error} />
+      <Notice
+        error={p.error}
+        message={p.reported ? (await releaseCopy()).reportThanks : undefined}
+      />
       {cs.length ? (
         cs.map((c) => (
           <Link

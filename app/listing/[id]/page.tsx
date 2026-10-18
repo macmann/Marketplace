@@ -1,3 +1,5 @@
+import { reportReasons } from "@/lib/report-reasons";
+import { recordMetric } from "@/lib/metrics";
 import Link from "next/link";
 import { listingCopy } from "@/lib/listing-i18n";
 import { notFound } from "next/navigation";
@@ -15,7 +17,7 @@ const getListing = cache(async (id: string) => {
     (
       await query<Listing>(
         listingSelect +
-          " WHERE l.id=$1 AND l.status IN ('ACTIVE','RESERVED','SOLD') AND NOT u.suspended AND c.enabled",
+          " WHERE l.id=$1 AND l.status IN ('ACTIVE','RESERVED','SOLD') AND (l.status='SOLD' OR l.expires_at>now()) AND NOT u.suspended AND category_visible(l.category_id)",
         [id],
       )
     )[0] ?? null
@@ -51,6 +53,7 @@ export default async function Detail({
   const { id } = await params;
   const l = await getListing(id);
   if (!l) notFound();
+  await recordMetric("VIEW");
   const [t, lang, u, images, p] = await Promise.all([
     translations(),
     locale(),
@@ -191,15 +194,7 @@ export default async function Detail({
               <label>
                 {t.reason}
                 <select name="reason">
-                  {[
-                    "Scam",
-                    "Counterfeit",
-                    "Prohibited item",
-                    "Misleading listing",
-                    "Spam",
-                    "Harassment",
-                    "Other",
-                  ].map((r) => (
+                  {reportReasons.map((r) => (
                     <option key={r}>{r}</option>
                   ))}
                 </select>

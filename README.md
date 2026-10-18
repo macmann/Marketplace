@@ -48,3 +48,7 @@ Authentication supports phone OTP sign-in and email/password with opaque, hashed
 Account service tests inject a verification provider into the service constructor and test actual PostgreSQL transactions; there is no production test-provider flag or fixed-code bypass. Adapter tests validate Twilio request/response handling without sending SMS. Live delivery must still be tested with your configured provider.
 
 The listing editor supports private manual drafts, ordered/replaceable photos and inherited category-specific fields. Use `/account/drafts` to resume or discard a draft, and `/admin/attributes` to configure fields. Verification is checked on the server when publishing; a draft may be saved first. Concurrent edits use a revision token and return an error instead of overwriting a newer save. See the listing rollout section in `docs/coolify.md`.
+
+## Marketplace operations
+
+The current release includes inherited category filters, normalized bilingual query expansion and English typo matching, live in-app notifications, optional Web Push, scoped support/moderator roles, a private moderation queue and reporting outcomes. See [implementation status](docs/status.md) for remaining specification gaps and the [operations runbook](docs/operations.md) for push, monitoring, backup and restore setup. `npm run benchmark -- https://your-staging-host` runs a small explicit HTTP smoke test; use representative staging data before setting production budgets.

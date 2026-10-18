@@ -8,6 +8,9 @@ x-app-env: &app-env
   TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
   TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
   TWILIO_VERIFY_SERVICE_SID: ${TWILIO_VERIFY_SERVICE_SID:-}
+  VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+  VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+  VAPID_SUBJECT: ${VAPID_SUBJECT:-}
   S3_ENDPOINT: ${S3_ENDPOINT:-}
   S3_REGION: ${S3_REGION:-auto}
   S3_BUCKET: ${S3_BUCKET:-}
@@ -76,12 +79,19 @@ services:
       retries: 5
       start_period: 20s
   worker:
+    volumes: ["uploads:/app/uploads"]
     build: { context: ., target: tools }
     restart: unless-stopped
     environment: *app-env
     depends_on:
       migrate: { condition: service_completed_successfully }
       redis: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "node", "--import", "tsx", "scripts/worker-health.ts"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 volumes:
   postgres-data:
   redis-data:

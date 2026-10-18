@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { Pool } from "pg";
 test("versioned migrations adopt original data, repeat safely, and reject changed checksums", async () => {
@@ -51,12 +51,14 @@ test("versioned migrations adopt original data, repeat safely, and reject change
     assert.equal(upgraded.deleted_at, null);
     assert.equal(
       (await scoped.query("SELECT * FROM schema_migrations")).rowCount,
-      3,
+      (await readdir("scripts/migrations")).filter((n) => n.endsWith(".sql"))
+        .length,
     );
     assert.equal((await migrate()).code, 0);
     assert.equal(
       (await scoped.query("SELECT * FROM schema_migrations")).rowCount,
-      3,
+      (await readdir("scripts/migrations")).filter((n) => n.endsWith(".sql"))
+        .length,
     );
     await scoped.query(
       "UPDATE schema_migrations SET checksum='altered' WHERE name='001_account_lifecycle.sql'",

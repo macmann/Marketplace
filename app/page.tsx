@@ -1,3 +1,4 @@
+import { recordMetric } from "@/lib/metrics";
 import Link from "next/link";
 import { catalog, options } from "@/lib/marketplace";
 import { translations, locale } from "@/lib/i18n";
@@ -9,6 +10,7 @@ export default async function Home({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const f = await searchParams;
+  if (f.q) await recordMetric("SEARCH");
   const [t, lang, listings, { categories }] = await Promise.all([
     translations(),
     locale(),

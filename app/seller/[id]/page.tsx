@@ -1,3 +1,5 @@
+import ReportForm from "@/app/report-form";
+import { currentUser } from "@/lib/auth";
 import { notFound } from "next/navigation";
 import { query } from "@/lib/db";
 import { uuid } from "@/lib/validation";
@@ -19,6 +21,7 @@ export default async function Seller({
   );
   if (!u) notFound();
   const t = await translations();
+  const viewer = await currentUser();
   const f = await searchParams;
   const ls = await catalog(f, id, undefined, true);
   return (
@@ -31,6 +34,7 @@ export default async function Seller({
         {t.member} {new Date(u.created_at).getFullYear()}
       </p>
       {u.phone_verified && <p>✓ {t.verified}</p>}
+      {viewer && viewer.id !== id && <ReportForm kind="user" id={id} />}
       <div className="listing-grid">
         {ls.slice(0, 24).map((l) => (
           <ListingCard key={l.id} listing={l} />

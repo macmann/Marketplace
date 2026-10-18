@@ -195,6 +195,7 @@ export class AccountService {
     const client = await this.db.connect();
     try {
       await client.query("BEGIN");
+      await client.query("SELECT pg_advisory_xact_lock(742903)");
       const {
         rows: [u],
       } = await client.query("SELECT * FROM users WHERE id=$1 FOR UPDATE", [
@@ -249,6 +250,12 @@ export class AccountService {
         [userId],
       );
       await client.query("UPDATE reports SET detail='' WHERE reporter_id=$1", [
+        userId,
+      ]);
+      await client.query("DELETE FROM push_subscriptions WHERE user_id=$1", [
+        userId,
+      ]);
+      await client.query("DELETE FROM notifications WHERE user_id=$1", [
         userId,
       ]);
       await client.query("DELETE FROM sessions WHERE user_id=$1", [userId]);

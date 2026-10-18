@@ -8,7 +8,7 @@ import { listingStatus } from "../../actions";
 export default async function Listings({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; review?: string }>;
 }) {
   const p = await searchParams;
   const [u, t] = await Promise.all([requireUser(), translations()]);
@@ -28,7 +28,15 @@ export default async function Listings({
     <section className="wrap page">
       <h1>{t.myListings}</h1>
       <AccountNav />
-      <Notice error={p.error} />
+      <Notice
+        error={p.error}
+        message={
+          p.review
+            ? (await import("@/lib/release-i18n").then((m) => m.releaseCopy()))
+                .pending
+            : undefined
+        }
+      />
       {ls.length ? (
         <div className="listing-grid">
           {ls.slice(0, 24).map((l) => (
@@ -36,9 +44,16 @@ export default async function Listings({
               <ListingCard listing={l} />
               <form action={listingStatus} className="status-form">
                 <span>{states[l.status]}</span>
-                {["ACTIVE", "RESERVED", "DRAFT", "EXPIRED"].includes(
-                  l.status,
-                ) && <Link href={"/sell/" + l.id}>{t.editListing}</Link>}
+                {[
+                  "ACTIVE",
+                  "RESERVED",
+                  "DRAFT",
+                  "EXPIRED",
+                  "PENDING_REVIEW",
+                  "REJECTED",
+                ].includes(l.status) && (
+                  <Link href={"/sell/" + l.id}>{t.editListing}</Link>
+                )}
                 <input type="hidden" name="id" value={l.id} />
                 <select name="status" aria-label={t.status}>
                   {Object.entries(states)

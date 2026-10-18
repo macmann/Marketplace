@@ -6,13 +6,13 @@ import { uuid } from "@/lib/validation";
 import { translations } from "@/lib/i18n";
 import { sendMessage, blockUser } from "../../../actions";
 import { Notice } from "../../../components";
-import Refresh from "./refresh";
+import ReportForm from "@/app/report-form";
 export default async function Thread({
   params,
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; before?: string }>;
 }) {
   const [u, t, { id }, p] = await Promise.all([
     requireUser(),
@@ -35,21 +35,29 @@ export default async function Thread({
     "UPDATE messages SET read_at=now() WHERE conversation_id=$1 AND sender_id<>$2 AND read_at IS NULL",
     [id, u.id],
   );
+  await query(
+    "UPDATE notifications SET read_at=now() WHERE user_id=$1 AND conversation_id=$2 AND read_at IS NULL",
+    [u.id, id],
+  );
   const ms = await query(
-    "SELECT * FROM (SELECT * FROM messages WHERE conversation_id=$1 ORDER BY created_at DESC LIMIT 200) recent ORDER BY created_at",
-    [id],
+    "SELECT * FROM (SELECT * FROM messages WHERE conversation_id=$1 AND ($2::uuid IS NULL OR (created_at,id)<(SELECT created_at,id FROM messages WHERE id=$2 AND conversation_id=$1)) ORDER BY created_at DESC,id DESC LIMIT 51) recent ORDER BY created_at,id",
+    [id, uuid.safeParse(p.before).success ? p.before : null],
   );
   return (
     <section className="wrap page narrow">
-      <Refresh />
       <Link href="/account/messages">← {t.messages}</Link>
       <h1>{c.name}</h1>
       <Link className="thread-listing" href={"/listing/" + c.listing_id}>
         {c.title} ↗
       </Link>
       <Notice error={p.error} />
+      {ms.length > 50 && (
+        <Link href={"/account/messages/" + id + "?before=" + ms[1].id}>
+          ← Earlier messages
+        </Link>
+      )}
       <div className="thread" aria-live="polite">
-        {ms.map((m) => (
+        {ms.slice(-50).map((m) => (
           <div
             key={m.id}
             className={"message " + (m.sender_id === u.id ? "mine" : "")}
@@ -59,6 +67,7 @@ export default async function Thread({
               {new Date(m.created_at).toLocaleString()}{" "}
               {m.sender_id === u.id && m.read_at ? "✓✓" : ""}
             </small>
+            {m.sender_id !== u.id && <ReportForm kind="message" id={m.id} />}
           </div>
         ))}
       </div>
@@ -75,6 +84,7 @@ export default async function Thread({
           <button className="button primary">{t.send} →</button>
         </form>
       )}
+      <ReportForm kind="user" id={other} />
       <form action={blockUser}>
         <input type="hidden" name="user" value={other} />
         <input

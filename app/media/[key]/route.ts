@@ -9,19 +9,23 @@ export async function GET(
   if (!/^[a-f0-9-]{36}\.webp$/.test(key))
     return new Response(null, { status: 404 });
   const [im] = await query(
-    "SELECT l.status,COALESCE(l.seller_id,d.seller_id) seller_id,u.suspended,i.draft_id FROM listing_images i LEFT JOIN listings l ON l.id=i.listing_id LEFT JOIN listing_drafts d ON d.id=i.draft_id JOIN users u ON u.id=COALESCE(l.seller_id,d.seller_id) WHERE i.storage_key=$1",
+    "SELECT category_visible(c.id) enabled,l.expires_at,l.status,COALESCE(l.seller_id,d.seller_id) seller_id,u.suspended,i.draft_id FROM listing_images i LEFT JOIN listings l ON l.id=i.listing_id LEFT JOIN categories c ON c.id=l.category_id LEFT JOIN listing_drafts d ON d.id=i.draft_id JOIN users u ON u.id=COALESCE(l.seller_id,d.seller_id) WHERE i.storage_key=$1",
     [key],
   );
   if (!im) return new Response(null, { status: 404 });
-  if (
+  const restricted = Boolean(
     im.draft_id ||
     !["ACTIVE", "RESERVED", "SOLD"].includes(im.status) ||
-    im.suspended
-  ) {
+    im.suspended ||
+    !im.enabled ||
+    (im.status !== "SOLD" && new Date(im.expires_at) <= new Date()),
+  );
+  if (restricted) {
     const user = await currentUser();
     if (
       !user ||
-      (user.id !== im.seller_id && (im.draft_id || user.role !== "ADMIN"))
+      (user.id !== im.seller_id &&
+        (im.draft_id || !["ADMIN", "MODERATOR"].includes(user.role)))
     )
       return new Response(null, { status: 404 });
   }
@@ -29,7 +33,7 @@ export async function GET(
     return new Response(new Uint8Array(await getImage(key)), {
       headers: {
         "Content-Type": "image/webp",
-        "Cache-Control": im.draft_id
+        "Cache-Control": restricted
           ? "no-store, private"
           : "private, max-age=60",
         "X-Content-Type-Options": "nosniff",
