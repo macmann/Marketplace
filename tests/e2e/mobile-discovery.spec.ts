@@ -71,6 +71,7 @@ for (const locale of ["en", "my"]) {
         header.locator(".brand"),
         header.locator(".language"),
         header.locator('a[href="/sell"]'),
+        header.locator(".install-button"),
       ]) {
         const box = await control.boundingBox();
         expect(box).not.toBeNull();

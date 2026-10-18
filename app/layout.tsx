@@ -83,12 +83,12 @@ export default async function Layout({
                 <Link className="button primary compact" href="/sell">
                   ＋ {t.sell}
                 </Link>
+                <Pwa install={r.install} lang={lang} />
               </nav>
             </div>
           </header>
           <main id="main">{children}</main>
           <footer className="wrap">
-            <Pwa install={r.install} />
             <div>
               <Link className="brand" href="/">
                 <span className="brand-wordmark">
