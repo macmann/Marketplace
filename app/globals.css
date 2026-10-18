@@ -129,6 +129,15 @@ header {
   letter-spacing: 0.2px;
   margin-top: 4px;
 }
+.brand-attribution {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.brand-attribution img {
+  display: block;
+  flex-shrink: 0;
+}
 .brand-icon {
   background: var(--green);
   color: var(--paper);

@@ -11,9 +11,25 @@ for (const locale of ["en", "my"]) {
     for (const width of [320, 390, 430]) {
       await page.setViewportSize({ width, height: 844 });
       await page.goto("/");
-      await expect(page.locator("header .brand")).toContainText(
-        "by Flash Tech",
-      );
+      await expect(page.locator("header .brand")).toContainText("by");
+      await expect(
+        page.locator("header .brand").getByRole("img", { name: "Flash Tech" }),
+      ).toBeVisible();
+      await expect
+        .poll(() =>
+          page
+            .locator("header")
+            .getByRole("img", { name: "Flash Tech" })
+            .evaluateAll(
+              (images) =>
+                images.length === 1 &&
+                images.every((image) => {
+                  const img = image as HTMLImageElement;
+                  return img.complete && img.naturalWidth > 0;
+                }),
+            ),
+        )
+        .toBe(true);
       const category = await page
         .locator('select[name="category"]')
         .boundingBox();

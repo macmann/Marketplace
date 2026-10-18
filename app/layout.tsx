@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { currentUser } from "@/lib/auth";
 import { locale, translations } from "@/lib/i18n";
 import { language, logout } from "./actions";
@@ -50,7 +51,15 @@ export default async function Layout({
                 </span>
                 <span className="brand-wordmark">
                   <span>{t.brand}</span>
-                  <small>by Flash Tech</small>
+                  <small className="brand-attribution">
+                    by
+                    <Image
+                      src="/flash-tech-wordmark.svg"
+                      alt="Flash Tech"
+                      width={96}
+                      height={12}
+                    />
+                  </small>
                 </span>
               </Link>
               <nav aria-label={ui("Main navigation")}>
@@ -84,7 +93,15 @@ export default async function Layout({
               <Link className="brand" href="/">
                 <span className="brand-wordmark">
                   <span>{t.brand}</span>
-                  <small>by Flash Tech</small>
+                  <small className="brand-attribution">
+                    by
+                    <Image
+                      src="/flash-tech.svg"
+                      alt="Flash Tech"
+                      width={230}
+                      height={80}
+                    />
+                  </small>
                 </span>
               </Link>
               <p>{t.about}</p>

@@ -1,0 +1,16 @@
+<!-- Compact header version of the supplied Flash Tech artwork. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 10 800 100">
+  <defs>
+    <linearGradient id="yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FACC15"/>
+      <stop offset="50%" stop-color="#EAB308"/>
+      <stop offset="100%" stop-color="#CA8A04"/>
+    </linearGradient>
+  </defs>
+  <g font-family="'Inter', 'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="105" letter-spacing="2">
+    <text x="0" y="100" fill="url(#yellow)">FLA</text>
+    <path transform="translate(230, 21)" d="M 52 0 L 16 0 L 0 38 L 32 38 L 8 79 L 58 33 L 28 33 Z" fill="url(#yellow)"/>
+    <text x="295" y="100" fill="url(#yellow)">H</text>
+    <text x="415" y="100" fill="#0F172A">TECH</text>
+  </g>
+</svg>
