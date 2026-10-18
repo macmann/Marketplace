@@ -62,3 +62,9 @@ Real VAPID provider delivery, Myanmar SMS delivery, S3 snapshots, Coolify/public
 - TypeScript, formatting, production build and production dependency audit passed (zero reported vulnerabilities).
 
 External OpenAI calls are tested with injected HTTP transport, not a live API key. Default policy is MANUAL; LOCAL has no semantic image classifier. Private S3 integration and public Coolify deployment remain unverified. Reference data is a licensed historical 330-township snapshot with approximate centers, not a current boundary registry; native review of names/translations and real-query search evaluation remain required. No CDN or precise geolocation tracking was added.
+
+## SMTP email fallback phase
+
+23 unit tests and 37 PostgreSQL integration tests passed. New cases cover mandatory SMTP TLS and recipient acknowledgement, hashed codes, actor/purpose binding, resends, expiry, five attempts, concurrent single use, recovery eligibility, provider outages, unique address linking, recent-authentication requirements, cross-channel session/challenge revocation, email-only giveaway publishing and account deletion.
+
+The existing 15 browser journeys passed, and a new email-only journey passed against a production build: confirm an explicit test-database challenge, publish a real-image free giveaway without marking the phone verified, verify the public badge/contact privacy, recover with a verified email, and sign in with the new password. Browser fixtures never send real email and introduce no production bypass. Frozen-lockfile install, production build, type checking, formatting and dependency audit passed. Live SMTP delivery still requires deployment credentials and a real mailbox check.

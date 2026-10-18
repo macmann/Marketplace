@@ -171,6 +171,6 @@ test("missing SMS configuration fails closed and recovery gives clear guidance",
     page.getByRole("button", { name: "Send verification code", exact: true }),
   ).toBeDisabled();
   await expect(
-    page.getByText(/Accounts without a verified phone cannot use SMS recovery/),
+    page.getByText(/Recovery uses only a previously verified contact/),
   ).toBeVisible();
 });

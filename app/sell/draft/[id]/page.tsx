@@ -34,7 +34,7 @@ export default async function Draft({
       initial={{ ...emptyPayload, ...draft.payload }}
       images={images as { id: string; storage_key: string }[]}
       saved={!!p.saved}
-      verified={u.phone_verified}
+      verified={u.phone_verified || u.email_verified}
     />
   );
 }

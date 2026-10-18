@@ -11,6 +11,10 @@ import {
   passwordSchema,
   type Purpose,
 } from "@/lib/account-validation";
+import { emailConfigured } from "@/lib/email";
+import { emails, emailCookies } from "@/lib/email-service";
+import { emailCopy } from "@/lib/email-i18n";
+import { emailLimits } from "@/lib/email-limits";
 import { smsConfigured } from "@/lib/sms";
 import { createSession, requireUser, rateLimit, digest } from "@/lib/auth";
 import { query } from "@/lib/db";
@@ -133,6 +137,27 @@ export async function confirmVerification(f: FormData) {
 export async function requestRecovery(f: FormData) {
   const identifier = field(f, "identifier").trim().toLowerCase().slice(0, 254);
   if (!identifier) await fail("/recover", "notAllowed");
+  const channel = field(f, "channel");
+  if (channel === "EMAIL") {
+    if (!emailConfigured())
+      redirect(
+        "/recover?error=" + encodeURIComponent((await emailCopy()).unavailable),
+      );
+    await emailLimits(identifier, "/recover");
+    const token = await emails.beginRecovery(identifier);
+    const c = await cookies();
+    c.set(emailCookies.RECOVER, token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.COOKIE_SECURE !== "false",
+      path: "/",
+      maxAge: 600,
+    });
+    c.delete(challengeCookie.RECOVER);
+    redirect("/recover?sent=1&channel=EMAIL");
+  }
+  if (channel && channel !== "SMS") await fail("/recover", "notAllowed");
+  (await cookies()).delete(emailCookies.RECOVER);
   if (!smsConfigured()) await fail("/recover", "smsUnavailable");
   await otpLimits(normalizePhone(identifier) ?? identifier, "RECOVER");
   try {
@@ -153,6 +178,25 @@ export async function resetPassword(f: FormData) {
   )
     await fail("/recover", "passwordInvalid");
   const c = await cookies();
+  const emailToken = c.get(emailCookies.RECOVER)?.value;
+  if (emailToken) {
+    await emailLimits(emailToken, "/recover", true);
+    try {
+      await emails.complete(emailToken, "RECOVER", field(f, "code"), {
+        password,
+      });
+    } catch (e) {
+      await handleError("/recover", e);
+    }
+    for (const name of [
+      emailCookies.RECOVER,
+      emailCookies.VERIFY,
+      ...Object.values(challengeCookie),
+      "market_session",
+    ])
+      c.delete(name);
+    redirect("/login?reset=1");
+  }
   const token = c.get(challengeCookie.RECOVER)?.value ?? "";
   await limited("sms-check:" + digest(token), 5, 600, "/recover");
   try {
@@ -189,7 +233,11 @@ export async function deleteAccount(f: FormData) {
     await handleError("/account/settings", e);
   }
   c.delete("market_session");
-  for (const name of Object.values(challengeCookie)) c.delete(name);
+  for (const name of [
+    ...Object.values(challengeCookie),
+    ...Object.values(emailCookies),
+  ])
+    c.delete(name);
   revalidatePath("/", "layout");
   redirect("/login?deleted=1");
 }

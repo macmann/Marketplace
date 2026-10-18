@@ -1,3 +1,4 @@
+import { emailCopy } from "@/lib/email-i18n";
 import { uiCopy } from "@/lib/ui-i18n";
 import { reportReasons } from "@/lib/report-reasons";
 import { recordMetric } from "@/lib/metrics";
@@ -52,6 +53,7 @@ export default async function Detail({
   searchParams: Promise<{ reported?: string }>;
 }) {
   const ui = await uiCopy();
+  const e = await emailCopy();
 
   const { id } = await params;
   const l = await getListing(id);
@@ -171,6 +173,7 @@ export default async function Detail({
                 <strong>{l.seller_name}</strong>
               </Link>
               {l.phone_verified && <small>✓ {t.verified}</small>}
+              {l.email_verified && <small>✓ {e.verified}</small>}
             </div>
           </div>
           {u?.id !== l.seller_id && l.status !== "SOLD" && (

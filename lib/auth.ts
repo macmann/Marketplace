@@ -9,6 +9,7 @@ export type User = {
   email: string | null;
   phone: string | null;
   phone_verified: boolean;
+  email_verified: boolean;
   role: string;
   suspended: boolean;
 };

@@ -22,8 +22,9 @@ export type Listing = {
   image: string | null;
   seller_name: string;
   phone_verified: boolean;
+  email_verified: boolean;
 };
-export const listingSelect = `SELECT l.*, c.name_en category_en,c.name_my category_my,loc.name_en location_en,loc.name_my location_my,u.name seller_name,u.phone_verified,(SELECT storage_key FROM listing_images WHERE listing_id=l.id ORDER BY position LIMIT 1) image FROM listings l JOIN categories c ON c.id=l.category_id JOIN locations loc ON loc.id=l.location_id JOIN users u ON u.id=l.seller_id`;
+export const listingSelect = `SELECT l.*, c.name_en category_en,c.name_my category_my,loc.name_en location_en,loc.name_my location_my,u.name seller_name,u.phone_verified,u.email_verified,(SELECT storage_key FROM listing_images WHERE listing_id=l.id ORDER BY position LIMIT 1) image FROM listings l JOIN categories c ON c.id=l.category_id JOIN locations loc ON loc.id=l.location_id JOIN users u ON u.id=l.seller_id`;
 export async function catalog(
   filters: Record<string, string | undefined>,
   owner?: string,

@@ -43,7 +43,7 @@ export default async function Edit({
         ),
       }}
       images={images as { id: string; storage_key: string }[]}
-      verified={u.phone_verified}
+      verified={u.phone_verified || u.email_verified}
     />
   );
 }

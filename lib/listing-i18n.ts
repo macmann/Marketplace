@@ -21,14 +21,14 @@ const en = {
   later: "Move photo later",
   cover: "Cover photo",
   draftHelp:
-    "Save your progress privately. Verify your phone when you are ready to publish.",
+    "Save your progress privately. Verify your phone or email when you are ready to publish.",
   photoCount: "Use 1–10 photos for a published listing, or 0–10 for a draft.",
   photoOwnership: "A photo does not belong to this listing. Reload the editor.",
   conflict:
     "This item changed in another tab. Reload the editor before saving.",
   notFound: "This draft or listing cannot be edited.",
   phoneRequired:
-    "Verify your phone before publishing. Save a draft to keep your progress.",
+    "Verify your phone or email before publishing. Save a draft to keep your progress.",
   invalid:
     "Check the title, description, price, category and location before publishing.",
   invalidAttribute:
@@ -87,7 +87,7 @@ const my: typeof en = {
   later: "ဓာတ်ပုံကို နောက်ရွှေ့မယ်",
   cover: "မျက်နှာဖုံးဓာတ်ပုံ",
   draftHelp:
-    "လုပ်ထားသည်များကို သီးသန့်သိမ်းပါ။ တင်ရန်အသင့်ဖြစ်မှ ဖုန်းအတည်ပြုပါ။",
+    "လုပ်ထားသည်များကို သီးသန့်သိမ်းပါ။ တင်ရန်အသင့်ဖြစ်မှ ဖုန်း သို့မဟုတ် အီးမေးလ် အတည်ပြုပါ။",
   photoCount:
     "တင်မည့်ပစ္စည်းအတွက် ဓာတ်ပုံ ၁–၁၀ ပုံ၊ မူကြမ်းအတွက် ၀–၁၀ ပုံ အသုံးပြုပါ။",
   photoOwnership:
@@ -95,7 +95,7 @@ const my: typeof en = {
   conflict: "အခြားစာမျက်နှာတွင် ပြင်ထားပါသည်။ မသိမ်းမီ ပြန်ဖွင့်ပါ။",
   notFound: "ဤမူကြမ်း သို့မဟုတ် ပစ္စည်းကို ပြင်၍မရပါ။",
   phoneRequired:
-    "မတင်မီ ဖုန်းအတည်ပြုပါ။ လုပ်ထားသည်များကို မူကြမ်းအဖြစ် သိမ်းနိုင်ပါသည်။",
+    "မတင်မီ ဖုန်း သို့မဟုတ် အီးမေးလ် အတည်ပြုပါ။ လုပ်ထားသည်များကို မူကြမ်းအဖြစ် သိမ်းနိုင်ပါသည်။",
   invalid: "ခေါင်းစဉ်၊ ဖော်ပြချက်၊ စျေး၊ အမျိုးအစားနှင့် နေရာကို စစ်ဆေးပါ။",
   invalidAttribute: "အမျိုးအစားအလိုက် အချက်အလက်များကို စစ်ဆေးပါ။",
   requiredAttribute: "မတင်မီ လိုအပ်သော အချက်အလက်များကို ဖြည့်ပါ။",

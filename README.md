@@ -43,7 +43,7 @@ See [Coolify deployment](docs/coolify.md). The production Compose file includes 
 - `scripts/`: idempotent initial schema, reference-data seed, background maintenance.
 - `tests/`: domain tests and Playwright journeys.
 
-Authentication supports phone OTP sign-in and email/password with opaque, hashed-at-rest sessions. Recovery requires an already verified phone and revokes all sessions. Account settings support exporting data, revoking other sessions, and confirmed deletion. Publishing requires phone verification through Twilio Verify; there is no production bypass. Conversation membership, listing ownership, and administrator permissions are checked on the server. Image uploads are decoded, bounded, resized, stripped of metadata and converted to WebP. Private bucket objects are served through the application.
+Authentication supports phone OTP sign-in and email/password with opaque, hashed-at-rest sessions. Recovery uses an already verified phone or email and revokes all sessions. Account settings support exporting data, revoking other sessions, and confirmed deletion. Publishing requires verified phone or email; there is no production bypass. Conversation membership, listing ownership, and administrator permissions are checked on the server. Image uploads are decoded, bounded, resized, stripped of metadata and converted to WebP. Private bucket objects are served through the application.
 
 Account service tests inject a verification provider into the service constructor and test actual PostgreSQL transactions; there is no production test-provider flag or fixed-code bypass. Adapter tests validate Twilio request/response handling without sending SMS. Live delivery must still be tested with your configured provider.
 
@@ -52,3 +52,5 @@ The listing editor supports private manual drafts, ordered/replaceable photos an
 ## Marketplace operations
 
 The current release includes inherited category filters, normalized bilingual query expansion and English typo matching, live in-app notifications, optional Web Push, scoped support/moderator roles, a private moderation queue and reporting outcomes. See [implementation status](docs/status.md) for remaining specification gaps and the [operations runbook](docs/operations.md) for push, monitoring, backup and restore setup. `npm run benchmark -- https://your-staging-host` runs a small explicit HTTP smoke test; use representative staging data before setting production budgets.
+
+Email verification and recovery can use SMTP independently of Twilio. See [Coolify email configuration](docs/coolify.md#email-verification-and-sms-independent-access). A verified email or phone is required to publish.

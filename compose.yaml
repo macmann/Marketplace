@@ -60,7 +60,14 @@ services:
   web:
     build: { context: ., target: runner }
     restart: unless-stopped
-    environment: *app-env
+    environment:
+      <<: *app-env
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
     expose: ["3000"]
     volumes: ["uploads:/app/uploads"]
     depends_on:

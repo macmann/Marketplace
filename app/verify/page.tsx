@@ -1,3 +1,10 @@
+import { emailConfigured } from "@/lib/email";
+import { emailCookies } from "@/lib/email-service";
+import { emailCopy } from "@/lib/email-i18n";
+import {
+  requestEmailVerification,
+  confirmEmailVerification,
+} from "../account/email-actions";
 import { cookies } from "next/headers";
 import { challengeCookie } from "@/lib/account-validation";
 import { requireUser } from "@/lib/auth";
@@ -17,12 +24,15 @@ export default async function Verify({
     translations(),
     searchParams,
   ]);
+  const e = await emailCopy();
   const enabled = smsConfigured();
+  const emailEnabled = emailConfigured();
+  const emailPending = (await cookies()).has(emailCookies.VERIFY);
   const pending = (await cookies()).has(challengeCookie.VERIFY);
   return (
     <section className="wrap page narrow">
-      <h1>{a.verifyTitle}</h1>
-      <p>{a.verifyHelp}</p>
+      <h1>{e.contactTitle}</h1>
+      <p>{e.contactHelp}</p>
       <Notice error={p.error} />
       {!enabled && <Notice message={a.smsUnavailable} />}
       <form action={requestVerification} className="stack panel">
@@ -63,6 +73,59 @@ export default async function Verify({
       )}
       {u.phone_verified && <p>✓ {t.verified}</p>}
       <p className="muted">{a.privacy}</p>
+      <h2>{e.title}</h2>
+      <p>{e.help}</p>
+      {u.email_verified && <p>✓ {e.verified}</p>}
+      {!emailEnabled && <Notice message={e.unavailable} />}
+      <form action={requestEmailVerification} className="stack panel">
+        <label>
+          {e.email}
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            maxLength={254}
+            required
+            defaultValue={u.email ?? ""}
+            readOnly={!!u.email}
+          />
+        </label>
+        {u.email && <small>{e.changeHelp}</small>}
+        {!u.email && (
+          <label>
+            {e.password}
+            <input
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              maxLength={72}
+            />
+          </label>
+        )}
+        <button className="button primary" disabled={!emailEnabled}>
+          {e.send}
+        </button>
+      </form>
+      {emailPending && (
+        <>
+          <Notice message={e.sent} />
+          <form action={confirmEmailVerification} className="stack panel">
+            <label>
+              {e.code}
+              <input
+                name="code"
+                inputMode="numeric"
+                pattern="[0-9]{6}"
+                autoComplete="one-time-code"
+                required
+                maxLength={6}
+              />
+            </label>
+            <button className="button primary">{e.confirm}</button>
+          </form>
+        </>
+      )}
+      <p className="muted">{e.privacy}</p>
     </section>
   );
 }

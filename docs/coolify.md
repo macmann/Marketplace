@@ -20,7 +20,7 @@
 
 The bootstrap inserts an admin only if that email does not exist. It never promotes or resets an existing user. Set these before the first deploy; remove `ADMIN_PASSWORD` from the environment after bootstrap. To intentionally create another admin, use a new email and rerun the seed job through your operational process. Ordinary users cannot promote themselves.
 
-**Phone sign-in, phone verification, SMS recovery and publishing require** `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_VERIFY_SERVICE_SID` for an SMS-enabled Twilio Verify service that supports your destination numbers. Set them securely in Coolify. Without these, users can register, browse, save and exchange a limited number of messages, but cannot publish. Phone OTP is the primary sign-in/registration path; email/password remains available. SMS recovery works only for accounts that linked and verified a phone before losing access. No email reset sender is configured. Twilio billing, deliverability, geographic permissions, and live delivery must be checked before launch. Never enter secrets in chat or commit `.env`.
+Configure SMTP email (below) or Twilio Verify before admitting new posters. A verified phone **or** verified email permits publishing, so SMTP supports an SMS-free launch. Twilio's `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_VERIFY_SERVICE_SID` are optional unless phone sign-in/verification or SMS recovery is required. SMS recovery uses only a previously verified phone; email recovery uses only a previously verified email. Validate actual provider delivery and billing/geographic permissions. Never enter secrets in chat or commit `.env`.
 
 Optional private S3-compatible storage:
 
@@ -92,3 +92,13 @@ Moderation defaults to **MANUAL**. New publications and edits remain private unt
 Admin → Media shows failed image work, pending automation and review history, with audited retries. Worker readiness remains required. Do not expose uploads or the S3 bucket publicly: authorization is enforced by `/media`, including thumbnail/card requests. No CDN is enabled; a future CDN must preserve private access and revocation.
 
 Reference locations represent a licensed 2019 snapshot of 330 townships, not current administrative boundaries. Review names/hierarchy locally before launch; attribution and source scope are in `data/NOTICE.md`. Nearest results use approximate area centers, never household GPS. Burmese wording and search vocabulary also need native review.
+
+## Email verification and SMS-independent access
+
+Configure `SMTP_HOST`, `SMTP_PORT` (587 by default), and `EMAIL_FROM` (a bare sender address). Set `SMTP_USER` and `SMTP_PASSWORD` together when the SMTP server requires authentication. `SMTP_SECURE=true` uses implicit TLS (normally port 465); blank auto-selects implicit TLS for 465 and mandatory STARTTLS for other ports. Certificate verification stays enabled. Use a sender permitted by your mail service and configure its SPF/DKIM/DMARC records.
+
+Migration 010 adds email ownership proofs without trusting existing email addresses automatically. Accounts can verify their current email at `/verify`; phone-only accounts can add a first recovery email after recent authentication (or current-password confirmation). Replacing an existing login address is a separate, unsupported workflow. A verified phone **or** verified email qualifies an account to publish, including when Twilio/SMS is absent. Public badges distinguish the two and do not expose either contact address.
+
+Recovery offers whichever channels are configured, uses only previously verified contacts, and gives a generic response for unknown accounts. Codes expire after ten minutes, allow five checks and are single-use; resending invalidates old codes. Password recovery revokes all sessions and challenges across both channels. A phone-only member can verify email and use email recovery to establish an email/password login.
+
+SMTP is needed on web only. No real mailbox credentials are bundled and live delivery must be checked after deployment. If neither SMTP nor Twilio is configured, verification cannot be skipped. There is no fixed code or production delivery bypass.

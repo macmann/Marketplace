@@ -99,11 +99,21 @@ export class AccountService {
       purpose === "RECOVER"
         ? await hash(passwordSchema.parse(options.password), 12)
         : null;
+    const snapshot = (
+      await this.db.query(
+        "SELECT user_id,phone FROM auth_challenges WHERE token_hash=$1 AND purpose=$2",
+        [digest(token), purpose],
+      )
+    ).rows[0];
     const client = await this.db.connect();
     let userId: string | undefined;
     let failure: AccountError | undefined;
     try {
       await client.query("BEGIN");
+      await client.query(
+        "SELECT id FROM users WHERE id=$1 OR phone=$2 ORDER BY id FOR UPDATE",
+        [snapshot?.user_id ?? null, snapshot?.phone ?? null],
+      );
       const {
         rows: [c],
       } = await client.query(
@@ -173,6 +183,10 @@ export class AccountService {
             await client.query("DELETE FROM sessions WHERE user_id=$1", [
               userId,
             ]);
+            await client.query(
+              "UPDATE email_challenges SET consumed_at=now() WHERE user_id=$1 AND consumed_at IS NULL",
+              [userId],
+            );
             await client.query(
               "UPDATE auth_challenges SET consumed_at=now() WHERE (user_id=$1 OR phone=$2) AND consumed_at IS NULL",
               [userId, c.phone],
@@ -263,8 +277,11 @@ export class AccountService {
         "DELETE FROM auth_challenges WHERE user_id=$1 OR phone=$2",
         [userId, u.phone],
       );
+      await client.query("DELETE FROM email_challenges WHERE user_id=$1", [
+        userId,
+      ]);
       await client.query(
-        "UPDATE users SET name='Deleted account',email=NULL,phone=NULL,password_hash=NULL,phone_verified=false,suspended=true,deleted_at=now() WHERE id=$1",
+        "UPDATE users SET name='Deleted account',email=NULL,phone=NULL,password_hash=NULL,phone_verified=false,email_verified=false,suspended=true,deleted_at=now() WHERE id=$1",
         [userId],
       );
       await client.query(

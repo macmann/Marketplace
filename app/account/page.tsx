@@ -1,3 +1,4 @@
+import { emailCopy } from "@/lib/email-i18n";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { translations } from "@/lib/i18n";
@@ -6,6 +7,7 @@ import { updateProfile, blockUser } from "../actions";
 import { query } from "@/lib/db";
 export default async function Account() {
   const [u, t] = await Promise.all([requireUser(), translations()]);
+  const e = await emailCopy();
   const blocks = await query(
     "SELECT u.id,u.name FROM blocks b JOIN users u ON u.id=b.blocked_id WHERE b.user_id=$1",
     [u.id],
@@ -28,8 +30,16 @@ export default async function Account() {
             />
           </label>
           <p>{u.email}</p>
-          <p>{u.phone_verified ? "✓ " + t.verified : t.needsPhone}</p>
-          {!u.phone_verified && <Link href="/verify">{t.verify} →</Link>}
+          <p>
+            {u.phone_verified
+              ? "✓ " + t.verified
+              : u.email_verified
+                ? "✓ " + e.verified
+                : e.contactHelp}
+          </p>
+          {!u.phone_verified && !u.email_verified && (
+            <Link href="/verify">{e.contactTitle} →</Link>
+          )}
           <button className="button primary">{t.editProfile}</button>
         </form>
         <div className="panel stack">
