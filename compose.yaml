@@ -19,6 +19,7 @@ x-app-env: &app-env
   S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-}
 services:
   migrate:
+    networks: [default, shared]
     image: ${MARKETPLACE_TOOLS_IMAGE:-ghcr.io/macmann/marketplace-tools:main}
     restart: "no"
     environment:
@@ -27,6 +28,7 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
     command: ["sh", "-c", "npm run db:migrate && npm run db:seed"]
   web:
+    networks: [default, shared]
     image: ${MARKETPLACE_WEB_IMAGE:-ghcr.io/macmann/marketplace-web:main}
     restart: unless-stopped
     environment:
@@ -54,6 +56,7 @@ services:
       retries: 5
       start_period: 20s
   worker:
+    networks: [default, shared]
     volumes: ["uploads:/app/uploads"]
     image: ${MARKETPLACE_TOOLS_IMAGE:-ghcr.io/macmann/marketplace-tools:main}
     restart: unless-stopped
@@ -72,6 +75,9 @@ volumes:
   uploads:
 
 networks:
-  default:
+  # Coolify manages/replaces the default network with its application network.
+  # An explicit external network keeps shared-service access on every service.
+  default: {}
+  shared:
     external: true
     name: ${COOLIFY_NETWORK:-coolify}
