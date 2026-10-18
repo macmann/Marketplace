@@ -1,5 +1,6 @@
 import { uiCopy } from "@/lib/ui-i18n";
 import Link from "next/link";
+import StatusFields from "./status-fields";
 import { requireUser } from "@/lib/auth";
 import { catalog } from "@/lib/marketplace";
 import { translations } from "@/lib/i18n";
@@ -70,24 +71,14 @@ export default async function Listings({
                 ].includes(l.status) && (
                   <Link href={"/sell/" + l.id}>{t.editListing}</Link>
                 )}
-                <input type="hidden" name="id" value={l.id} />
-                <select name="status" aria-label={t.status}>
-                  {Object.entries(states)
-                    .filter(([key]) => canTransition(l.status, key))
-                    .map(([key, label]) => (
-                      <option key={key} value={key}>
-                        {label}
-                      </option>
-                    ))}
-                </select>
-                <button
-                  className="button secondary compact"
-                  disabled={
-                    !Object.keys(states).some((k) => canTransition(l.status, k))
-                  }
-                >
-                  {t.update}
-                </button>
+                <StatusFields
+                  id={l.id}
+                  options={Object.entries(states).filter(([key]) =>
+                    canTransition(l.status, key),
+                  )}
+                  statusLabel={t.status}
+                  updateLabel={t.update}
+                />
               </form>
             </div>
           ))}

@@ -190,7 +190,27 @@ test("core marketplace journey and access control", async ({ browser }) => {
   await expect(b.getByRole("status")).toContainText("moderation queue");
   await s.goto("/account/listings");
   await s.getByRole("combobox", { name: "Status" }).selectOption("RESERVED");
+  let release!: () => void;
+  const responseGate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await s.route("**/account/listings", async (route) => {
+    if (route.request().method() !== "POST") return route.continue();
+    const response = await route.fetch();
+    await responseGate;
+    await route.fulfill({ response });
+  });
   await s.getByRole("button", { name: "Update", exact: true }).click();
+  try {
+    await expect(s.getByRole("combobox", { name: "Status" })).toBeDisabled();
+    await expect(
+      s.getByRole("button", { name: "Update", exact: true }),
+    ).toBeDisabled();
+  } finally {
+    release();
+    await s.unrouteAll({ behavior: "wait" });
+  }
+  await expect(s.locator(".status-form > span")).toHaveText("Reserved");
   await expect
     .poll(
       async () =>
