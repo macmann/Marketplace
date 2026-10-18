@@ -30,10 +30,10 @@ If the database or role already exists, reuse it and verify ownership/permission
 
 1. Keep the existing shared PostgreSQL and Redis resources running in Coolify. Do not add copies for Marketplace.
 2. Create/update a **Docker Compose** application using this repository and `/compose.yaml`. Reuse the existing application resource when possible so its uploads volume/project identity stays the same.
-3. Attach the shared resources and application to the same existing internal Docker network. Set `COOLIFY_NETWORK` to its name if it differs from `coolify`. The Compose network is external: Marketplace does not create a replacement network or database service.
+3. Keep the shared resources on the existing internal Docker network `coolify`, or set `COOLIFY_NETWORK` to their network name if it differs. Compose explicitly attaches **migrate, web and worker** to the external `shared` network as well as the default application network. Coolify can replace the default network with its resource-specific network; shared-service access must not depend on that default. Marketplace does not create the shared network or database services. No additional Coolify network toggle is required.
 4. Configure `DATABASE_URL` and `REDIS_URL` with the shared services' internal DNS hostnames, not `localhost`. Use the hostnames Coolify actually assigns; no UUID hostname is hardcoded here.
 5. Select matching prebuilt image references. Configure registry access if needed. Add a public HTTPS domain to **web**, internal port **3000**. Give migrate/worker no public domains or host ports.
-6. Set bootstrap variables only if an initial admin is needed, then deploy after the image workflow succeeds. Migration/seed must exit successfully before web/worker start. Remove the bootstrap password after success.
+6. Set bootstrap variables only if an initial admin is needed, then deploy after the image workflow succeeds. For an existing Coolify application, use **Reload Compose** to load the updated repository configuration, then **Show Deployable Compose** to confirm all three services include the external shared network before deploying. Migration/seed must exit successfully before web/worker start. Remove the bootstrap password after success.
 
 Example connection strings only:
 
