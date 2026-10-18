@@ -13,16 +13,22 @@ import { releaseCopy } from "@/lib/release-i18n";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL || "http://localhost:3000"),
   title: {
-    default: "Neighbour by Flash Tech · Buy. Sell. Give away.",
-    template: "%s · Neighbour by Flash Tech",
+    default: "ZaySine by Flash Tech · Buy. Sell. Give away.",
+    template: "%s · ZaySine by Flash Tech",
   },
   description: "Find useful things near you. A local marketplace for Myanmar.",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#224c3b",
+  themeColor: "#174e50",
 };
 export default async function Layout({
   children,
@@ -46,9 +52,14 @@ export default async function Layout({
           <header>
             <div className="topbar wrap">
               <Link className="brand" href="/">
-                <span className="brand-icon">
-                  n<span>•</span>
-                </span>
+                <Image
+                  className="brand-icon"
+                  src="/zaysine-logo.webp"
+                  alt=""
+                  width={44}
+                  height={44}
+                  preload
+                />
                 <span className="brand-wordmark">
                   <span>{t.brand}</span>
                   <small className="brand-attribution">
@@ -91,6 +102,13 @@ export default async function Layout({
           <footer className="wrap">
             <div>
               <Link className="brand" href="/">
+                <Image
+                  className="brand-icon"
+                  src="/zaysine-logo.webp"
+                  alt=""
+                  width={44}
+                  height={44}
+                />
                 <span className="brand-wordmark">
                   <span>{t.brand}</span>
                   <small className="brand-attribution">

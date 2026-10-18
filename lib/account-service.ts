@@ -70,7 +70,7 @@ export class AccountService {
     }
     const name =
       purpose === "LOGIN"
-        ? displayNameSchema.parse(input.name || "Neighbour")
+        ? displayNameSchema.parse(input.name || "ZaySine")
         : null;
     const token = randomBytes(32).toString("hex");
     let sid: string | null = null;

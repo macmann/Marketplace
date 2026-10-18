@@ -73,7 +73,7 @@ async function handleError(path: string, error: unknown): Promise<never> {
 export async function requestPhoneLogin(f: FormData) {
   const phone = normalizePhone(field(f, "phone"));
   if (!phone) await fail("/login", "phoneInvalid");
-  const name = field(f, "name").trim() || "Neighbour";
+  const name = field(f, "name").trim() || "ZaySine";
   if (!displayNameSchema.safeParse(name).success)
     await fail("/login", "nameInvalid");
   if (!smsConfigured()) await fail("/login", "smsUnavailable");

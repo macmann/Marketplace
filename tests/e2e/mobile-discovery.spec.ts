@@ -11,6 +11,12 @@ for (const locale of ["en", "my"]) {
     for (const width of [320, 390, 430]) {
       await page.setViewportSize({ width, height: 844 });
       await page.goto("/");
+      await expect(page).toHaveTitle(/ZaySine by Flash Tech/);
+      await expect(page.locator("header .brand")).toContainText("ZaySine");
+      await expect(page.locator("header .brand-icon")).toHaveAttribute(
+        "src",
+        /zaysine-logo/,
+      );
       await expect(page.locator("header .brand")).toContainText("by");
       await expect(
         page.locator("header .brand").getByRole("img", { name: "Flash Tech" }),

@@ -51,8 +51,8 @@ export async function deliverPush(
       webpush.sendNotification(
         s,
         JSON.stringify({
-          title: "Neighbour",
-          body: "You have a new marketplace notification. Open Neighbour to read it.",
+          title: "ZaySine",
+          body: "You have a new marketplace notification. Open ZaySine to read it.",
           url: "/account/notifications",
         }),
         { TTL: 3600, timeout: 5000 },

@@ -20,7 +20,7 @@ export default function Push() {
     <div className="panel">
       <p>
         {ui(
-          "Receive notifications when Neighbour is closed. Message contents are kept private.",
+          "Receive notifications when ZaySine is closed. Message contents are kept private.",
         )}
       </p>
       <button

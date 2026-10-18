@@ -58,7 +58,7 @@ export async function GET() {
     },
     {
       headers: {
-        "Content-Disposition": 'attachment; filename="neighbour-account.json"',
+        "Content-Disposition": 'attachment; filename="zaysine-account.json"',
         "Cache-Control": "no-store, private",
         "X-Content-Type-Options": "nosniff",
       },

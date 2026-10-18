@@ -54,7 +54,7 @@ test("removed and sold listings cannot be republished by seller", () => {
 });
 test("accounts normalize email and require a strong length", () => {
   const a = accountSchema.parse({
-    name: "Neighbour",
+    name: "ZaySine",
     email: "TEST@example.com",
     password: "long-enough-password",
   });

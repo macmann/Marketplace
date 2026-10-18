@@ -1,4 +1,4 @@
-# Neighbour · Myanmar Marketplace
+# ZaySine · Myanmar Marketplace
 
 A Next.js/TypeScript modular monolith for a Myanmar local marketplace, prepared for Docker Compose deployment on Coolify. **This is an initial implementation, not the complete production-grade specification.** See [implementation status](docs/status.md) for boundaries.
 

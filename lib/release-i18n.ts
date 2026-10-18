@@ -25,7 +25,7 @@ const en = {
   pending: "Your listing is awaiting review.",
   safety: "Marketplace safety",
   offline: "You are offline. Connect to continue.",
-  install: "Install Neighbour",
+  install: "Install ZaySine",
   alertsUnavailable:
     "Browser alerts are unavailable or permission was declined.",
 };
@@ -55,7 +55,7 @@ const my: typeof en = {
   pending: "သင့်ကြော်ငြာကို စစ်ဆေးနေပါသည်။",
   safety: "ဈေးကွက် လုံခြုံရေး",
   offline: "အင်တာနက် မရှိပါ။ ဆက်လက်အသုံးပြုရန် ချိတ်ဆက်ပါ။",
-  install: "Neighbour ထည့်သွင်းရန်",
+  install: "ZaySine ထည့်သွင်းရန်",
   alertsUnavailable: "ဘရောက်ဇာ အသိပေးချက်များ မရနိုင်ပါ။",
 };
 export async function releaseCopy() {
