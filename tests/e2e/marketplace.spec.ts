@@ -48,7 +48,9 @@ test("core marketplace journey and access control", async ({ browser }) => {
   const seller = await browser.newContext();
   const s = await seller.newPage();
   await s.goto("/login");
-  await s.getByLabel("Email", { exact: true }).fill(sellerEmail);
+  await s
+    .getByRole("textbox", { name: "Email", exact: true })
+    .fill(sellerEmail);
   await s.getByLabel("Password", { exact: true }).fill(password);
   await s.getByRole("button", { name: "Log in" }).click();
   await expect(s).toHaveURL(/\/account$/);
@@ -105,7 +107,7 @@ test("core marketplace journey and access control", async ({ browser }) => {
   const buyer = await browser.newContext();
   const b = await buyer.newPage();
   await b.goto("/login");
-  await b.getByLabel("Email", { exact: true }).fill(buyerEmail);
+  await b.getByRole("textbox", { name: "Email", exact: true }).fill(buyerEmail);
   await b.getByLabel("Password", { exact: true }).fill(password);
   await b.getByRole("button", { name: "Log in" }).click();
   await expect(b).toHaveURL(/\/account$/);
@@ -166,7 +168,9 @@ test("core marketplace journey and access control", async ({ browser }) => {
   await o.goto("/register");
   await o.getByLabel("Display name", { exact: true }).fill("Test Visitor");
   const outsiderEmail = `visitor-${suffix}@example.test`;
-  await o.getByLabel("Email", { exact: true }).fill(outsiderEmail);
+  await o
+    .getByRole("textbox", { name: "Email", exact: true })
+    .fill(outsiderEmail);
   await o.getByLabel("Password", { exact: true }).fill(password);
   await o.getByRole("button", { name: "Create account" }).click();
   await expect(o).toHaveURL(/\/account$/);
@@ -283,7 +287,7 @@ test("administrators moderate listings and manage reference data with audit reco
   const categoryId = "test-" + suffix;
   try {
     await page.goto("/login");
-    await page.getByLabel("Email", { exact: true }).fill(email);
+    await page.getByRole("textbox", { name: "Email", exact: true }).fill(email);
     await page.getByLabel("Password", { exact: true }).fill(password);
     await page.getByRole("button", { name: "Log in" }).click();
     await expect(page).toHaveURL(/\/account$/);

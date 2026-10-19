@@ -974,6 +974,35 @@ legend {
   font-size: 13px;
   margin-top: 20px;
 }
+.login-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  margin: 24px 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+}
+.login-tabs button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 600;
+}
+.login-tabs button[aria-selected="true"] {
+  background: var(--green);
+  color: white;
+}
+.login-panel h2 {
+  font-size: 23px;
+  margin-bottom: 12px;
+}
+.login-panel > p {
+  font-size: 14px;
+}
 .account-nav {
   display: flex;
   gap: 25px;

@@ -10,7 +10,7 @@ export const uiMessages: Record<string, string> = {
   "GOOD FOR YOU. GOOD FOR THE PLANET.":
     "သင့်အတွက် ကောင်းပြီး ပတ်ဝန်းကျင်အတွက် အကျိုးရှိသည်။",
   "Good things.": "အသုံးဝင်တာလေးတွေ။",
-  "NEIGHBOUR · MYANMAR": "NEIGHBOUR · မြန်မာ",
+  "ZAYSINE · MYANMAR": "ZAYSINE · မြန်မာ",
   "Pass something good on.": "အသုံးဝင်တာလေး လက်ဆင့်ကမ်းပါ။",
   "Some things are too good to throw away. Find them a new home.":
     "အသုံးဝင်သေးသော ပစ္စည်းများကို မပစ်ပါနှင့်။ အသုံးပြုမည့်သူထံ ပေးပါ။",

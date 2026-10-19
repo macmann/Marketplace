@@ -29,6 +29,8 @@ Useful pages:
 
 ### 2. Create an account or sign in
 
+On `/login`, choose the **Email** or **SMS** tab. Only the selected form is shown. Email is selected by default when SMS is not configured; pending SMS codes reopen the SMS tab.
+
 **Email/password:** choose Create account, enter a display name, email and password, then submit. Passwords require at least 12 characters and must fit the stated maximum, including the 72-byte UTF-8 limit. Use the email/password form to sign in later.
 
 **Phone OTP:** if available, choose phone sign-in, enter your Myanmar mobile number (`09…` or `+959…`), request a code and enter the code received. Follow the page prompts to finish sign-in/registration. SMS availability depends on the configured provider and delivery to your number.
@@ -164,6 +166,8 @@ See [Coolify](docs/coolify.md) and [operations](docs/operations.md) for technica
 | ဈေးကွက်လုံခြုံရေး                    | `/safety`                                                           |
 
 ### ၂။ အကောင့်ဖွင့်ခြင်းနှင့် ဝင်ခြင်း
+
+`/login` တွင် **အီးမေးလ်** သို့မဟုတ် **SMS** tab ကို ရွေးပါ။ ရွေးထားသော form ကိုသာ ပြပါသည်။ SMS မပြင်ဆင်ထားလျှင် အီးမေးလ်ကို မူလရွေးထားပြီး SMS ကုဒ်အတည်ပြုရန် ကျန်နေလျှင် SMS tab ကို ပြန်ဖွင့်ပေးပါသည်။
 
 **အီးမေးလ်/စကားဝှက်။** အကောင့်ဖွင့်ရန်ကို ရွေး၊ ဖော်ပြမည့်နာမည်၊ အီးမေးလ်နှင့် စကားဝှက်ထည့်ပြီး ပို့ပါ။ စကားဝှက် အနည်းဆုံး ၁၂ လုံးလိုအပ်ပြီး ဖော်ပြထားသော အများဆုံးအရွယ်နှင့် UTF-8 72-byte ကန့်သတ်ချက်အတွင်း ဖြစ်ရပါမည်။ နောက်တစ်ကြိမ် အီးမေးလ်/စကားဝှက်ဖြင့် ဝင်နိုင်ပါသည်။
 

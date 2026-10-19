@@ -16,7 +16,7 @@ export default async function Register({
   return (
     <section className="auth-shell">
       <div className="auth-aside">
-        <span className="eyebrow">{ui("NEIGHBOUR · MYANMAR")}</span>
+        <span className="eyebrow">{ui("ZAYSINE · MYANMAR")}</span>
         <h1>{t.tagline}</h1>
         <p>{t.about}</p>
         <span className="auth-art">♧</span>

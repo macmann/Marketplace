@@ -15,7 +15,7 @@ let owner: string, other: string, admin: string, category: string;
 const keys = new Set<string>();
 async function login(p: Page, email: string) {
   await p.goto("/login");
-  await p.getByLabel("Email", { exact: true }).fill(email);
+  await p.getByRole("textbox", { name: "Email", exact: true }).fill(email);
   await p.getByLabel("Password", { exact: true }).fill(password);
   await p.getByRole("button", { name: "Log in", exact: false }).click();
   await expect(p).toHaveURL(/\/account$/);
