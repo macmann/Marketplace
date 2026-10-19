@@ -22,7 +22,11 @@ import { requirePermission } from "@/lib/auth";
 import { listingService } from "@/lib/listing-service";
 const value = (f: FormData, k: string) => String(f.get(k) ?? "");
 function fail(path: string, error: string): never {
-  return redirect(path + "?error=" + encodeURIComponent(error));
+  return redirect(
+    path +
+      (path === "/login" ? "?method=email&error=" : "?error=") +
+      encodeURIComponent(error),
+  );
 }
 export async function language() {
   const c = await cookies();

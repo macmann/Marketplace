@@ -1,5 +1,10 @@
 import { locale } from "./i18n";
 const en = {
+  loginMethods: "Sign-in method",
+  emailTab: "Email",
+  smsTab: "SMS",
+  emailLoginTitle: "Sign in with email",
+  emailLoginHelp: "Use your email address and password to continue.",
   phoneLogin: "Continue with your phone",
   phoneLoginHelp:
     "Sign in or create an account with your Myanmar mobile number.",
@@ -68,6 +73,11 @@ const en = {
     "Your phone number is private and never displayed on your public profile.",
 };
 const my: typeof en = {
+  loginMethods: "အကောင့်ဝင်မည့်နည်းလမ်း",
+  emailTab: "အီးမေးလ်",
+  smsTab: "SMS",
+  emailLoginTitle: "အီးမေးလ်ဖြင့် ဝင်မယ်",
+  emailLoginHelp: "အီးမေးလ်လိပ်စာနှင့် စကားဝှက်ဖြင့် ဆက်ဝင်ပါ။",
   phoneLogin: "ဖုန်းနံပါတ်ဖြင့် ဆက်လုပ်မယ်",
   phoneLoginHelp:
     "မြန်မာမိုဘိုင်းဖုန်းနံပါတ်ဖြင့် ဝင်မယ် သို့မဟုတ် အကောင့်ဖွင့်မယ်။",

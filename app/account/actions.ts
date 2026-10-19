@@ -28,7 +28,7 @@ async function fail(path: string, key: string): Promise<never> {
   const t = await accountCopy();
   redirect(
     path +
-      "?error=" +
+      (path === "/login" ? "?method=sms&error=" : "?error=") +
       encodeURIComponent(t[key as keyof typeof t] ?? t.notAllowed),
   );
 }
@@ -86,7 +86,7 @@ export async function requestPhoneLogin(f: FormData) {
   } catch (e) {
     await handleError("/login", e);
   }
-  redirect("/login?sent=1");
+  redirect("/login?method=sms&sent=1");
 }
 export async function confirmPhoneLogin(f: FormData) {
   const c = await cookies();

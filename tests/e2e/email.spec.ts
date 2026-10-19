@@ -135,7 +135,7 @@ test("email-only verification enables a free giveaway and email recovery establi
     .getByRole("button", { name: "Reset password", exact: true })
     .click();
   await expect(page).toHaveURL(/\/login\?reset=1$/);
-  await page.getByLabel("Email", { exact: true }).fill(email);
+  await page.getByRole("textbox", { name: "Email", exact: true }).fill(email);
   await page
     .getByLabel("Password", { exact: true })
     .fill("new-email-password-123");

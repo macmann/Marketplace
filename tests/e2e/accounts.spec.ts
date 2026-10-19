@@ -61,7 +61,9 @@ test("account export, session revocation, and confirmed account deletion", async
     expect((await p.request.get("/account/export")).status()).toBe(401);
     for (const page of [p, q]) {
       await page.goto("/login");
-      await page.getByLabel("Email", { exact: true }).fill(email);
+      await page
+        .getByRole("textbox", { name: "Email", exact: true })
+        .fill(email);
       await page.getByLabel("Password", { exact: true }).fill(password);
       await page.getByRole("button", { name: "Log in", exact: false }).click();
       await expect(page).toHaveURL(/\/account$/);
@@ -154,6 +156,7 @@ test("missing SMS configuration fails closed and recovery gives clear guidance",
   page,
 }) => {
   await page.goto("/login");
+  await page.getByRole("tab", { name: "SMS", exact: true }).click();
   await expect(
     page.getByRole("heading", {
       name: "Continue with your phone",
